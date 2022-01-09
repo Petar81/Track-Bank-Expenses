@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243457884096",
+    "project_id": "track-bank-expenses",
+    "storage_bucket": "track-bank-expenses.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243457884096:android:1da14ca2f471bdc2ef1225",
+        "android_client_info": {
+          "package_name": "com.example.track_bank_expenses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243457884096-p3hij6upm4krs7vu2dol99r21qgrg7c8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4ZZHDEmueYQAMIee8fw7Spkp7dZQ05WQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243457884096-p3hij6upm4krs7vu2dol99r21qgrg7c8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
