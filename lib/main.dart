@@ -5,12 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 import './screens/balance_overview.dart';
 
 Future<void> main() async {
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -29,7 +30,24 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const BalanceOverview(title: 'Bank expense tracker'),
+      home: FutureBuilder(
+        future: _fbApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            // ignore: avoid_print
+            // print('You have an error ${snapshot.error.toString()}');
+            return const Text('Something went wrong!');
+          } else if (snapshot.hasData) {
+            // ignore: avoid_print
+            // print('You got Data');
+            return const BalanceOverview(title: 'Bank expense tracker');
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }
