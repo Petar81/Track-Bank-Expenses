@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>243457884096-16v8cso1a50ov9toh7aohl3h3rfdualp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.243457884096-16v8cso1a50ov9toh7aohl3h3rfdualp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAOU_Wg9oQ0h7GyP-zPhLNZyzTiYmIWwMw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>243457884096</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.trackBankExpenses</string>
+	<key>PROJECT_ID</key>
+	<string>track-bank-expenses</string>
+	<key>STORAGE_BUCKET</key>
+	<string>track-bank-expenses.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:243457884096:ios:e69efa3e0909939aef1225</string>
+</dict>
+</plist>
