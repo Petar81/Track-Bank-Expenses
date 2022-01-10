@@ -1,3 +1,5 @@
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class BalanceOverview extends StatefulWidget {
@@ -19,21 +21,23 @@ class BalanceOverview extends StatefulWidget {
 }
 
 class _BalanceOverviewState extends State<BalanceOverview> {
-  int _counter = 0;
+  final int _counter = 0;
+  FirebaseDatabase database = FirebaseDatabase.instance;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     // This call to setState tells the Flutter framework that something has
+  //     // changed in this State, which causes it to rerun the build method below
+  //     // so that the display can reflect the updated values. If we changed
+  //     // _counter without calling setState(), then the build method would not be
+  //     // called again, and so nothing would appear to happen.
+  //     _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users/124");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -77,7 +81,13 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async {
+          await ref.set({
+            "name": "John",
+            "age": 18,
+            "address": {"line1": "100 Mountain View"}
+          });
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
