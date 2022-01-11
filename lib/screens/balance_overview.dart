@@ -84,6 +84,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           String date;
           String time;
           double currentBalance;
+          double previousBalance;
 
           DatabaseReference getCurrentBalance =
               FirebaseDatabase.instance.ref("currentBalance/currentAmount");
@@ -91,6 +92,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           // Get the data once
           DatabaseEvent event = await getCurrentBalance.once();
           currentBalance = event.snapshot.value as double;
+
+          // SAVE PREVIOUS BALANCE IN FIREBASE
+          DatabaseReference previousBalanceRef =
+              FirebaseDatabase.instance.ref("previousBalance");
+          await previousBalanceRef.set({
+            "previousBalance": currentBalance,
+          }).catchError(
+              (error) => const Text('You got an error! Please try again.'));
 
           // GET THE CURRENT TIMESTAMP
           var now = DateTime.now();
@@ -125,7 +134,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               (error) => const Text('You got an error! Please try again.'));
         },
         tooltip: 'add expense',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.minimize),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
