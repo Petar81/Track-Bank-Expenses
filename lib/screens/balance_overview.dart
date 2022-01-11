@@ -22,18 +22,20 @@ class BalanceOverview extends StatefulWidget {
 }
 
 class _BalanceOverviewState extends State<BalanceOverview> {
-  final int _counter = 0;
+  double showPreviousBalance = 0;
+  double showCurrentBalance = 0;
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
+  void _showBalance(double prevBalance, double currBalance) {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      showPreviousBalance = prevBalance;
+      showCurrentBalance = currBalance;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +71,12 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              'Your previous balance is: $showPreviousBalance',
             ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              'Your current baance is: $showCurrentBalance',
+              // style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
@@ -84,7 +86,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           String date;
           String time;
           double currentBalance;
-          double previousBalance;
+          // double previousBalance;
 
           DatabaseReference getCurrentBalance =
               FirebaseDatabase.instance.ref("currentBalance/currentAmount");
@@ -97,7 +99,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           DatabaseReference previousBalanceRef =
               FirebaseDatabase.instance.ref("previousBalance");
           await previousBalanceRef.set({
-            "previousBalance": currentBalance,
+            "previousAmount": currentBalance,
           }).catchError(
               (error) => const Text('You got an error! Please try again.'));
 
@@ -132,6 +134,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             "currentAmount": currentBalance - amount,
           }).catchError(
               (error) => const Text('You got an error! Please try again.'));
+
+          _showBalance(currentBalance, currentBalance - amount);
         },
         tooltip: 'add expense',
         child: const Icon(Icons.minimize),
