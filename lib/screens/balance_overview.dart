@@ -1,6 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -37,7 +38,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("users/124");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -82,11 +82,28 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          String date;
+          String time;
+
+          // GET THE CURRENT TIMESTAMP
+          var now = DateTime.now();
+
+          // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
+          var dateFormatter = DateFormat('yyyy-MM-dd');
+          String formattedDate = dateFormatter.format(now);
+          date = formattedDate;
+
+          // FORMAT TIME (hh-mm-ss)  from a TIMESTAMP
+          var timeFormatter = DateFormat.Hms();
+          String formattedTime = timeFormatter.format(now);
+          time = formattedTime;
+
+          DatabaseReference ref =
+              FirebaseDatabase.instance.ref("balance/$date/$time");
           await ref.set({
-            "name": "John",
-            "age": 18,
-            "address": {"line1": "100 Mountain View"}
-          });
+            "currentBalance": 1200,
+          }).catchError(
+              (error) => const Text('You got an error! Please try again.'));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
