@@ -23,7 +23,6 @@ class BalanceOverview extends StatefulWidget {
 
 class _BalanceOverviewState extends State<BalanceOverview> {
   final int _counter = 0;
-  FirebaseDatabase database = FirebaseDatabase.instance;
 
   // void _incrementCounter() {
   //   setState(() {
@@ -84,6 +83,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         onPressed: () async {
           String date;
           String time;
+          double currentBalance;
+
+          DatabaseReference getCurrentBalance =
+              FirebaseDatabase.instance.ref("currentBalance/currentAmount");
+
+          // Get the data once
+          DatabaseEvent event = await getCurrentBalance.once();
+          currentBalance = event.snapshot.value as double;
 
           // GET THE CURRENT TIMESTAMP
           var now = DateTime.now();
@@ -93,19 +100,31 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           String formattedDate = dateFormatter.format(now);
           date = formattedDate;
 
-          // FORMAT TIME (hh-mm-ss)  from a TIMESTAMP
+          // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
           var timeFormatter = DateFormat.Hms();
           String formattedTime = timeFormatter.format(now);
           time = formattedTime;
 
+          double amount = 12.05;
+
+          // SET EXPENSE IN FIREBASE
           DatabaseReference ref =
-              FirebaseDatabase.instance.ref("balance/$date/$time");
+              FirebaseDatabase.instance.ref("expenses/$date/$time");
           await ref.set({
-            "currentBalance": 1200,
+            "expenseAmount": amount,
+            "expenseDescription": "Yellow boots from Walmart",
+          }).catchError(
+              (error) => const Text('You got an error! Please try again.'));
+
+          // UPDATE CURRENT BALANCE IN FIREBASE
+          DatabaseReference currentBalanceRef =
+              FirebaseDatabase.instance.ref("currentBalance");
+          await currentBalanceRef.update({
+            "currentAmount": currentBalance - amount,
           }).catchError(
               (error) => const Text('You got an error! Please try again.'));
         },
-        tooltip: 'Increment',
+        tooltip: 'add expense',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
