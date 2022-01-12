@@ -66,6 +66,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             ),
           ),
           Card(
+            elevation: 4,
             child: SizedBox(
               child: Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 20),
