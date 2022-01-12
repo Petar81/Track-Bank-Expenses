@@ -32,54 +32,83 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      showPreviousBalance = prevBalance;
-      showCurrentBalance = currBalance;
+      showPreviousBalance = double.parse(prevBalance.toStringAsFixed(2));
+      showCurrentBalance = double.parse(currBalance.toStringAsFixed(2));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // This (build) method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Your previous balance is: $showPreviousBalance',
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'previous balance',
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  'current balance',
+                  textAlign: TextAlign.left,
+                ),
+              ],
             ),
-            Text(
-              'Your current baance is: $showCurrentBalance',
-              // style: Theme.of(context).textTheme.headline4,
+          ),
+          Card(
+            child: SizedBox(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: ColoredBox(
+                        color: Colors.red.shade300,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 20),
+                          child: Text(
+                            '$showPreviousBalance',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: ColoredBox(
+                        color: Colors.green.shade300,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 20),
+                          child: Text(
+                            '$showCurrentBalance',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -94,6 +123,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           // Get the data once
           DatabaseEvent event = await getCurrentBalance.once();
           currentBalance = event.snapshot.value as double;
+          currentBalance = double.parse(currentBalance.toStringAsFixed(2));
 
           // SAVE PREVIOUS BALANCE IN FIREBASE
           DatabaseReference previousBalanceRef =
