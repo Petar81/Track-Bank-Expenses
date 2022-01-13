@@ -147,7 +147,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           String formattedTime = timeFormatter.format(now);
           time = formattedTime;
 
-          double amount = 12.05;
+          double amount = 5.05;
 
           // SET EXPENSE IN FIREBASE
           DatabaseReference ref =
