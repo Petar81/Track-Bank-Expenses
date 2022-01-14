@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import '../models/balance_chart.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -41,6 +42,38 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   @override
   Widget build(BuildContext context) {
     // This (build) method is rerun every time setState is called
+
+    var data = [
+      BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
+          Colors.red.shade300),
+      BalanceChart(showCurrentBalance.toString(), showCurrentBalance,
+          Colors.green.shade300),
+      // BalanceChart('2018', _counter, Colors.green),
+    ];
+
+    var series = [
+      charts.Series(
+        domainFn: (BalanceChart clickData, _) => clickData.balanceType,
+        measureFn: (BalanceChart clickData, _) => clickData.balanceAmount,
+        colorFn: (BalanceChart clickData, _) => clickData.color,
+        id: 'Transactions',
+        data: data,
+      ),
+    ];
+
+    var chart = charts.BarChart(
+      series,
+      animate: true,
+    );
+
+    var chartWidget = Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: SizedBox(
+        height: 200.0,
+        child: chart,
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -110,6 +143,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               ),
             ),
           ),
+          Card(
+            elevation: 4,
+            child: chartWidget,
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -148,7 +185,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           String formattedTime = timeFormatter.format(now);
           time = formattedTime;
 
-          double amount = 5.05;
+          double amount = 1.05;
 
           // SET EXPENSE IN FIREBASE
           DatabaseReference ref =
