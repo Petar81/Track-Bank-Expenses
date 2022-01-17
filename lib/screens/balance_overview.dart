@@ -181,8 +181,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                             child: Row(
                               children: <Widget>[
                                 Center(
-                                    child: Text(
-                                        'Previous balance: $showPreviousBalance')),
+                                    child: Container(
+                                  color: Colors.red.shade300,
+                                  child: Text(
+                                      'Previous balance: $showPreviousBalance'),
+                                )),
                               ],
                             ),
                           ),
@@ -191,8 +194,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                             child: Row(
                               children: <Widget>[
                                 Center(
-                                    child: Text(
-                                        'Transaction amount: $transactionAmount')),
+                                    child: Container(
+                                  color: Colors.amber.shade300,
+                                  child: Text(
+                                      'Transaction amount: $transactionAmount'),
+                                )),
                               ],
                             ),
                           ),
@@ -201,8 +207,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                             child: Row(
                               children: <Widget>[
                                 Center(
-                                    child: Text(
-                                        'Current balance: $showCurrentBalance')),
+                                    child: Container(
+                                  color: Colors.green.shade300,
+                                  child: Text(
+                                      'Current balance: $showCurrentBalance'),
+                                )),
                               ],
                             ),
                           ),
