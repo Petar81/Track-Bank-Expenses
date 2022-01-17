@@ -161,64 +161,30 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             child: chartWidget,
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 5),
           ),
           Card(
             elevation: 4,
             child: SizedBox(
               height: 300,
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: entries.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 80,
-                      //color: Colors.amber.shade300,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Row(
-                              children: <Widget>[
-                                Center(
-                                    child: Container(
-                                  color: Colors.red.shade300,
-                                  child: Text(
-                                      'Previous balance: $showPreviousBalance'),
-                                )),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Row(
-                              children: <Widget>[
-                                Center(
-                                    child: Container(
-                                  color: Colors.amber.shade300,
-                                  child: Text(
-                                      'Transaction amount: $transactionAmount'),
-                                )),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Row(
-                              children: <Widget>[
-                                Center(
-                                    child: Container(
-                                  color: Colors.green.shade300,
-                                  child: Text(
-                                      'Current balance: $showCurrentBalance'),
-                                )),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: entries.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 50,
+                    //color: Colors.amber.shade300,
+                    child: Center(
+                      child: Text(
+                          'Entry $showPreviousBalance - $transactionAmount = $showCurrentBalance'),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                  thickness: 3,
+                ),
+              ),
             ),
           ),
         ],
