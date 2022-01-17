@@ -26,8 +26,9 @@ class BalanceOverview extends StatefulWidget {
 class _BalanceOverviewState extends State<BalanceOverview> {
   double showPreviousBalance = 0;
   double showCurrentBalance = 0;
+  double transactionAmount = 0;
 
-  void _showBalance(double prevBalance, double currBalance) {
+  void _showBalance(double prevBalance, double currBalance, double transAmt) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -36,12 +37,24 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       // called again, and so nothing would appear to happen.
       showPreviousBalance = double.parse(prevBalance.toStringAsFixed(2));
       showCurrentBalance = double.parse(currBalance.toStringAsFixed(2));
+      transactionAmount = double.parse(transAmt.toStringAsFixed(2));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // This (build) method is rerun every time setState is called
+
+    final List<String> entries = <String>[
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H'
+    ];
 
     var data = [
       BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
@@ -56,7 +69,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         domainFn: (BalanceChart clickData, _) => clickData.balanceType,
         measureFn: (BalanceChart clickData, _) => clickData.balanceAmount,
         colorFn: (BalanceChart clickData, _) => clickData.color,
-        id: 'Transactions',
+        id: 'Balances',
         data: data,
       ),
     ];
@@ -146,7 +159,59 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           Card(
             elevation: 4,
             child: chartWidget,
-          )
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 10),
+          ),
+          Card(
+            elevation: 4,
+            child: SizedBox(
+              height: 300,
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: entries.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      height: 80,
+                      //color: Colors.amber.shade300,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: <Widget>[
+                                Center(
+                                    child: Text(
+                                        'Previous balance: $showPreviousBalance')),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: <Widget>[
+                                Center(
+                                    child: Text(
+                                        'Transaction amount: $transactionAmount')),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: <Widget>[
+                                Center(
+                                    child: Text(
+                                        'Current balance: $showCurrentBalance')),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -204,7 +269,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           }).catchError(
               (error) => const Text('You got an error! Please try again.'));
 
-          _showBalance(currentBalance, currentBalance - amount);
+          _showBalance(currentBalance, currentBalance - amount, amount);
         },
         tooltip: 'add expense',
         child: const Icon(Icons.minimize),
