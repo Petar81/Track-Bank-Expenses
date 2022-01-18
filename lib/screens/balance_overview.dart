@@ -215,65 +215,69 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          String date;
-          String time;
-          double currentBalance;
-          // double previousBalance;
+      floatingActionButton: Align(
+        alignment: const Alignment(-0.7, 1.0),
+        child: FloatingActionButton(
+          onPressed: () async {
+            String date;
+            String time;
+            double currentBalance;
+            // double previousBalance;
 
-          DatabaseReference getCurrentBalance =
-              FirebaseDatabase.instance.ref("currentBalance/currentAmount");
+            DatabaseReference getCurrentBalance =
+                FirebaseDatabase.instance.ref("currentBalance/currentAmount");
 
-          // Get the data once
-          DatabaseEvent event = await getCurrentBalance.once();
-          currentBalance = event.snapshot.value as double;
-          currentBalance = double.parse(currentBalance.toStringAsFixed(2));
+            // Get the data once
+            DatabaseEvent event = await getCurrentBalance.once();
+            currentBalance = event.snapshot.value as double;
+            currentBalance = double.parse(currentBalance.toStringAsFixed(2));
 
-          // SAVE PREVIOUS BALANCE IN FIREBASE
-          DatabaseReference previousBalanceRef =
-              FirebaseDatabase.instance.ref("previousBalance");
-          await previousBalanceRef.set({
-            "previousAmount": currentBalance,
-          }).catchError(
-              (error) => const Text('You got an error! Please try again.'));
+            // SAVE PREVIOUS BALANCE IN FIREBASE
+            DatabaseReference previousBalanceRef =
+                FirebaseDatabase.instance.ref("previousBalance");
+            await previousBalanceRef.set({
+              "previousAmount": currentBalance,
+            }).catchError(
+                (error) => const Text('You got an error! Please try again.'));
 
-          // GET THE CURRENT TIMESTAMP
-          var now = DateTime.now();
+            // GET THE CURRENT TIMESTAMP
+            var now = DateTime.now();
 
-          // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
-          var dateFormatter = DateFormat('yyyy-MM-dd');
-          String formattedDate = dateFormatter.format(now);
-          date = formattedDate;
+            // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
+            var dateFormatter = DateFormat('yyyy-MM-dd');
+            String formattedDate = dateFormatter.format(now);
+            date = formattedDate;
 
-          // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
-          var timeFormatter = DateFormat.Hms();
-          String formattedTime = timeFormatter.format(now);
-          time = formattedTime;
+            // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
+            var timeFormatter = DateFormat.Hms();
+            String formattedTime = timeFormatter.format(now);
+            time = formattedTime;
 
-          double amount = 1.05;
+            double amount = 1.05;
 
-          // SET EXPENSE IN FIREBASE
-          DatabaseReference ref =
-              FirebaseDatabase.instance.ref("expenses/$date/$time");
-          await ref.set({
-            "expenseAmount": amount,
-            "expenseDescription": "Yellow boots from Walmart",
-          }).catchError(
-              (error) => const Text('You got an error! Please try again.'));
+            // SET EXPENSE IN FIREBASE
+            DatabaseReference ref =
+                FirebaseDatabase.instance.ref("expenses/$date/$time");
+            await ref.set({
+              "expenseAmount": amount,
+              "expenseDescription": "Yellow boots from Walmart",
+            }).catchError(
+                (error) => const Text('You got an error! Please try again.'));
 
-          // UPDATE CURRENT BALANCE IN FIREBASE
-          DatabaseReference currentBalanceRef =
-              FirebaseDatabase.instance.ref("currentBalance");
-          await currentBalanceRef.update({
-            "currentAmount": currentBalance - amount,
-          }).catchError(
-              (error) => const Text('You got an error! Please try again.'));
+            // UPDATE CURRENT BALANCE IN FIREBASE
+            DatabaseReference currentBalanceRef =
+                FirebaseDatabase.instance.ref("currentBalance");
+            await currentBalanceRef.update({
+              "currentAmount": currentBalance - amount,
+            }).catchError(
+                (error) => const Text('You got an error! Please try again.'));
 
-          _showBalance(currentBalance, currentBalance - amount, amount);
-        },
-        tooltip: 'add expense',
-        child: const Icon(Icons.minimize),
+            _showBalance(currentBalance, currentBalance - amount, amount);
+          },
+          tooltip: 'add expense',
+          child: const Icon(Icons.minimize),
+          backgroundColor: Colors.red.shade300,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
