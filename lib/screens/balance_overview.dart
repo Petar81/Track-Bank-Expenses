@@ -127,7 +127,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                         color: Colors.red.shade300,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 20),
+                              horizontal: 20, vertical: 20),
                           child: Text(
                             '$showPreviousBalance',
                             style: const TextStyle(
@@ -142,7 +142,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                         color: Colors.green.shade300,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 20),
+                              horizontal: 20, vertical: 20),
                           child: Text(
                             '$showCurrentBalance',
                             style: const TextStyle(
