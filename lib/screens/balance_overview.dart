@@ -172,11 +172,37 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                 itemCount: entries.length,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    height: 50,
+                    height: 60,
                     //color: Colors.amber.shade300,
-                    child: Center(
-                      child: Text(
-                          'Entry $showPreviousBalance - $transactionAmount = $showCurrentBalance'),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Center(
+                              child: Text('22-JUN-2022 '),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text(
+                                  '$showPreviousBalance - $transactionAmount = $showCurrentBalance'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text(
+                                  '$transactionAmount (pppopopoo oioi ioiio pppopopoo oioi ioiio)'),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   );
                 },
