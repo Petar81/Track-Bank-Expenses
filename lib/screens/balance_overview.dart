@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../models/balance_chart.dart';
+import 'submit_expense.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -197,8 +198,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child: Text(
-                                  '$transactionAmount (pppopopoo oioi ioiio pppopopoo oioi ioiio)'),
+                              child:
+                                  Text('$transactionAmount (popoo oioi ioiio)'),
                             ),
                           ],
                         ),
@@ -273,8 +274,12 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                 (error) => const Text('You got an error! Please try again.'));
 
             _showBalance(currentBalance, currentBalance - amount, amount);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SubmitExpense()),
+            );
           },
-          tooltip: 'add expense',
+          tooltip: 'submit expense',
           child: const Icon(Icons.minimize),
           backgroundColor: Colors.red.shade300,
         ),
