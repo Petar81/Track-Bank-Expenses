@@ -276,7 +276,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             _showBalance(currentBalance, currentBalance - amount, amount);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SubmitExpense()),
+              MaterialPageRoute(
+                builder: (context) => SubmitExpense(
+                  notifyParent: _showBalance,
+                ),
+              ),
             );
           },
           tooltip: 'submit expense',
