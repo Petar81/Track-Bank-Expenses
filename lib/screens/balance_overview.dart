@@ -217,7 +217,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         ],
       ),
       floatingActionButton: Align(
-        alignment: const Alignment(-0.7, 1.0),
+        alignment: const Alignment(-0.82, 1.0),
         child: FloatingActionButton(
           onPressed: () async {
             String date;
