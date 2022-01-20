@@ -29,7 +29,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   double showCurrentBalance = 0;
   double transactionAmount = 0;
 
-  void _showBalance(double prevBalance, double currBalance, double transAmt) {
+  void _showBalance(double prevBalance, double currBalance, double transAmt,
+      String description) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -273,7 +274,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             }).catchError(
                 (error) => const Text('You got an error! Please try again.'));
 
-            _showBalance(currentBalance, currentBalance - amount, amount);
+            _showBalance(
+                currentBalance, currentBalance - amount, amount, 'iuiuiuiui');
             Navigator.push(
               context,
               MaterialPageRoute(
