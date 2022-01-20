@@ -1,7 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
@@ -28,6 +28,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   double showPreviousBalance = 0;
   double showCurrentBalance = 0;
   double transactionAmount = 0;
+  String showDescription = 'description';
 
   void _showBalance(double prevBalance, double currBalance, double transAmt,
       String description) {
@@ -40,6 +41,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       showPreviousBalance = double.parse(prevBalance.toStringAsFixed(2));
       showCurrentBalance = double.parse(currBalance.toStringAsFixed(2));
       transactionAmount = double.parse(transAmt.toStringAsFixed(2));
+      showDescription = description;
     });
   }
 
@@ -200,7 +202,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           children: <Widget>[
                             Center(
                               child:
-                                  Text('$transactionAmount (popoo oioi ioiio)'),
+                                  Text('$transactionAmount = $showDescription'),
                             ),
                           ],
                         ),
@@ -220,62 +222,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       floatingActionButton: Align(
         alignment: const Alignment(-0.82, 1.0),
         child: FloatingActionButton(
-          onPressed: () async {
-            String date;
-            String time;
-            double currentBalance;
-            // double previousBalance;
-
-            DatabaseReference getCurrentBalance =
-                FirebaseDatabase.instance.ref("currentBalance/currentAmount");
-
-            // Get the data once
-            DatabaseEvent event = await getCurrentBalance.once();
-            currentBalance = event.snapshot.value as double;
-            currentBalance = double.parse(currentBalance.toStringAsFixed(2));
-
-            // SAVE PREVIOUS BALANCE IN FIREBASE
-            DatabaseReference previousBalanceRef =
-                FirebaseDatabase.instance.ref("previousBalance");
-            await previousBalanceRef.set({
-              "previousAmount": currentBalance,
-            }).catchError(
-                (error) => const Text('You got an error! Please try again.'));
-
-            // GET THE CURRENT TIMESTAMP
-            var now = DateTime.now();
-
-            // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
-            var dateFormatter = DateFormat('yyyy-MM-dd');
-            String formattedDate = dateFormatter.format(now);
-            date = formattedDate;
-
-            // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
-            var timeFormatter = DateFormat.Hms();
-            String formattedTime = timeFormatter.format(now);
-            time = formattedTime;
-
-            double amount = 1.05;
-
-            // SET EXPENSE IN FIREBASE
-            DatabaseReference ref =
-                FirebaseDatabase.instance.ref("expenses/$date/$time");
-            await ref.set({
-              "expenseAmount": amount,
-              "expenseDescription": "Yellow boots from Walmart",
-            }).catchError(
-                (error) => const Text('You got an error! Please try again.'));
-
-            // UPDATE CURRENT BALANCE IN FIREBASE
-            DatabaseReference currentBalanceRef =
-                FirebaseDatabase.instance.ref("currentBalance");
-            await currentBalanceRef.update({
-              "currentAmount": currentBalance - amount,
-            }).catchError(
-                (error) => const Text('You got an error! Please try again.'));
-
-            _showBalance(
-                currentBalance, currentBalance - amount, amount, 'iuiuiuiui');
+          onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
