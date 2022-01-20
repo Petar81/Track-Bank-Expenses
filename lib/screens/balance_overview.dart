@@ -167,54 +167,86 @@ class _BalanceOverviewState extends State<BalanceOverview> {
           const Padding(
             padding: EdgeInsets.only(top: 5),
           ),
+          // Card(
+          //   elevation: 4,
+          //   child: SizedBox(
+          //     height: 300,
+          //     child: ListView.separated(
+          //       padding: const EdgeInsets.all(8),
+          //       itemCount: entries.length,
+          //       itemBuilder: (BuildContext context, int index) {
+          //         return SizedBox(
+          //           height: 60,
+          //           //color: Colors.amber.shade300,
+          //           child: Column(
+          //             children: <Widget>[
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: const <Widget>[
+          //                   Center(
+          //                     child: Text('22-JUN-2022 '),
+          //                   ),
+          //                 ],
+          //               ),
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: <Widget>[
+          //                   Center(
+          //                     child: Text(
+          //                         '$showPreviousBalance - $transactionAmount = $showCurrentBalance'),
+          //                   ),
+          //                 ],
+          //               ),
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: <Widget>[
+          //                   Center(
+          //                     child:
+          //                         Text('$transactionAmount = $showDescription'),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         );
+          //       },
+          //       separatorBuilder: (BuildContext context, int index) =>
+          //           const Divider(
+          //         thickness: 3,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Card(
-            elevation: 4,
-            child: SizedBox(
-              height: 300,
-              child: ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 60,
-                    //color: Colors.amber.shade300,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Center(
-                              child: Text('22-JUN-2022 '),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                              child: Text(
-                                  '$showPreviousBalance - $transactionAmount = $showCurrentBalance'),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                              child:
-                                  Text('$transactionAmount = $showDescription'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  thickness: 3,
+            elevation: 2,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.arrow_downward,
+                    color: Colors.red.shade300,
+                    size: 30,
+                  ),
+                  title: Text('Your last transaction was $transactionAmount'),
+                  subtitle: Text(showDescription),
                 ),
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextButton(
+                      child: const Text('VIEW ALL'),
+                      onPressed: () {/* ... */},
+                    ),
+                    const SizedBox(width: 8),
+                    TextButton(
+                      child: const Text('TREND'),
+                      onPressed: () {/* ... */},
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
