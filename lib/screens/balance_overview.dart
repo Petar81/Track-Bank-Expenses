@@ -49,17 +49,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   Widget build(BuildContext context) {
     // This (build) method is rerun every time setState is called
 
-    final List<String> entries = <String>[
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H'
-    ];
-
     var data = [
       BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
           Colors.red.shade300),
@@ -259,7 +248,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               context,
               MaterialPageRoute(
                 builder: (context) => SubmitExpense(
-                  notifyParent: _showBalance,
+                  notifyParentAboutExpense: _showBalance,
                 ),
               ),
             );

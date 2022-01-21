@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 
 class SubmitExpense extends StatelessWidget {
   final Function(double prevBalance, double currBalance, double transAmount,
-      String description) notifyParent;
-  SubmitExpense({Key? key, required this.notifyParent}) : super(key: key);
+      String description) notifyParentAboutExpense;
+  SubmitExpense({Key? key, required this.notifyParentAboutExpense})
+      : super(key: key);
 
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
@@ -133,7 +134,7 @@ class SubmitExpense extends StatelessWidget {
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       Navigator.pop(context);
-                      notifyParent(
+                      notifyParentAboutExpense(
                           previousBalance,
                           newCurrentBalance,
                           double.parse(myAmountController.text),
