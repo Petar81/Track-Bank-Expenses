@@ -217,11 +217,17 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(
-                      Icons.arrow_downward,
-                      color: Colors.red.shade300,
-                      size: 30,
-                    ),
+                    leading: showCurrentBalance < showPreviousBalance
+                        ? Icon(
+                            Icons.arrow_downward,
+                            color: Colors.red.shade300,
+                            size: 30,
+                          )
+                        : Icon(
+                            Icons.arrow_upward,
+                            color: Colors.green.shade300,
+                            size: 30,
+                          ),
                     title: Text('Your last transaction was $transactionAmount'),
                     subtitle: Text(showDescription),
                   ),
