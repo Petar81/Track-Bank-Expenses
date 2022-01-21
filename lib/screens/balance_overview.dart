@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
+import 'submit_deposit.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -268,7 +269,16 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
                 heroTag: null,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SubmitDeposit(
+                        notifyParentAboutDeposit: _showBalance,
+                      ),
+                    ),
+                  );
+                },
                 tooltip: 'submit deposit',
                 child: const Icon(Icons.add),
                 backgroundColor: Colors.green.shade300,
