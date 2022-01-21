@@ -62,11 +62,12 @@ class SubmitExpense extends StatelessWidget {
                     double previousBalance;
                     double newCurrentBalance;
 
+                    // Reference to currentBalance/currentAmount endpoint
                     DatabaseReference getCurrentBalance = FirebaseDatabase
                         .instance
                         .ref("currentBalance/currentAmount");
 
-                    // Get the data once
+                    // Get the data once from currentBalance/currentAmount
                     DatabaseEvent event = await getCurrentBalance.once();
                     currentBalance = event.snapshot.value as double;
                     currentBalance =
@@ -80,7 +81,7 @@ class SubmitExpense extends StatelessWidget {
                     }).catchError((error) =>
                         const Text('You got an error! Please try again.'));
 
-                    // Get the data once
+                    // Get the data once from previousBalance/previousAmount
                     DatabaseReference previousBalanceAmount = FirebaseDatabase
                         .instance
                         .ref("previousBalance/previousAmount");
@@ -102,7 +103,7 @@ class SubmitExpense extends StatelessWidget {
                     String formattedTime = timeFormatter.format(now);
                     time = formattedTime;
 
-                    // SET EXPENSE IN FIREBASE
+                    // SET EXPENSE RECORD IN FIREBASE
                     DatabaseReference ref =
                         FirebaseDatabase.instance.ref("expenses/$date/$time");
                     await ref.set({
@@ -120,7 +121,7 @@ class SubmitExpense extends StatelessWidget {
                     }).catchError((error) =>
                         const Text('You got an error! Please try again.'));
 
-                    // Get the data once
+                    // Get the fresh/updated data once from currentBalance/currentAmount
                     DatabaseReference currentBalanceRefko = FirebaseDatabase
                         .instance
                         .ref("currentBalance/currentAmount");
@@ -137,11 +138,6 @@ class SubmitExpense extends StatelessWidget {
                           newCurrentBalance,
                           double.parse(myAmountController.text),
                           myDescriptiontController.text);
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
                     }
                   },
                   child: const Text('Submit'),
