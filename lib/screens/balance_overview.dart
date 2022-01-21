@@ -49,6 +49,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   Widget build(BuildContext context) {
     // This (build) method is rerun every time setState is called
 
+    // CHART DATA
     var data = [
       BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
           Colors.red.shade300),
@@ -57,6 +58,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       // BalanceChart('2018', _counter, Colors.green),
     ];
 
+    // CHART SERIES
     var series = [
       charts.Series(
         domainFn: (BalanceChart clickData, _) => clickData.balanceType,
@@ -67,11 +69,13 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     ];
 
+    // DEFINE A CHART TYPE
     var chart = charts.BarChart(
       series,
       animate: true,
     );
 
+    // CREATE A CHART WIDGET
     var chartWidget = Padding(
       padding: const EdgeInsets.all(32.0),
       child: SizedBox(
