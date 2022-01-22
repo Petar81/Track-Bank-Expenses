@@ -38,6 +38,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showDescription = 'description';
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
+  bool isLoading = true;
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -86,7 +87,9 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
 
-    setState(() {});
+    setState(() {
+      isLoading = !isLoading;
+    });
   }
 
   void _showBalance(num prevBalance, num currBalance, num transAmt,
@@ -145,229 +148,239 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     );
 
-    return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-        ),
-        body: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'previous balance',
-                    textAlign: TextAlign.left,
-                  ),
-                  Text(
-                    'current balance',
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
+    return isLoading
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text(widget.title),
             ),
-            Card(
-              elevation: 4,
-              child: SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 20),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ) //loading widget goes here
+        : Scaffold(
+            appBar: AppBar(
+              // Here we take the value from the MyHomePage object that was created by
+              // the App.build method, and use it to set our appbar title.
+              title: Text(widget.title),
+            ),
+            body: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: ColoredBox(
-                          color: Colors.red.shade300,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            child: Text(
-                              '$showPreviousBalance',
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 20),
-                            ),
-                          ),
-                        ),
+                    children: const [
+                      Text(
+                        'previous balance',
+                        textAlign: TextAlign.left,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: ColoredBox(
-                          color: Colors.green.shade300,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            child: Text(
-                              '$showCurrentBalance',
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 20),
-                            ),
-                          ),
-                        ),
+                      Text(
+                        'current balance',
+                        textAlign: TextAlign.left,
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            Card(
-              elevation: 4,
-              child: chartWidget,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 5),
-            ),
-            // Card(
-            //   elevation: 4,
-            //   child: SizedBox(
-            //     height: 300,
-            //     child: ListView.separated(
-            //       padding: const EdgeInsets.all(8),
-            //       itemCount: entries.length,
-            //       itemBuilder: (BuildContext context, int index) {
-            //         return SizedBox(
-            //           height: 60,
-            //           //color: Colors.amber.shade300,
-            //           child: Column(
-            //             children: <Widget>[
-            //               Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: const <Widget>[
-            //                   Center(
-            //                     child: Text('22-JUN-2022 '),
-            //                   ),
-            //                 ],
-            //               ),
-            //               Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: <Widget>[
-            //                   Center(
-            //                     child: Text(
-            //                         '$showPreviousBalance - $transactionAmount = $showCurrentBalance'),
-            //                   ),
-            //                 ],
-            //               ),
-            //               Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: <Widget>[
-            //                   Center(
-            //                     child:
-            //                         Text('$transactionAmount = $showDescription'),
-            //                   ),
-            //                 ],
-            //               ),
-            //             ],
-            //           ),
-            //         );
-            //       },
-            //       separatorBuilder: (BuildContext context, int index) =>
-            //           const Divider(
-            //         thickness: 3,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Card(
-              elevation: 2,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: showCurrentBalance < showPreviousBalance
-                        ? Icon(
-                            Icons.arrow_downward,
-                            color: Colors.red.shade300,
-                            size: 30,
-                          )
-                        : Icon(
-                            Icons.arrow_upward,
-                            color: Colors.green.shade300,
-                            size: 30,
+                Card(
+                  elevation: 4,
+                  child: SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: ColoredBox(
+                              color: Colors.red.shade300,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                child: Text(
+                                  '$showPreviousBalance',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
                           ),
-                    title: Text('Your last transaction was $transactionAmount'),
-                    subtitle: Column(
-                      children: <Widget>[
-                        Row(
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: ColoredBox(
+                              color: Colors.green.shade300,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                child: Text(
+                                  '$showCurrentBalance',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Card(
+                  elevation: 4,
+                  child: chartWidget,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 5),
+                ),
+                // Card(
+                //   elevation: 4,
+                //   child: SizedBox(
+                //     height: 300,
+                //     child: ListView.separated(
+                //       padding: const EdgeInsets.all(8),
+                //       itemCount: entries.length,
+                //       itemBuilder: (BuildContext context, int index) {
+                //         return SizedBox(
+                //           height: 60,
+                //           //color: Colors.amber.shade300,
+                //           child: Column(
+                //             children: <Widget>[
+                //               Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: const <Widget>[
+                //                   Center(
+                //                     child: Text('22-JUN-2022 '),
+                //                   ),
+                //                 ],
+                //               ),
+                //               Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: <Widget>[
+                //                   Center(
+                //                     child: Text(
+                //                         '$showPreviousBalance - $transactionAmount = $showCurrentBalance'),
+                //                   ),
+                //                 ],
+                //               ),
+                //               Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: <Widget>[
+                //                   Center(
+                //                     child:
+                //                         Text('$transactionAmount = $showDescription'),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         );
+                //       },
+                //       separatorBuilder: (BuildContext context, int index) =>
+                //           const Divider(
+                //         thickness: 3,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Card(
+                  elevation: 2,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: showCurrentBalance < showPreviousBalance
+                            ? Icon(
+                                Icons.arrow_downward,
+                                color: Colors.red.shade300,
+                                size: 30,
+                              )
+                            : Icon(
+                                Icons.arrow_upward,
+                                color: Colors.green.shade300,
+                                size: 30,
+                              ),
+                        title: Text(
+                            'Your last transaction was $transactionAmount'),
+                        subtitle: Column(
                           children: <Widget>[
-                            Text(showDescription),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                  'on $showTransactiondate @ $showTransactionTime'),
+                            Row(
+                              children: <Widget>[
+                                Text(showDescription),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                      'on $showTransactiondate @ $showTransactionTime'),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextButton(
-                        child: const Text('VIEW ALL'),
-                        onPressed: () {/* ... */},
                       ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        child: const Text('TREND'),
-                        onPressed: () {/* ... */},
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text('VIEW ALL'),
+                            onPressed: () {/* ... */},
+                          ),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            child: const Text('TREND'),
+                            onPressed: () {/* ... */},
+                          ),
+                          const SizedBox(width: 8),
+                        ],
                       ),
-                      const SizedBox(width: 8),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Align(
-              alignment: const Alignment(-0.75, 1.0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SubmitExpense(
-                        notifyParentAboutExpense: _showBalance,
-                      ),
-                    ),
-                  );
-                },
-                tooltip: 'submit expense',
-                child: const Icon(Icons.minimize),
-                backgroundColor: Colors.red.shade300,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SubmitDeposit(
-                        notifyParentAboutDeposit: _showBalance,
-                      ),
-                    ),
-                  );
-                },
-                tooltip: 'submit deposit',
-                child: const Icon(Icons.add),
-                backgroundColor: Colors.green.shade300,
-              ),
-            ),
-          ],
-        ));
+            floatingActionButton: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: const Alignment(-0.75, 1.0),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubmitExpense(
+                            notifyParentAboutExpense: _showBalance,
+                          ),
+                        ),
+                      );
+                    },
+                    tooltip: 'submit expense',
+                    child: const Icon(Icons.minimize),
+                    backgroundColor: Colors.red.shade300,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubmitDeposit(
+                            notifyParentAboutDeposit: _showBalance,
+                          ),
+                        ),
+                      );
+                    },
+                    tooltip: 'submit deposit',
+                    child: const Icon(Icons.add),
+                    backgroundColor: Colors.green.shade300,
+                  ),
+                ),
+              ],
+            ));
   }
 }
