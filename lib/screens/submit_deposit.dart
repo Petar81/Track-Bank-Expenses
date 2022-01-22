@@ -144,6 +144,19 @@ class SubmitDeposit extends StatelessWidget {
                     newCurrentBalanceDeposit = double.parse(
                         newCurrentBalanceDeposit.toStringAsFixed(2));
 
+                    // UPDATE LAST TRANSACTION RECORD IN FIREBASE
+                    DatabaseReference lastTransaction =
+                        FirebaseDatabase.instance.ref("lastTransaction/");
+                    await lastTransaction.update({
+                      "lastTransactionAmount":
+                          double.parse(myAmountControllerDeposit.text),
+                      "lastTransactionDescription":
+                          myDescriptiontControllerDeposit.text,
+                      "lastTransactionDate": dateDeposit,
+                      "lastTransactionTime": timeDeposit,
+                    }).catchError((error) =>
+                        const Text('You got an error! Please try again.'));
+
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKeyDeposit.currentState!.validate()) {
                       Navigator.pop(context);

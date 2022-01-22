@@ -134,6 +134,19 @@ class SubmitExpense extends StatelessWidget {
                     newCurrentBalance =
                         double.parse(newCurrentBalance.toStringAsFixed(2));
 
+                    // UPDATE LAST TRANSACTION RECORD IN FIREBASE
+                    DatabaseReference lastTransaction =
+                        FirebaseDatabase.instance.ref("lastTransaction/");
+                    await lastTransaction.update({
+                      "lastTransactionAmount":
+                          double.parse(myAmountController.text),
+                      "lastTransactionDescription":
+                          myDescriptiontController.text,
+                      "lastTransactionDate": date,
+                      "lastTransactionTime": time,
+                    }).catchError((error) =>
+                        const Text('You got an error! Please try again.'));
+
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       Navigator.pop(context);
