@@ -114,11 +114,11 @@ class SubmitDeposit extends StatelessWidget {
 
                     // SET EXPENSE RECORD IN FIREBASE
                     DatabaseReference refDeposit = FirebaseDatabase.instance
-                        .ref("expenses/$dateDeposit/$timeDeposit");
+                        .ref("deposits/$dateDeposit/$timeDeposit");
                     await refDeposit.set({
-                      "expenseAmount":
+                      "depositAmount":
                           double.parse(myAmountControllerDeposit.text),
-                      "expenseDescription":
+                      "depositDescription":
                           myDescriptiontControllerDeposit.text,
                     }).catchError((error) =>
                         const Text('You got an error! Please try again.'));
