@@ -1,5 +1,5 @@
 // import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 // import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -26,14 +26,70 @@ class BalanceOverview extends StatefulWidget {
 }
 
 class _BalanceOverviewState extends State<BalanceOverview> {
-  double showPreviousBalance = 0;
-  double showCurrentBalance = 0;
-  double transactionAmount = 0;
+  @override
+  void initState() {
+    super.initState();
+    onStart();
+  }
+
+  num showPreviousBalance = 0;
+  num showCurrentBalance = 0;
+  num transactionAmount = 0;
   String showDescription = 'description';
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
 
-  void _showBalance(double prevBalance, double currBalance, double transAmt,
+  void onStart() async {
+    // Reference to currentBalance/currentAmount endpoint
+    DatabaseReference getCurrentBalance =
+        FirebaseDatabase.instance.ref("currentBalance/currentAmount");
+
+    // Get the data once from currentBalance/currentAmount
+    DatabaseEvent event = await getCurrentBalance.once();
+    showCurrentBalance = event.snapshot.value as num;
+    showCurrentBalance = showCurrentBalance.toDouble();
+    showCurrentBalance = double.parse(showCurrentBalance.toStringAsFixed(2));
+
+    // Get the data once from previousBalance/previousAmount
+    DatabaseReference previousBalanceAmount =
+        FirebaseDatabase.instance.ref("previousBalance/previousAmount");
+    DatabaseEvent evento = await previousBalanceAmount.once();
+    showPreviousBalance = evento.snapshot.value as num;
+    showPreviousBalance = showPreviousBalance.toDouble();
+    showPreviousBalance = double.parse(showPreviousBalance.toStringAsFixed(2));
+
+    // Get the data once from lastTransaction/lastTransactionAmount
+    DatabaseReference lastTransactionAmount =
+        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionAmount");
+    DatabaseEvent eventLastTransactionAmount =
+        await lastTransactionAmount.once();
+    transactionAmount = eventLastTransactionAmount.snapshot.value as num;
+    transactionAmount = transactionAmount.toDouble();
+    transactionAmount = double.parse(transactionAmount.toStringAsFixed(2));
+
+    // Get the data once from lastTransaction/lastTransactionDescription
+    DatabaseReference lastTransactionDescription = FirebaseDatabase.instance
+        .ref("lastTransaction/lastTransactionDescription");
+    DatabaseEvent eventLastTransactionDescription =
+        await lastTransactionDescription.once();
+    showDescription = eventLastTransactionDescription.snapshot.value as String;
+
+    // Get the data once from lastTransaction/lastTransactionDate
+    DatabaseReference lastTransactionDate =
+        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionDate");
+    DatabaseEvent eventLastTransactionDate = await lastTransactionDate.once();
+    showTransactiondate = eventLastTransactionDate.snapshot.value as String;
+
+    // Get the data once from lastTransaction/lastTransactionTime
+    DatabaseReference lastTransactionTime =
+        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionTime");
+    DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
+    showTransactionTime = eventLastTransactionTime.snapshot.value as String;
+
+    setState(() {});
+  }
+
+  void _showBalance(num prevBalance, num currBalance, num transAmt,
       String description, String date, String time) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
