@@ -59,9 +59,9 @@ class SubmitExpense extends StatelessWidget {
                   onPressed: () async {
                     String date;
                     String time;
-                    double currentBalance;
-                    double previousBalance;
-                    double newCurrentBalance;
+                    num currentBalance;
+                    num previousBalance;
+                    num newCurrentBalance;
 
                     // Reference to currentBalance/currentAmount endpoint
                     DatabaseReference getCurrentBalance = FirebaseDatabase
@@ -70,7 +70,8 @@ class SubmitExpense extends StatelessWidget {
 
                     // Get the data once from currentBalance/currentAmount
                     DatabaseEvent event = await getCurrentBalance.once();
-                    currentBalance = event.snapshot.value as double;
+                    currentBalance = event.snapshot.value as num;
+                    currentBalance = currentBalance.toDouble();
                     currentBalance =
                         double.parse(currentBalance.toStringAsFixed(2));
 
@@ -87,7 +88,8 @@ class SubmitExpense extends StatelessWidget {
                         .instance
                         .ref("previousBalance/previousAmount");
                     DatabaseEvent evento = await previousBalanceAmount.once();
-                    previousBalance = evento.snapshot.value as double;
+                    previousBalance = evento.snapshot.value as num;
+                    previousBalance = previousBalance.toDouble();
                     previousBalance =
                         double.parse(previousBalance.toStringAsFixed(2));
 
@@ -127,7 +129,8 @@ class SubmitExpense extends StatelessWidget {
                         .instance
                         .ref("currentBalance/currentAmount");
                     DatabaseEvent eventko = await currentBalanceRefko.once();
-                    newCurrentBalance = eventko.snapshot.value as double;
+                    newCurrentBalance = eventko.snapshot.value as num;
+                    newCurrentBalance = newCurrentBalance.toDouble();
                     newCurrentBalance =
                         double.parse(newCurrentBalance.toStringAsFixed(2));
 
@@ -135,8 +138,8 @@ class SubmitExpense extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       Navigator.pop(context);
                       notifyParentAboutExpense(
-                          previousBalance,
-                          newCurrentBalance,
+                          previousBalance.toDouble(),
+                          newCurrentBalance.toDouble(),
                           double.parse(myAmountController.text),
                           myDescriptiontController.text);
                     }

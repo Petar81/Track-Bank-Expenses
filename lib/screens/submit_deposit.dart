@@ -62,9 +62,9 @@ class SubmitDeposit extends StatelessWidget {
                   onPressed: () async {
                     String dateDeposit;
                     String timeDeposit;
-                    double currentBalanceDeposit;
-                    double previousBalanceDeposit;
-                    double newCurrentBalanceDeposit;
+                    num currentBalanceDeposit;
+                    num previousBalanceDeposit;
+                    num newCurrentBalanceDeposit;
 
                     // Reference to currentBalance/currentAmount endpoint
                     DatabaseReference getCurrentBalanceDeposit =
@@ -73,7 +73,8 @@ class SubmitDeposit extends StatelessWidget {
 
                     // Get the data once from currentBalance/currentAmount
                     DatabaseEvent event = await getCurrentBalanceDeposit.once();
-                    currentBalanceDeposit = event.snapshot.value as double;
+                    currentBalanceDeposit = event.snapshot.value as num;
+                    currentBalanceDeposit = currentBalanceDeposit.toDouble();
                     currentBalanceDeposit =
                         double.parse(currentBalanceDeposit.toStringAsFixed(2));
 
@@ -91,7 +92,8 @@ class SubmitDeposit extends StatelessWidget {
                             .ref("previousBalance/previousAmount");
                     DatabaseEvent evento =
                         await previousBalanceAmountDeposit.once();
-                    previousBalanceDeposit = evento.snapshot.value as double;
+                    previousBalanceDeposit = evento.snapshot.value as num;
+                    previousBalanceDeposit = previousBalanceDeposit.toDouble();
                     previousBalanceDeposit =
                         double.parse(previousBalanceDeposit.toStringAsFixed(2));
 
@@ -136,7 +138,9 @@ class SubmitDeposit extends StatelessWidget {
                             .ref("currentBalance/currentAmount");
                     DatabaseEvent eventko =
                         await currentBalanceRefkoDeposit.once();
-                    newCurrentBalanceDeposit = eventko.snapshot.value as double;
+                    newCurrentBalanceDeposit = eventko.snapshot.value as num;
+                    newCurrentBalanceDeposit =
+                        newCurrentBalanceDeposit.toDouble();
                     newCurrentBalanceDeposit = double.parse(
                         newCurrentBalanceDeposit.toStringAsFixed(2));
 
@@ -144,8 +148,8 @@ class SubmitDeposit extends StatelessWidget {
                     if (_formKeyDeposit.currentState!.validate()) {
                       Navigator.pop(context);
                       notifyParentAboutDeposit(
-                          previousBalanceDeposit,
-                          newCurrentBalanceDeposit,
+                          previousBalanceDeposit.toDouble(),
+                          newCurrentBalanceDeposit.toDouble(),
                           double.parse(myAmountControllerDeposit.text),
                           myDescriptiontControllerDeposit.text);
                     }
