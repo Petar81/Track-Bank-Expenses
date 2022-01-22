@@ -3,7 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 class BalanceChart {
   final String balanceType;
-  final double balanceAmount;
+  final num balanceAmount;
   final charts.Color color;
 
   BalanceChart(this.balanceType, this.balanceAmount, Color color)
