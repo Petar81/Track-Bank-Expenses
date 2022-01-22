@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class SubmitExpense extends StatelessWidget {
   final Function(double prevBalance, double currBalance, double transAmount,
-      String description) notifyParentAboutExpense;
+      String description, String date, String time) notifyParentAboutExpense;
   SubmitExpense({Key? key, required this.notifyParentAboutExpense})
       : super(key: key);
 
@@ -151,10 +151,13 @@ class SubmitExpense extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       Navigator.pop(context);
                       notifyParentAboutExpense(
-                          previousBalance.toDouble(),
-                          newCurrentBalance.toDouble(),
-                          double.parse(myAmountController.text),
-                          myDescriptiontController.text);
+                        previousBalance.toDouble(),
+                        newCurrentBalance.toDouble(),
+                        double.parse(myAmountController.text),
+                        myDescriptiontController.text,
+                        date.toString(),
+                        time.toString(),
+                      );
                     }
                   },
                   child: const Text('Submit'),

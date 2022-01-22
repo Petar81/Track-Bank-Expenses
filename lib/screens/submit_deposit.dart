@@ -7,7 +7,9 @@ class SubmitDeposit extends StatelessWidget {
       double prevBalanceDeposit,
       double currBalanceDeposit,
       double transAmountDeposit,
-      String descriptionDeposit) notifyParentAboutDeposit;
+      String descriptionDeposit,
+      String date,
+      String time) notifyParentAboutDeposit;
   SubmitDeposit({Key? key, required this.notifyParentAboutDeposit})
       : super(key: key);
 
@@ -161,10 +163,13 @@ class SubmitDeposit extends StatelessWidget {
                     if (_formKeyDeposit.currentState!.validate()) {
                       Navigator.pop(context);
                       notifyParentAboutDeposit(
-                          previousBalanceDeposit.toDouble(),
-                          newCurrentBalanceDeposit.toDouble(),
-                          double.parse(myAmountControllerDeposit.text),
-                          myDescriptiontControllerDeposit.text);
+                        previousBalanceDeposit.toDouble(),
+                        newCurrentBalanceDeposit.toDouble(),
+                        double.parse(myAmountControllerDeposit.text),
+                        myDescriptiontControllerDeposit.text,
+                        dateDeposit.toString(),
+                        timeDeposit.toString(),
+                      );
                     }
                   },
                   child: const Text('Submit'),

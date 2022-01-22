@@ -30,9 +30,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   double showCurrentBalance = 0;
   double transactionAmount = 0;
   String showDescription = 'description';
+  String showTransactiondate = 'date';
+  String showTransactionTime = 'time';
 
   void _showBalance(double prevBalance, double currBalance, double transAmt,
-      String description) {
+      String description, String date, String time) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -43,6 +45,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       showCurrentBalance = double.parse(currBalance.toStringAsFixed(2));
       transactionAmount = double.parse(transAmt.toStringAsFixed(2));
       showDescription = description;
+      showTransactiondate = date;
+      showTransactionTime = time;
     });
   }
 
@@ -229,7 +233,24 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                             size: 30,
                           ),
                     title: Text('Your last transaction was $transactionAmount'),
-                    subtitle: Text(showDescription),
+                    subtitle: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(showDescription),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                  'on $showTransactiondate @ $showTransactionTime'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
