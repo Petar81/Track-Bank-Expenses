@@ -237,9 +237,9 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                     thickness: 1,
                   ),
                   ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.favorite,
-                      color: Colors.redAccent,
+                      color: Colors.red[300],
                     ),
                     title: const Text(
                       'Donate',
