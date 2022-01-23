@@ -163,6 +163,102 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               // the App.build method, and use it to set our appbar title.
               title: Text(widget.title),
             ),
+            endDrawer: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  UserAccountsDrawerHeader(
+                    currentAccountPicture: const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
+                    ),
+                    accountEmail: const Text('jane.doe@example.com'),
+                    accountName: const Text(
+                      'Jane Doe',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.history),
+                    title: const Text(
+                      'History',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onTap: () {
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute<void>(
+                      //     builder: (BuildContext context) => const MyHomePage(
+                      //       title: 'Houses',
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.show_chart),
+                    title: const Text(
+                      'Trends',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onTap: () {
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute<void>(
+                      //     builder: (BuildContext context) => const MyHomePage(
+                      //       title: 'Apartments',
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                  ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.house_outlined),
+                  //   title: const Text(
+                  //     'Townhomes',
+                  //     style: TextStyle(fontSize: 24.0),
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute<void>(
+                  //         builder: (BuildContext context) => const MyHomePage(
+                  //           title: 'Townhomes',
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  const Divider(
+                    height: 10,
+                    thickness: 1,
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.favorite,
+                      color: Colors.redAccent,
+                    ),
+                    title: const Text(
+                      'Donate',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onTap: () {
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute<void>(
+                      //     builder: (BuildContext context) => const MyHomePage(
+                      //       title: 'Favorites',
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                  ),
+                ],
+              ),
+            ),
             body: ListView(
               children: <Widget>[
                 Padding(
