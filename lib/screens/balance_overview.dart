@@ -422,7 +422,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                         children: <Widget>[
                           TextButton(
                             child: const Text('VIEW ALL'),
-                            onPressed: () {/* ... */},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransactionsHistory(),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(width: 8),
                           TextButton(
