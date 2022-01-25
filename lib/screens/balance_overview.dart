@@ -6,6 +6,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
+import 'transactions_history.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
