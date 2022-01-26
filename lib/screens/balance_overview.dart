@@ -205,14 +205,12 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute<void>(
-                      //     builder: (BuildContext context) => const MyHomePage(
-                      //       title: 'Apartments',
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Trend(),
+                        ),
+                      );
                     },
                   ),
                   // ListTile(
