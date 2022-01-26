@@ -5,6 +5,13 @@ class Trend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Trend overview'),
+      ),
+      body: const Center(
+        child: Text('Trend Screen'),
+      ),
+    );
   }
 }
