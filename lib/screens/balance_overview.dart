@@ -384,7 +384,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('TREND'),
-                            onPressed: () {/* ... */},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Trend(),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(width: 8),
                         ],
