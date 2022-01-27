@@ -10,6 +10,20 @@ class TransactionsHistory extends StatefulWidget {
 
 class _TransactionsHistoryState extends State<TransactionsHistory> {
   @override
+  void initState() {
+    super.initState();
+    getDeposits();
+  }
+
+  DatabaseReference getDepositsRef = FirebaseDatabase.instance.ref("deposits");
+
+  getDeposits() async {
+    // Get the data once from currentBalance/currentAmount
+    DatabaseEvent event = await getDepositsRef.once();
+    print(event.snapshot.value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
