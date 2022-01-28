@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -15,11 +17,13 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     getDeposits();
   }
 
-  DatabaseReference getDepositsRef = FirebaseDatabase.instance.ref("deposits");
-
   getDeposits() async {
-    // Get the data once from currentBalance/currentAmount
-    DatabaseEvent event = await getDepositsRef.once();
+    DatabaseReference ref = FirebaseDatabase.instance.ref("deposits");
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+// Print the data of the snapshot
     print(event.snapshot.value);
   }
 
@@ -64,7 +68,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(top: 5),
-                              child: Text('on 2022-02-02 @ 12:56'),
+                              child: Text('oioio'),
                             ),
                           ),
                         ],
