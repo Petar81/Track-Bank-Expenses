@@ -18,20 +18,13 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
   Map<dynamic, dynamic> values = {};
 
   getDeposits() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("deposits");
+    DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
 
 // Get the data once
     DatabaseEvent event = await ref.once();
 
     Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
     values = data;
-
-    // data.forEach((key, value) {
-    //   print(key);
-    //   value.forEach((key, value) {
-    //     print('$key $value');
-    //   });
-    // });
 
     setState(() {});
   }
@@ -65,40 +58,44 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           color: Colors.green.shade300,
                           size: 30,
                         ),
-                  title: Text(values.length.toString()),
+                  title: Text(
+                      '${values[key]['transactionDate']} @ ${values[key]['transactionTime']}'),
                   subtitle: Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text('${values[key]}'),
+                          Text('${values[key]['transactionDescription']}'),
                         ],
                       ),
                       Row(
-                        children: const <Widget>[
+                        children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text('oioio'),
+                              padding: const EdgeInsets.only(top: 5),
+                              child:
+                                  Text('${values[key]['transactionAmount']}'),
                             ),
                           ),
                         ],
                       ),
                       Row(
-                        children: const <Widget>[
+                        children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text('previous balance: 344.77'),
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                  '${values[key]['balanceBeforeTransaction']}'),
                             ),
                           ),
                         ],
                       ),
                       Row(
-                        children: const <Widget>[
+                        children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 5.0),
-                              child: Text('current balance: 9898.90'),
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                  '${values[key]['balanceAfterTransaction']}'),
                             ),
                           ),
                         ],
