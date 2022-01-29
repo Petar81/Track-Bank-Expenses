@@ -15,6 +15,8 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     getDeposits();
   }
 
+  Map<dynamic, dynamic> values = {};
+
   getDeposits() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("deposits");
 
@@ -22,13 +24,16 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     DatabaseEvent event = await ref.once();
 
     Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
 
-    data.forEach((key, value) {
-      print(key);
-      value.forEach((key, value) {
-        print('$key $value');
-      });
-    });
+    // data.forEach((key, value) {
+    //   print(key);
+    //   value.forEach((key, value) {
+    //     print('$key $value');
+    //   });
+    // });
+
+    setState(() {});
   }
 
   @override
@@ -42,8 +47,9 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
           height: double.infinity,
           child: ListView.separated(
             padding: const EdgeInsets.all(8),
-            itemCount: 15,
+            itemCount: values.length,
             itemBuilder: (BuildContext context, int index) {
+              String key = values.keys.elementAt(index);
               return SizedBox(
                 height: 100,
                 //color: Colors.amber.shade300,
@@ -59,12 +65,12 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           color: Colors.green.shade300,
                           size: 30,
                         ),
-                  title: const Text('Transaction amount: 12.54'),
+                  title: Text(values.length.toString()),
                   subtitle: Column(
                     children: <Widget>[
                       Row(
-                        children: const <Widget>[
-                          Text('Pizza quatro carne'),
+                        children: <Widget>[
+                          Text('${values[key]}'),
                         ],
                       ),
                       Row(
