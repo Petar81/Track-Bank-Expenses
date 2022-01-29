@@ -21,8 +21,14 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
 // Get the data once
     DatabaseEvent event = await ref.once();
 
-// Print the data of the snapshot
-    print(event.snapshot.value);
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+
+    data.forEach((key, value) {
+      print(key);
+      value.forEach((key, value) {
+        print('$key $value');
+      });
+    });
   }
 
   @override
