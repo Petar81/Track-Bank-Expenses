@@ -134,6 +134,21 @@ class SubmitExpense extends StatelessWidget {
                     newCurrentBalance =
                         double.parse(newCurrentBalance.toStringAsFixed(2));
 
+                    // SET TRANSACTION RECORD IN FIREBASE
+                    DatabaseReference transactionExpenseRef =
+                        FirebaseDatabase.instance.ref("transactions");
+                    await transactionExpenseRef.push().set({
+                      "transactionAmount":
+                          double.parse(myAmountController.text),
+                      "transactionDescription": myDescriptiontController.text,
+                      "balanceBeforeTransaction": currentBalance,
+                      "balanceAfterTransaction": newCurrentBalance,
+                      "transactionDate": date,
+                      "transactionTime": time,
+                      "transactionType": "expense",
+                    }).catchError((error) =>
+                        const Text('You got an error! Please try again.'));
+
                     // UPDATE LAST TRANSACTION RECORD IN FIREBASE
                     DatabaseReference lastTransaction =
                         FirebaseDatabase.instance.ref("lastTransaction/");
