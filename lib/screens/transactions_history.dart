@@ -47,7 +47,8 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                 height: 100,
                 //color: Colors.amber.shade300,
                 child: ListTile(
-                  leading: 10 < 3
+                  leading: values[key]['balanceAfterTransaction'] <
+                          values[key]['balanceBeforeTransaction']
                       ? Icon(
                           Icons.arrow_downward,
                           color: Colors.red.shade300,
