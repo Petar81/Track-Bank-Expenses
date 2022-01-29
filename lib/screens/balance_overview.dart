@@ -28,6 +28,8 @@ class BalanceOverview extends StatefulWidget {
 }
 
 class _BalanceOverviewState extends State<BalanceOverview> {
+  final database = FirebaseDatabase.instance.ref();
+
   @override
   void initState() {
     super.initState();
