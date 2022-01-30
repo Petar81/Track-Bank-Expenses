@@ -12,13 +12,13 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
   @override
   void initState() {
     super.initState();
-    getDeposits();
+    getTransactions();
   }
 
   Map<dynamic, dynamic> values = {};
   bool _isLoading = true;
 
-  getDeposits() async {
+  getTransactions() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
 
 // Get the data once
