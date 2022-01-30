@@ -73,8 +73,51 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 5),
-                              child:
-                                  Text('${values[key]['transactionAmount']}'),
+                              child: values[key]['transactionType'] == 'expense'
+                                  ? RichText(
+                                      text: TextSpan(
+                                        style:
+                                            DefaultTextStyle.of(context).style,
+                                        children: [
+                                          const WidgetSpan(
+                                            child: Icon(
+                                              Icons.remove,
+                                              size: 16,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "${values[key]['transactionAmount']}",
+                                            style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(0.9)),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : RichText(
+                                      text: TextSpan(
+                                        style:
+                                            DefaultTextStyle.of(context).style,
+                                        children: [
+                                          const WidgetSpan(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 16,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "${values[key]['transactionAmount']}",
+                                            style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(0.9)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                             ),
                           ),
                         ],
