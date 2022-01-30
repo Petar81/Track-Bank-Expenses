@@ -127,8 +127,23 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                  '${values[key]['balanceBeforeTransaction']}'),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: [
+                                    const TextSpan(
+                                      text: "previous balance: ",
+                                      style: TextStyle(color: Colors.orange),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          "${values[key]['balanceBeforeTransaction']}",
+                                      style: TextStyle(
+                                          color: Colors.black.withOpacity(0.9)),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -138,8 +153,23 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 5.0),
-                              child: Text(
-                                  '${values[key]['balanceAfterTransaction']}'),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: [
+                                    const TextSpan(
+                                      text: "current balance: ",
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          "${values[key]['balanceAfterTransaction']}",
+                                      style: TextStyle(
+                                          color: Colors.black.withOpacity(0.9)),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
