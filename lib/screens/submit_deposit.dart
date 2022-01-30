@@ -146,6 +146,22 @@ class SubmitDeposit extends StatelessWidget {
                     newCurrentBalanceDeposit = double.parse(
                         newCurrentBalanceDeposit.toStringAsFixed(2));
 
+                    // SET TRANSACTION RECORD IN FIREBASE
+                    DatabaseReference transactionDepositRef =
+                        FirebaseDatabase.instance.ref("transactions");
+                    await transactionDepositRef.push().set({
+                      "transactionAmount":
+                          double.parse(myAmountControllerDeposit.text),
+                      "transactionDescription":
+                          myDescriptiontControllerDeposit.text,
+                      "balanceBeforeTransaction": currentBalanceDeposit,
+                      "balanceAfterTransaction": newCurrentBalanceDeposit,
+                      "transactionDate": dateDeposit,
+                      "transactionTime": timeDeposit,
+                      "transactionType": "deposit",
+                    }).catchError((error) =>
+                        const Text('You got an error! Please try again.'));
+
                     // UPDATE LAST TRANSACTION RECORD IN FIREBASE
                     DatabaseReference lastTransaction =
                         FirebaseDatabase.instance.ref("lastTransaction/");
