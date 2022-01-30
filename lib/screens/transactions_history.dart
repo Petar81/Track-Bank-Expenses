@@ -50,12 +50,12 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   leading: values[key]['balanceAfterTransaction'] <
                           values[key]['balanceBeforeTransaction']
                       ? Icon(
-                          Icons.arrow_downward,
+                          Icons.south_west_rounded,
                           color: Colors.red.shade300,
                           size: 30,
                         )
                       : Icon(
-                          Icons.arrow_upward,
+                          Icons.north_east_rounded,
                           color: Colors.green.shade300,
                           size: 30,
                         ),
