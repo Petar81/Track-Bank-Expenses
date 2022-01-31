@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -215,6 +216,27 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   ),
                 ),
               ),
+            ),
+            floatingActionButton: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () {
+                      setState(() {
+                        _descendingList = !_descendingList;
+                      });
+                    },
+                    tooltip: 'ascending/descending',
+                    child: Transform.rotate(
+                      angle: 180 * math.pi / 360,
+                      child: const Icon(Icons.compare_arrows),
+                    ),
+                    backgroundColor: Colors.blue.shade300,
+                  ),
+                ),
+              ],
             ),
           );
   }
