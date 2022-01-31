@@ -54,7 +54,9 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   padding: const EdgeInsets.all(8),
                   itemCount: values.length,
                   itemBuilder: (BuildContext context, int index) {
-                    String key = values.keys.elementAt(index);
+                    String key = (values.keys.map((i) => i).toList()..sort())
+                        .reversed
+                        .elementAt(index) as String;
                     return SizedBox(
                       height: 110,
                       //color: Colors.amber.shade300,
