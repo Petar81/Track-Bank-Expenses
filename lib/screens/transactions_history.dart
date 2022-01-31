@@ -17,6 +17,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
 
   Map<dynamic, dynamic> values = {};
   bool _isLoading = true;
+  bool _descendingList = true;
 
   getTransactions() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
@@ -54,9 +55,14 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   padding: const EdgeInsets.all(8),
                   itemCount: values.length,
                   itemBuilder: (BuildContext context, int index) {
-                    String key = (values.keys.map((i) => i).toList()..sort())
-                        .reversed
-                        .elementAt(index) as String;
+                    String key;
+                    // A HAACK TO CONVERT AN ITERABLE INTO AN ASCENDING/DECENDING LIST
+                    _descendingList == true
+                        ? key = (values.keys.map((i) => i).toList()..sort())
+                            .reversed
+                            .elementAt(index) as String
+                        : key = (values.keys.map((i) => i).toList()..sort())
+                            .elementAt(index) as String;
                     return SizedBox(
                       height: 110,
                       //color: Colors.amber.shade300,
