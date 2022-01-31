@@ -442,6 +442,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   ),
                 ),
               ],
-            ));
+            ),
+          );
   }
 }
