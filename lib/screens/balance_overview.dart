@@ -147,7 +147,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     var chartWidget = Padding(
       padding: const EdgeInsets.all(32.0),
       child: SizedBox(
-        height: 200.0,
+        height: MediaQuery.of(context).size.height / 3,
         child: chart,
       ),
     );
