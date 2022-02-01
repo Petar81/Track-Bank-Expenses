@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class Trend extends StatefulWidget {
   const Trend({Key? key}) : super(key: key);
