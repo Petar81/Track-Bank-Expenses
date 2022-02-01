@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Trend extends StatelessWidget {
+class Trend extends StatefulWidget {
   const Trend({Key? key}) : super(key: key);
 
+  @override
+  State<Trend> createState() => _TrendState();
+}
+
+class _TrendState extends State<Trend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
