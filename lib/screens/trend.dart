@@ -24,12 +24,20 @@ class _TrendState extends State<Trend> {
             child: LineChart(
               LineChartData(
                   borderData: FlBorderData(show: false),
+                  lineTouchData: LineTouchData(
+                    touchTooltipData:
+                        LineTouchTooltipData(tooltipBgColor: Colors.black87),
+                  ),
                   lineBarsData: [
                     LineChartBarData(
                       spots: [
-                        const FlSpot(3, 130.01),
-                        const FlSpot(6, 57.22),
-                        const FlSpot(7, 150.00),
+                        const FlSpot(1, 0),
+                        const FlSpot(2, 0),
+                        const FlSpot(3, 0),
+                        const FlSpot(4, 0),
+                        const FlSpot(5, 100),
+                        const FlSpot(6, 0),
+                        const FlSpot(7, 0)
                       ],
                       isCurved: false,
                       barWidth: 3,
@@ -39,18 +47,18 @@ class _TrendState extends State<Trend> {
                     ),
                     LineChartBarData(
                       spots: [
-                        const FlSpot(1, 79.23),
-                        const FlSpot(2, 900),
-                        const FlSpot(2, 13.11),
+                        const FlSpot(1, 150.23),
+                        const FlSpot(2, 99),
                         const FlSpot(3, 47.99),
-                        const FlSpot(6, 17.56),
-                        const FlSpot(1, 15.00),
+                        const FlSpot(4, 0),
+                        const FlSpot(5, 0),
+                        const FlSpot(6, 457.56),
                         const FlSpot(7, 20.00)
                       ],
                       isCurved: false,
                       barWidth: 3,
                       colors: [
-                        Colors.orange.shade300,
+                        Colors.red.shade300,
                       ],
                     ),
                   ]),
