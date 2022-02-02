@@ -20,7 +20,7 @@ class _TrendState extends State<Trend> {
   bool _isLoading = true;
 
   getTransactions() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
+    Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(7);
 
 // Get the data once
     DatabaseEvent event = await ref.once();
