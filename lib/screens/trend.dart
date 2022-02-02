@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Trend extends StatefulWidget {
   const Trend({Key? key}) : super(key: key);
@@ -9,6 +10,29 @@ class Trend extends StatefulWidget {
 }
 
 class _TrendState extends State<Trend> {
+  @override
+  void initState() {
+    super.initState();
+    getTransactions();
+  }
+
+  Map<dynamic, dynamic> values = {};
+  bool _isLoading = true;
+
+  getTransactions() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
+
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
