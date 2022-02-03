@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 // import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
@@ -34,6 +35,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   void initState() {
     super.initState();
     onStart();
+    getTransactions();
   }
 
   num showPreviousBalance = 0;
@@ -43,6 +45,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
   bool isLoading = true;
+  Map<dynamic, dynamic> values = {};
+  var keys = [];
+  var expenseSpots = <FlSpot>[];
+  var depositSpots = <FlSpot>[];
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -90,6 +96,49 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         FirebaseDatabase.instance.ref("lastTransaction/lastTransactionTime");
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
+
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
+  getTransactions() async {
+    Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(10);
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
+
+    keys = (values.keys.toList()..sort());
+    //print(keys);
+
+    for (var i = 0; i < keys.length; i++) {
+      if (values[keys[i]]['transactionType'] == 'expense') {
+        //print(values[keys[i]]['transactionType']);
+        var value = values[keys[i]]['transactionAmount'];
+        value = value + .0;
+        //print(value.runtimeType);
+        expenseSpots.add(FlSpot(i + 1, value));
+        //print(expenseSpots.toString());
+      } else {
+        expenseSpots.add(FlSpot(i + 1, 0.0));
+      }
+    }
+
+    for (var i = 0; i < keys.length; i++) {
+      if (values[keys[i]]['transactionType'] == 'deposit') {
+        //print(values[keys[i]]['transactionType']);
+        var value = values[keys[i]]['transactionAmount'];
+        value = value + .0;
+        //print(value.runtimeType);
+        depositSpots.add(FlSpot(i + 1, value));
+        //print(expenseSpots.toString());
+      } else {
+        depositSpots.add(FlSpot(i + 1, 0.0));
+      }
+    }
 
     setState(() {
       isLoading = !isLoading;
@@ -210,7 +259,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Trend(),
+                          builder: (context) =>
+                              Trend(expenseSpots, depositSpots),
                         ),
                       );
                     },
@@ -389,7 +439,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const Trend(),
+                                  builder: (context) =>
+                                      Trend(expenseSpots, depositSpots),
                                 ),
                               );
                             },
