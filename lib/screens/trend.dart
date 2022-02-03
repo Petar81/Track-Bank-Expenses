@@ -18,29 +18,12 @@ class _TrendState extends State<Trend> {
 
   Map<dynamic, dynamic> values = {};
   bool _isLoading = true;
-  List keys = [];
-  List<FlSpot> expenseSpots = [
-    const FlSpot(1, 0),
-    const FlSpot(2, 0),
-    const FlSpot(3, 0),
-    const FlSpot(4, 0),
-    const FlSpot(5, 100),
-    const FlSpot(6, 0),
-    const FlSpot(7, 0)
-  ];
-
-  List<FlSpot> depositSpots = [
-    const FlSpot(1, 0),
-    const FlSpot(2, 0),
-    const FlSpot(3, 0),
-    const FlSpot(4, 0),
-    const FlSpot(5, 10),
-    const FlSpot(6, 0),
-    const FlSpot(7, 0)
-  ];
+  var keys = [];
+  var expenseSpots = <FlSpot>[];
+  var depositSpots = <FlSpot>[];
 
   getTransactions() async {
-    Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(7);
+    Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(10);
 
 // Get the data once
     DatabaseEvent event = await ref.once();
@@ -57,8 +40,10 @@ class _TrendState extends State<Trend> {
         var value = values[keys[i]]['transactionAmount'];
         value = value + .0;
         //print(value.runtimeType);
-        expenseSpots[i] = FlSpot(i + 1, value);
+        expenseSpots.add(FlSpot(i + 1, value));
         //print(expenseSpots.toString());
+      } else {
+        expenseSpots.add(FlSpot(i + 1, 0.0));
       }
     }
 
@@ -68,8 +53,10 @@ class _TrendState extends State<Trend> {
         var value = values[keys[i]]['transactionAmount'];
         value = value + .0;
         //print(value.runtimeType);
-        depositSpots[i] = FlSpot(i + 1, value);
+        depositSpots.add(FlSpot(i + 1, value));
         //print(expenseSpots.toString());
+      } else {
+        depositSpots.add(FlSpot(i + 1, 0.0));
       }
     }
 
