@@ -29,6 +29,16 @@ class _TrendState extends State<Trend> {
     const FlSpot(7, 0)
   ];
 
+  List<FlSpot> depositSpots = [
+    const FlSpot(1, 0),
+    const FlSpot(2, 0),
+    const FlSpot(3, 0),
+    const FlSpot(4, 0),
+    const FlSpot(5, 10),
+    const FlSpot(6, 0),
+    const FlSpot(7, 0)
+  ];
+
   getTransactions() async {
     Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(7);
 
@@ -48,6 +58,17 @@ class _TrendState extends State<Trend> {
         value = value + .0;
         //print(value.runtimeType);
         expenseSpots[i] = FlSpot(i + 1, value);
+        //print(expenseSpots.toString());
+      }
+    }
+
+    for (var i = 0; i < keys.length; i++) {
+      if (values[keys[i]]['transactionType'] == 'deposit') {
+        //print(values[keys[i]]['transactionType']);
+        var value = values[keys[i]]['transactionAmount'];
+        value = value + .0;
+        //print(value.runtimeType);
+        depositSpots[i] = FlSpot(i + 1, value);
         //print(expenseSpots.toString());
       }
     }
@@ -78,15 +99,7 @@ class _TrendState extends State<Trend> {
                   ),
                   lineBarsData: [
                     LineChartBarData(
-                      spots: [
-                        const FlSpot(1, 0),
-                        const FlSpot(2, 0),
-                        const FlSpot(3, 0),
-                        const FlSpot(4, 0),
-                        const FlSpot(5, 100),
-                        const FlSpot(6, 0),
-                        const FlSpot(7, 0)
-                      ],
+                      spots: depositSpots,
                       isCurved: false,
                       barWidth: 3,
                       colors: [
