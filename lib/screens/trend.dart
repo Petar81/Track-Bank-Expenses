@@ -69,7 +69,7 @@ class _TrendState extends State<Trend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trend overview (last 7 days)'),
+        title: const Text('Trend for last 10 transactions'),
       ),
       body: Center(
         child: Padding(
