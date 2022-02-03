@@ -250,7 +250,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   ListTile(
                     leading: const Icon(Icons.show_chart),
                     title: const Text(
-                      'Trends',
+                      'Trend',
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () {
@@ -263,23 +263,22 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       );
                     },
                   ),
-                  // ListTile(
-                  //   leading: const Icon(Icons.house_outlined),
-                  //   title: const Text(
-                  //     'Townhomes',
-                  //     style: TextStyle(fontSize: 24.0),
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.pushReplacement(
-                  //       context,
-                  //       MaterialPageRoute<void>(
-                  //         builder: (BuildContext context) => const MyHomePage(
-                  //           title: 'Townhomes',
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
+                  ListTile(
+                    leading: const Icon(Icons.bar_chart),
+                    title: const Text(
+                      '7 Days',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Trend(expenseSpots, depositSpots),
+                        ),
+                      );
+                    },
+                  ),
                   const Divider(
                     height: 10,
                     thickness: 1,
