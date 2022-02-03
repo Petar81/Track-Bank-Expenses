@@ -279,6 +279,22 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       );
                     },
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.pie_chart),
+                    title: const Text(
+                      'Sliced',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Trend(expenseSpots, depositSpots),
+                        ),
+                      );
+                    },
+                  ),
                   const Divider(
                     height: 10,
                     thickness: 1,
