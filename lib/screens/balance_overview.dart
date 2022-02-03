@@ -35,7 +35,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   void initState() {
     super.initState();
     onStart();
-    getTransactions();
   }
 
   num showPreviousBalance = 0;
@@ -97,6 +96,9 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
 
+    // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
+    getTransactions();
+
     setState(() {
       isLoading = !isLoading;
     });
@@ -139,10 +141,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         depositSpots.add(FlSpot(i + 1, 0.0));
       }
     }
-
-    setState(() {
-      isLoading = !isLoading;
-    });
   }
 
   void _showBalance(num prevBalance, num currBalance, num transAmt,
