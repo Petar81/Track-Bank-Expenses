@@ -334,13 +334,31 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Made in Serbia with '),
-                            Icon(
-                              Icons.favorite,
-                              color: Colors.red[300],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Made in Serbia with ',
+                                  // style: TextStyle(fontSize: 14),
+                                ),
+                                Icon(
+                                  Icons.favorite,
+                                  color: Colors.red[300],
+                                  size: 16,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  '\u00A9 Serbona Applications',
+                                  // style: TextStyle(fontSize: 14),
+                                ),
+                              ],
                             ),
                           ],
                         ),
