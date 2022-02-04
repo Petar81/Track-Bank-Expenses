@@ -223,8 +223,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               title: Text(widget.title),
             ),
             endDrawer: Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
+              child: Column(
                 children: [
                   UserAccountsDrawerHeader(
                     currentAccountPicture: const CircleAvatar(
@@ -329,6 +328,24 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       //   ),
                       // );
                     },
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Made in Serbia with '),
+                            Icon(
+                              Icons.favorite,
+                              color: Colors.red[300],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
