@@ -44,8 +44,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
   bool isLoading = true;
-  Map<dynamic, dynamic> values = {};
-  var keys = [];
   var expenseSpots = <FlSpot>[];
   var depositSpots = <FlSpot>[];
 
@@ -105,6 +103,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   }
 
   getTransactions() async {
+    Map<dynamic, dynamic> values = {};
+    var keys = [];
+    var newExpenseSpots = <FlSpot>[];
+    var newDepositSpots = <FlSpot>[];
+
     Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(10);
 
 // Get the data once
@@ -122,10 +125,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         var value = values[keys[i]]['transactionAmount'];
         value = value + .0;
         //print(value.runtimeType);
-        expenseSpots.add(FlSpot(i + 1, value));
+        newExpenseSpots.add(FlSpot(i + 1, value));
         //print(expenseSpots.toString());
       } else {
-        expenseSpots.add(FlSpot(i + 1, 0.0));
+        newExpenseSpots.add(FlSpot(i + 1, 0.0));
       }
     }
 
@@ -135,12 +138,17 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         var value = values[keys[i]]['transactionAmount'];
         value = value + .0;
         //print(value.runtimeType);
-        depositSpots.add(FlSpot(i + 1, value));
+        newDepositSpots.add(FlSpot(i + 1, value));
         //print(expenseSpots.toString());
       } else {
-        depositSpots.add(FlSpot(i + 1, 0.0));
+        newDepositSpots.add(FlSpot(i + 1, 0.0));
       }
     }
+
+    setState(() {
+      expenseSpots = newExpenseSpots;
+      depositSpots = newDepositSpots;
+    });
   }
 
   void _showBalance(num prevBalance, num currBalance, num transAmt,
@@ -253,7 +261,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'Trend',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      await getTransactions();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -269,7 +278,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       '7 Days',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      await getTransactions();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -285,7 +295,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'Sliced',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      await getTransactions();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -448,7 +459,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('TREND'),
-                            onPressed: () {
+                            onPressed: () async {
+                              await getTransactions();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
