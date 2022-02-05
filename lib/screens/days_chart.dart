@@ -48,7 +48,7 @@ class DaysChartState extends State<DaysChart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('7 Days overview'),
+        title: const Text('by day overview'),
       ),
       body: Column(children: [
         Expanded(
@@ -74,14 +74,14 @@ class DaysChartState extends State<DaysChart> {
                         width: 38,
                       ),
                       const Text(
-                        'Transactions',
+                        'Total',
                         style: TextStyle(color: Colors.white, fontSize: 22),
                       ),
                       const SizedBox(
                         width: 4,
                       ),
                       const Text(
-                        'state',
+                        'sum since 2022-02-02',
                         style:
                             TextStyle(color: Color(0xff77839a), fontSize: 16),
                       ),
