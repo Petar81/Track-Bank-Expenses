@@ -311,12 +311,12 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   ),
                   ListTile(
                     leading: Icon(
-                      Icons.favorite,
-                      color: Colors.red[300],
+                      Icons.coffee,
+                      color: Colors.brown[200],
                     ),
                     title: const Text(
-                      'Donate',
-                      style: TextStyle(fontSize: 20.0),
+                      'buy us a coffee',
+                      style: TextStyle(fontSize: 16.0),
                     ),
                     onTap: () {
                       // Navigator.pushReplacement(
