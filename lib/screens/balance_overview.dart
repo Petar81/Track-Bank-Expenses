@@ -9,6 +9,7 @@ import 'submit_expense.dart';
 import 'submit_deposit.dart';
 import 'transactions_history.dart';
 import 'trend.dart';
+import 'days_chart.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -282,8 +283,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              Trend(expenseSpots, depositSpots),
+                          builder: (context) => const DaysChart(),
                         ),
                       );
                     },
