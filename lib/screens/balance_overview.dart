@@ -275,7 +275,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   ListTile(
                     leading: const Icon(Icons.bar_chart),
                     title: const Text(
-                      '7 Days',
+                      'by Day',
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () async {
