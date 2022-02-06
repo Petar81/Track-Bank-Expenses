@@ -173,7 +173,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   Widget build(BuildContext context) {
     // This (build) method is rerun every time setState is called
 
-    // CHART DATA
+    // BALANCE CHART DATA
     var data = [
       BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
           Colors.red.shade300),
@@ -182,7 +182,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       // BalanceChart('2018', _counter, Colors.green),
     ];
 
-    // CHART SERIES
+    // BALANCE CHART SERIES
     var series = [
       charts.Series(
         domainFn: (BalanceChart clickData, _) => clickData.balanceType,
@@ -193,13 +193,13 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     ];
 
-    // DEFINE A CHART TYPE
+    // DEFINE A BALANCE CHART TYPE
     var chart = charts.BarChart(
       series,
       animate: true,
     );
 
-    // CREATE A CHART WIDGET
+    // CREATE A BALANCE CHART WIDGET
     var chartWidget = Padding(
       padding: const EdgeInsets.all(32.0),
       child: SizedBox(
@@ -207,6 +207,52 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         child: chart,
       ),
     );
+
+    // WEEKDAY CHART DATA
+    final weekdayExpenses = [
+      WeekDays('Mon', 5, Colors.red.shade300),
+      WeekDays('Tue', 25, Colors.red.shade300),
+      WeekDays('Wed', 10, Colors.red.shade300),
+      WeekDays('Thu', 45, Colors.red.shade300),
+      WeekDays('Fri', 15, Colors.red.shade300),
+      WeekDays('Sat', 22, Colors.red.shade300),
+      WeekDays('Sun', 7, Colors.red.shade300),
+    ];
+
+    final weekdayDeposits = [
+      WeekDays('Mon', 25, Colors.green.shade300),
+      WeekDays('Tue', 50, Colors.green.shade300),
+      WeekDays('Wed', 10, Colors.green.shade300),
+      WeekDays('Thu', 20, Colors.green.shade300),
+      WeekDays('Fri', 10, Colors.green.shade300),
+      WeekDays('Sat', 30, Colors.green.shade300),
+      WeekDays('Sun', 40, Colors.green.shade300),
+    ];
+
+    // WEEKDAY CHART SERIES DATA
+    var weekdayChartSeries = [
+      // Blue bars with a lighter center color.
+      charts.Series<WeekDays, String>(
+        id: 'Weekday Expenses',
+        domainFn: (WeekDays days, _) => days.day,
+        measureFn: (WeekDays total, _) => total.sum,
+        data: weekdayExpenses,
+        colorFn: (WeekDays weekdayExpenseColor, __) =>
+            weekdayExpenseColor.color,
+        // fillColorFn: (_, __) =>
+        //     charts.MaterialPalette.blue.shadeDefault.lighter,
+      ),
+      // Solid red bars. Fill color will default to the series color if no
+      // fillColorFn is configured.
+      charts.Series<WeekDays, String>(
+        id: 'Weekday Deposits',
+        measureFn: (WeekDays total, _) => total.sum,
+        data: weekdayDeposits,
+        colorFn: (WeekDays weekdayDepositColor, __) =>
+            weekdayDepositColor.color,
+        domainFn: (WeekDays days, _) => days.day,
+      ),
+    ];
 
     return isLoading
         ? Scaffold(
@@ -281,11 +327,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                     onTap: () async {
                       await getTransactions();
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DaysChart(),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DaysChart(weekdayChartSeries),
+                          ));
                     },
                   ),
                   ListTile(
