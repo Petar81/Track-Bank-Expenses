@@ -18,7 +18,7 @@ class DaysChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'day total since beginning ',
+              'since beginning ',
               style: TextStyle(
                   // fontFamily: 'OpenSansBold',
                   // fontSize: 26.0,
