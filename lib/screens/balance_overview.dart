@@ -1,7 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import '../models/balance_chart.dart';
@@ -48,6 +48,20 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   bool isLoading = true;
   var expenseSpots = <FlSpot>[];
   var depositSpots = <FlSpot>[];
+  double mondayExpenseTotal = 0.00;
+  double mondayDepositTotal = 0.00;
+  double tuesdayExpenseTotal = 0.00;
+  double tuesdayDepositTotal = 0.00;
+  double wednesdayExpenseTotal = 0.00;
+  double wednesdayDepositTotal = 0.00;
+  double thursdayExpenseTotal = 0.00;
+  double thursdayDepositTotal = 0.00;
+  double fridayExpenseTotal = 0.00;
+  double fridayDepositTotal = 0.00;
+  double saturdayExpenseTotal = 0.00;
+  double saturdayDepositTotal = 0.00;
+  double sundayExpenseTotal = 0.00;
+  double sundayDepositTotal = 0.00;
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -98,9 +112,199 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
     getLastNTransactions(10);
+    getAllTransactions();
 
     setState(() {
       isLoading = !isLoading;
+    });
+  }
+
+  getAllTransactions() async {
+    Map<dynamic, dynamic> values = {};
+    var keys = [];
+    double mondayExpenseSum = 0.00;
+    double mondayDepositSum = 0.00;
+    double tuesdayExpenseSum = 0.00;
+    double tuesdayDepositSum = 0.00;
+    double wednesdayExpenseSum = 0.00;
+    double wednesdayDepositSum = 0.00;
+    double thursdayExpenseSum = 0.00;
+    double thursdayDepositSum = 0.00;
+    double fridayExpenseSum = 0.00;
+    double fridayDepositSum = 0.00;
+    double saturdayExpenseSum = 0.00;
+    double saturdayDepositSum = 0.00;
+    double sundayExpenseSum = 0.00;
+    double sundayDepositSum = 0.00;
+
+    Query ref = FirebaseDatabase.instance.ref("transactions");
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
+
+    keys = (values.keys.toList()..sort());
+    //print(keys);
+
+    for (var i = 0; i < keys.length; i++) {
+      // MONDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Monday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        mondayExpenseSum = mondayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Monday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        mondayDepositSum = mondayDepositSum + value;
+      }
+
+      // TUESDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Tuesday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        tuesdayExpenseSum = tuesdayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Tuesday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        tuesdayDepositSum = tuesdayDepositSum + value;
+      }
+
+      // WEDNESDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Wednesday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        wednesdayExpenseSum = wednesdayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Wednesday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        wednesdayDepositSum = wednesdayDepositSum + value;
+      }
+
+      // THURSDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Thursday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        thursdayExpenseSum = thursdayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Thursday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        thursdayDepositSum = thursdayDepositSum + value;
+      }
+
+      // FRIDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Friday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        fridayExpenseSum = fridayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Friday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        fridayDepositSum = fridayDepositSum + value;
+      }
+
+      // SATURDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Saturday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        saturdayExpenseSum = saturdayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Saturday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        saturdayDepositSum = saturdayDepositSum + value;
+      }
+
+      // SATURDAY SUM
+      if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Sunday' &&
+          values[keys[i]]['transactionType'] == 'expense') {
+        // print(values[keys[i]]['transactionDate']);
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        sundayExpenseSum = sundayExpenseSum + value;
+      } else if (DateFormat('EEEE')
+                  .format(DateTime.parse(values[keys[i]]['transactionDate'])) ==
+              'Sunday' &&
+          values[keys[i]]['transactionType'] == 'deposit') {
+        double value = 0.00;
+        value = value + values[keys[i]]['transactionAmount'] + .0;
+        // print(value);
+        sundayDepositSum = sundayDepositSum + value;
+      }
+    }
+
+    setState(() {
+      mondayExpenseTotal = mondayExpenseSum;
+      mondayDepositTotal = mondayDepositSum;
+      tuesdayExpenseTotal = tuesdayExpenseSum;
+      tuesdayDepositTotal = tuesdayDepositSum;
+      wednesdayExpenseTotal = wednesdayExpenseSum;
+      wednesdayDepositTotal = wednesdayDepositSum;
+      thursdayExpenseTotal = thursdayExpenseSum;
+      thursdayDepositTotal = thursdayDepositSum;
+      fridayExpenseTotal = fridayExpenseSum;
+      fridayDepositTotal = fridayDepositSum;
+      saturdayExpenseTotal = saturdayExpenseSum;
+      saturdayDepositTotal = saturdayDepositSum;
+      sundayExpenseTotal = sundayExpenseSum;
+      sundayDepositTotal = sundayDepositSum;
     });
   }
 
@@ -214,23 +418,23 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
     // WEEKDAY CHART DATA
     final weekdayExpenses = [
-      WeekDays('Mon', 5, Colors.red.shade300),
-      WeekDays('Tue', 25, Colors.red.shade300),
-      WeekDays('Wed', 10, Colors.red.shade300),
-      WeekDays('Thu', 45, Colors.red.shade300),
-      WeekDays('Fri', 15, Colors.red.shade300),
-      WeekDays('Sat', 22, Colors.red.shade300),
-      WeekDays('Sun', 7, Colors.red.shade300),
+      WeekDays('Mon', mondayExpenseTotal, Colors.red.shade300),
+      WeekDays('Tue', tuesdayExpenseTotal, Colors.red.shade300),
+      WeekDays('Wed', wednesdayExpenseTotal, Colors.red.shade300),
+      WeekDays('Thu', thursdayExpenseTotal, Colors.red.shade300),
+      WeekDays('Fri', fridayExpenseTotal, Colors.red.shade300),
+      WeekDays('Sat', saturdayExpenseTotal, Colors.red.shade300),
+      WeekDays('Sun', sundayExpenseTotal, Colors.red.shade300),
     ];
 
     final weekdayDeposits = [
-      WeekDays('Mon', 25, Colors.green.shade300),
-      WeekDays('Tue', 50, Colors.green.shade300),
-      WeekDays('Wed', 10, Colors.green.shade300),
-      WeekDays('Thu', 20, Colors.green.shade300),
-      WeekDays('Fri', 10, Colors.green.shade300),
-      WeekDays('Sat', 30, Colors.green.shade300),
-      WeekDays('Sun', 40, Colors.green.shade300),
+      WeekDays('Mon', mondayDepositTotal, Colors.green.shade300),
+      WeekDays('Tue', tuesdayDepositTotal, Colors.green.shade300),
+      WeekDays('Wed', wednesdayDepositTotal, Colors.green.shade300),
+      WeekDays('Thu', thursdayDepositTotal, Colors.green.shade300),
+      WeekDays('Fri', fridayDepositTotal, Colors.green.shade300),
+      WeekDays('Sat', saturdayDepositTotal, Colors.green.shade300),
+      WeekDays('Sun', sundayDepositTotal, Colors.green.shade300),
     ];
 
     // WEEKDAY CHART SERIES DATA
