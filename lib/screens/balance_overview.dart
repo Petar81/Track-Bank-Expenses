@@ -97,20 +97,23 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
 
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
-    getTransactions();
+    getLastNTransactions(10);
 
     setState(() {
       isLoading = !isLoading;
     });
   }
 
-  getTransactions() async {
+  getLastNTransactions(int numberOfTransactions) async {
+    int transactionsNumber = numberOfTransactions;
     Map<dynamic, dynamic> values = {};
     var keys = [];
     var newExpenseSpots = <FlSpot>[];
     var newDepositSpots = <FlSpot>[];
 
-    Query ref = FirebaseDatabase.instance.ref("transactions").limitToLast(10);
+    Query ref = FirebaseDatabase.instance
+        .ref("transactions")
+        .limitToLast(transactionsNumber);
 
 // Get the data once
     DatabaseEvent event = await ref.once();
@@ -309,7 +312,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () async {
-                      await getTransactions();
+                      await getLastNTransactions(10);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -326,7 +329,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () async {
-                      await getTransactions();
+                      await getLastNTransactions(10);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -341,7 +344,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () async {
-                      await getTransactions();
+                      await getLastNTransactions(10);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -541,7 +544,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           TextButton(
                             child: const Text('TREND'),
                             onPressed: () async {
-                              await getTransactions();
+                              await getLastNTransactions(10);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
