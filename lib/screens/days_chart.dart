@@ -14,9 +14,21 @@ class DaysChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'by day overview',
-          // style: TextStyle(fontSize: 16),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'day total since beginning ',
+              style: TextStyle(
+                  // fontFamily: 'OpenSansBold',
+                  // fontSize: 26.0,
+                  ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_drop_down),
+            ),
+          ],
         ),
       ),
       body: charts.BarChart(
