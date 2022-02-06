@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import '../models/balance_chart.dart';
+import '../models/weekdays_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
 import 'transactions_history.dart';
