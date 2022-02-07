@@ -48,20 +48,49 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   bool isLoading = true;
   var expenseSpots = <FlSpot>[];
   var depositSpots = <FlSpot>[];
-  double mondayExpenseTotal = 0.00;
-  double mondayDepositTotal = 0.00;
-  double tuesdayExpenseTotal = 0.00;
-  double tuesdayDepositTotal = 0.00;
-  double wednesdayExpenseTotal = 0.00;
-  double wednesdayDepositTotal = 0.00;
-  double thursdayExpenseTotal = 0.00;
-  double thursdayDepositTotal = 0.00;
-  double fridayExpenseTotal = 0.00;
-  double fridayDepositTotal = 0.00;
-  double saturdayExpenseTotal = 0.00;
-  double saturdayDepositTotal = 0.00;
-  double sundayExpenseTotal = 0.00;
-  double sundayDepositTotal = 0.00;
+  // WEEKDAY CHART DATA
+  var weekdayExpenses = [
+    WeekDays('Mon', 0.0, Colors.red.shade300),
+    WeekDays('Tue', 0.0, Colors.red.shade300),
+    WeekDays('Wed', 0.0, Colors.red.shade300),
+    WeekDays('Thu', 0.0, Colors.red.shade300),
+    WeekDays('Fri', 0.0, Colors.red.shade300),
+    WeekDays('Sat', 0.0, Colors.red.shade300),
+    WeekDays('Sun', 0.0, Colors.red.shade300),
+  ];
+
+  var weekdayDeposits = [
+    WeekDays('Mon', 0.0, Colors.green.shade300),
+    WeekDays('Tue', 0.0, Colors.green.shade300),
+    WeekDays('Wed', 0.0, Colors.green.shade300),
+    WeekDays('Thu', 0.0, Colors.green.shade300),
+    WeekDays('Fri', 0.0, Colors.green.shade300),
+    WeekDays('Sat', 0.0, Colors.green.shade300),
+    WeekDays('Sun', 0.0, Colors.green.shade300),
+  ];
+
+  // WEEKDAY CHART SERIES DATA
+  var weekdayChartSeries = [
+    // Blue bars with a lighter center color.
+    charts.Series<WeekDays, String>(
+      id: 'Weekday Expenses',
+      domainFn: (WeekDays days, _) => days.day,
+      measureFn: (WeekDays total, _) => total.sum,
+      data: [],
+      colorFn: (WeekDays weekdayExpenseColor, __) => weekdayExpenseColor.color,
+      // fillColorFn: (_, __) =>
+      //     charts.MaterialPalette.blue.shadeDefault.lighter,
+    ),
+    // Solid red bars. Fill color will default to the series color if no
+    // fillColorFn is configured.
+    charts.Series<WeekDays, String>(
+      id: 'Weekday Deposits',
+      measureFn: (WeekDays total, _) => total.sum,
+      data: [],
+      colorFn: (WeekDays weekdayDepositColor, __) => weekdayDepositColor.color,
+      domainFn: (WeekDays days, _) => days.day,
+    ),
+  ];
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -112,6 +141,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
     getLastNTransactions(10);
+    // IT FETCHES ALL TRANSACTIONS FROM BEGINNING
     getAllTransactions();
 
     setState(() {
@@ -291,20 +321,51 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     }
 
     setState(() {
-      mondayExpenseTotal = mondayExpenseSum;
-      mondayDepositTotal = mondayDepositSum;
-      tuesdayExpenseTotal = tuesdayExpenseSum;
-      tuesdayDepositTotal = tuesdayDepositSum;
-      wednesdayExpenseTotal = wednesdayExpenseSum;
-      wednesdayDepositTotal = wednesdayDepositSum;
-      thursdayExpenseTotal = thursdayExpenseSum;
-      thursdayDepositTotal = thursdayDepositSum;
-      fridayExpenseTotal = fridayExpenseSum;
-      fridayDepositTotal = fridayDepositSum;
-      saturdayExpenseTotal = saturdayExpenseSum;
-      saturdayDepositTotal = saturdayDepositSum;
-      sundayExpenseTotal = sundayExpenseSum;
-      sundayDepositTotal = sundayDepositSum;
+      // WEEKDAY CHART DATA
+      weekdayExpenses = [
+        WeekDays('Mon', mondayExpenseSum, Colors.red.shade300),
+        WeekDays('Tue', tuesdayExpenseSum, Colors.red.shade300),
+        WeekDays('Wed', wednesdayExpenseSum, Colors.red.shade300),
+        WeekDays('Thu', thursdayExpenseSum, Colors.red.shade300),
+        WeekDays('Fri', fridayExpenseSum, Colors.red.shade300),
+        WeekDays('Sat', saturdayExpenseSum, Colors.red.shade300),
+        WeekDays('Sun', sundayExpenseSum, Colors.red.shade300),
+      ];
+
+      weekdayDeposits = [
+        WeekDays('Mon', mondayDepositSum, Colors.green.shade300),
+        WeekDays('Tue', tuesdayDepositSum, Colors.green.shade300),
+        WeekDays('Wed', wednesdayDepositSum, Colors.green.shade300),
+        WeekDays('Thu', thursdayDepositSum, Colors.green.shade300),
+        WeekDays('Fri', fridayDepositSum, Colors.green.shade300),
+        WeekDays('Sat', saturdayDepositSum, Colors.green.shade300),
+        WeekDays('Sun', sundayDepositSum, Colors.green.shade300),
+      ];
+
+      // WEEKDAY CHART SERIES DATA
+      weekdayChartSeries = [
+        // Blue bars with a lighter center color.
+        charts.Series<WeekDays, String>(
+          id: 'Weekday Expenses',
+          domainFn: (WeekDays days, _) => days.day,
+          measureFn: (WeekDays total, _) => total.sum,
+          data: weekdayExpenses,
+          colorFn: (WeekDays weekdayExpenseColor, __) =>
+              weekdayExpenseColor.color,
+          // fillColorFn: (_, __) =>
+          //     charts.MaterialPalette.blue.shadeDefault.lighter,
+        ),
+        // Solid red bars. Fill color will default to the series color if no
+        // fillColorFn is configured.
+        charts.Series<WeekDays, String>(
+          id: 'Weekday Deposits',
+          measureFn: (WeekDays total, _) => total.sum,
+          data: weekdayDeposits,
+          colorFn: (WeekDays weekdayDepositColor, __) =>
+              weekdayDepositColor.color,
+          domainFn: (WeekDays days, _) => days.day,
+        ),
+      ];
     });
   }
 
@@ -416,52 +477,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     );
 
-    // WEEKDAY CHART DATA
-    final weekdayExpenses = [
-      WeekDays('Mon', mondayExpenseTotal, Colors.red.shade300),
-      WeekDays('Tue', tuesdayExpenseTotal, Colors.red.shade300),
-      WeekDays('Wed', wednesdayExpenseTotal, Colors.red.shade300),
-      WeekDays('Thu', thursdayExpenseTotal, Colors.red.shade300),
-      WeekDays('Fri', fridayExpenseTotal, Colors.red.shade300),
-      WeekDays('Sat', saturdayExpenseTotal, Colors.red.shade300),
-      WeekDays('Sun', sundayExpenseTotal, Colors.red.shade300),
-    ];
-
-    final weekdayDeposits = [
-      WeekDays('Mon', mondayDepositTotal, Colors.green.shade300),
-      WeekDays('Tue', tuesdayDepositTotal, Colors.green.shade300),
-      WeekDays('Wed', wednesdayDepositTotal, Colors.green.shade300),
-      WeekDays('Thu', thursdayDepositTotal, Colors.green.shade300),
-      WeekDays('Fri', fridayDepositTotal, Colors.green.shade300),
-      WeekDays('Sat', saturdayDepositTotal, Colors.green.shade300),
-      WeekDays('Sun', sundayDepositTotal, Colors.green.shade300),
-    ];
-
-    // WEEKDAY CHART SERIES DATA
-    var weekdayChartSeries = [
-      // Blue bars with a lighter center color.
-      charts.Series<WeekDays, String>(
-        id: 'Weekday Expenses',
-        domainFn: (WeekDays days, _) => days.day,
-        measureFn: (WeekDays total, _) => total.sum,
-        data: weekdayExpenses,
-        colorFn: (WeekDays weekdayExpenseColor, __) =>
-            weekdayExpenseColor.color,
-        // fillColorFn: (_, __) =>
-        //     charts.MaterialPalette.blue.shadeDefault.lighter,
-      ),
-      // Solid red bars. Fill color will default to the series color if no
-      // fillColorFn is configured.
-      charts.Series<WeekDays, String>(
-        id: 'Weekday Deposits',
-        measureFn: (WeekDays total, _) => total.sum,
-        data: weekdayDeposits,
-        colorFn: (WeekDays weekdayDepositColor, __) =>
-            weekdayDepositColor.color,
-        domainFn: (WeekDays days, _) => days.day,
-      ),
-    ];
-
     return isLoading
         ? Scaffold(
             appBar: AppBar(
@@ -533,7 +548,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onTap: () async {
-                      await getLastNTransactions(10);
+                      await getAllTransactions();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
