@@ -61,13 +61,13 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   ];
 
   var weekdayDeposits = [
-    WeekDays('Mon', 0.0, Colors.green.shade300),
-    WeekDays('Tue', 0.0, Colors.green.shade300),
-    WeekDays('Wed', 0.0, Colors.green.shade300),
-    WeekDays('Thu', 0.0, Colors.green.shade300),
-    WeekDays('Fri', 0.0, Colors.green.shade300),
-    WeekDays('Sat', 0.0, Colors.green.shade300),
-    WeekDays('Sun', 0.0, Colors.green.shade300),
+    WeekDays('Mon', 0.0, Colors.blue.shade300),
+    WeekDays('Tue', 0.0, Colors.blue.shade300),
+    WeekDays('Wed', 0.0, Colors.blue.shade300),
+    WeekDays('Thu', 0.0, Colors.blue.shade300),
+    WeekDays('Fri', 0.0, Colors.blue.shade300),
+    WeekDays('Sat', 0.0, Colors.blue.shade300),
+    WeekDays('Sun', 0.0, Colors.blue.shade300),
   ];
 
   // WEEKDAY CHART SERIES DATA
@@ -334,13 +334,13 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ];
 
       weekdayDeposits = [
-        WeekDays('Mon', mondayDepositSum, Colors.green.shade300),
-        WeekDays('Tue', tuesdayDepositSum, Colors.green.shade300),
-        WeekDays('Wed', wednesdayDepositSum, Colors.green.shade300),
-        WeekDays('Thu', thursdayDepositSum, Colors.green.shade300),
-        WeekDays('Fri', fridayDepositSum, Colors.green.shade300),
-        WeekDays('Sat', saturdayDepositSum, Colors.green.shade300),
-        WeekDays('Sun', sundayDepositSum, Colors.green.shade300),
+        WeekDays('Mon', mondayDepositSum, Colors.blue.shade300),
+        WeekDays('Tue', tuesdayDepositSum, Colors.blue.shade300),
+        WeekDays('Wed', wednesdayDepositSum, Colors.blue.shade300),
+        WeekDays('Thu', thursdayDepositSum, Colors.blue.shade300),
+        WeekDays('Fri', fridayDepositSum, Colors.blue.shade300),
+        WeekDays('Sat', saturdayDepositSum, Colors.blue.shade300),
+        WeekDays('Sun', sundayDepositSum, Colors.blue.shade300),
       ];
 
       // WEEKDAY CHART SERIES DATA
