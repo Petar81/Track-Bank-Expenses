@@ -681,7 +681,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: ColoredBox(
-                              color: Colors.green.shade300,
+                              color: Colors.blue.shade300,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 20),
