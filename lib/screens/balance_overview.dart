@@ -448,7 +448,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       BalanceChart(showPreviousBalance.toString(), showPreviousBalance,
           Colors.red.shade300),
       BalanceChart(showCurrentBalance.toString(), showCurrentBalance,
-          Colors.green.shade300),
+          Colors.blue.shade300),
       // BalanceChart('2018', _counter, Colors.green),
     ];
 
