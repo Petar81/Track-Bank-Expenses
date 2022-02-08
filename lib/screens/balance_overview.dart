@@ -816,7 +816,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                     },
                     tooltip: 'submit deposit',
                     child: const Icon(Icons.add),
-                    backgroundColor: Colors.green.shade300,
+                    backgroundColor: Colors.blue.shade300,
                   ),
                 ),
               ],
