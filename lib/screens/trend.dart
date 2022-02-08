@@ -32,7 +32,7 @@ class Trend extends StatelessWidget {
                       isCurved: false,
                       barWidth: 3,
                       colors: [
-                        Colors.green.shade300,
+                        Colors.blue.shade300,
                       ],
                     ),
                     LineChartBarData(
