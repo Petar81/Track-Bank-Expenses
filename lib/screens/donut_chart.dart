@@ -12,7 +12,7 @@ class DonutChart extends StatelessWidget {
     };
     final colorList = <Color>[
       Colors.red.shade300,
-      Colors.green.shade300,
+      Colors.blue.shade300,
     ];
     return Scaffold(
       appBar: AppBar(
