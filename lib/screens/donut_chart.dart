@@ -16,7 +16,22 @@ class DonutChart extends StatelessWidget {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('since beginning'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'since beginning ',
+              style: TextStyle(
+                  // fontFamily: 'OpenSansBold',
+                  // fontSize: 26.0,
+                  ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_drop_down),
+            ),
+          ],
+        ),
       ),
       body: PieChart(
         dataMap: dataMap,
