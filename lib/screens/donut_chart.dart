@@ -29,7 +29,7 @@ class DonutChart extends StatelessWidget {
         ringStrokeWidth: 182,
         centerText: "%",
         legendOptions: const LegendOptions(
-          showLegendsInRow: false,
+          showLegendsInRow: true,
           legendPosition: LegendPosition.bottom,
           showLegends: true,
           legendTextStyle: TextStyle(
