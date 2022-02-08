@@ -159,8 +159,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                                         children: [
                                           const TextSpan(
                                             text: "previous balance: ",
-                                            style:
-                                                TextStyle(color: Colors.orange),
+                                            style: TextStyle(color: Colors.red),
                                           ),
                                           TextSpan(
                                             text:
@@ -189,7 +188,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                                           const TextSpan(
                                             text: "current balance: ",
                                             style:
-                                                TextStyle(color: Colors.green),
+                                                TextStyle(color: Colors.blue),
                                           ),
                                           TextSpan(
                                             text:
