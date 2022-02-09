@@ -71,18 +71,36 @@ class DonutChart extends StatelessWidget {
                 ),
               ),
               Row(
-                children: const [
-                  Text('8797.89'),
-                  Padding(
+                children: [
+                  Text(
+                    '-8797.89',
+                    style: TextStyle(
+                        color: Colors.red.shade300,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                  const Padding(
                     padding: EdgeInsets.only(right: 20, bottom: 80),
                   ),
-                  Text('76768.67'),
+                  Text(
+                    '+76768.67',
+                    style: TextStyle(
+                        color: Colors.blue.shade300,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const <Widget>[
-                  Text('TOTAL = 29898.76'),
+                  Text(
+                    'TOTAL = 29898.76',
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
                 ],
               ),
             ],
