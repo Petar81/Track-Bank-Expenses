@@ -10,6 +10,14 @@ class DonutChart extends StatefulWidget {
 
 class _DonutChartState extends State<DonutChart> {
   @override
+  void initState() {
+    super.initState();
+    onStart();
+  }
+
+  void onStart() async {}
+
+  @override
   Widget build(BuildContext context) {
     Map<String, double> dataMap = {
       "Expenses": 5,
