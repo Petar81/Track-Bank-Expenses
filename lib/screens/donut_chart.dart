@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-class DonutChart extends StatelessWidget {
+class DonutChart extends StatefulWidget {
   const DonutChart({Key? key}) : super(key: key);
 
+  @override
+  State<DonutChart> createState() => _DonutChartState();
+}
+
+class _DonutChartState extends State<DonutChart> {
   @override
   Widget build(BuildContext context) {
     Map<String, double> dataMap = {
