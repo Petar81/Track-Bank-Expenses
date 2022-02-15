@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class DonutChart extends StatefulWidget {
   const DonutChart({Key? key}) : super(key: key);
@@ -15,13 +16,50 @@ class _DonutChartState extends State<DonutChart> {
     onStart();
   }
 
-  void onStart() async {}
+  double expenseTotal = 0.00;
+  double depositTotal = 0.00;
+
+  void onStart() async {
+    double expenseSum = 0.00;
+    double depositSum = 0.00;
+    Map<dynamic, dynamic> values = {};
+    var keys = [];
+    Query ref = FirebaseDatabase.instance.ref("transactions");
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
+
+    keys = (values.keys.toList()..sort());
+    //print(keys);
+
+    for (var i = 0; i < keys.length; i++) {
+      if (values[keys[i]]['transactionType'] == 'expense') {
+        //print(values[keys[i]]['transactionType']);
+        var expenseValue = values[keys[i]]['transactionAmount'];
+        expenseValue = expenseValue + .0;
+        expenseSum += expenseValue;
+        //print(value.runtimeType);
+      } else if (values[keys[i]]['transactionType'] == 'deposit') {
+        var depositValue = values[keys[i]]['transactionAmount'];
+        depositValue = depositValue + .0;
+        depositSum += depositValue;
+      }
+    }
+
+    setState(() {
+      expenseTotal = expenseSum;
+      depositTotal = depositSum;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Map<String, double> dataMap = {
-      "Expenses": 5,
-      "Deposits": 2,
+      "Expenses": double.parse(expenseTotal.toStringAsFixed(2)),
+      "Deposits": double.parse(depositTotal.toStringAsFixed(2)),
     };
     final colorList = <Color>[
       Colors.red.shade300,
@@ -86,7 +124,7 @@ class _DonutChartState extends State<DonutChart> {
               Row(
                 children: [
                   Text(
-                    '-8797.89',
+                    '-${double.parse(expenseTotal.toStringAsFixed(2))}',
                     style: TextStyle(
                         color: Colors.red.shade300,
                         fontWeight: FontWeight.w800,
@@ -96,21 +134,9 @@ class _DonutChartState extends State<DonutChart> {
                     padding: EdgeInsets.only(right: 20, bottom: 80),
                   ),
                   Text(
-                    '+76768.67',
+                    '+${double.parse(depositTotal.toStringAsFixed(2))}',
                     style: TextStyle(
                         color: Colors.blue.shade300,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    'TOTAL = 29898.76',
-                    style: TextStyle(
-                        color: Colors.black54,
                         fontWeight: FontWeight.w800,
                         fontSize: 16),
                   ),
