@@ -1,0 +1,3 @@
+{
+    "time-tracker.reminders": "[{\"title\": \"Blink\",\"intervalMinutes\": 15,\"pauseMinutes\": 0,\"autoPause\": true,\"showCountDown\": true,\"autoStartAfterPause\": true},{\"title\": \"Look at distance\",\"intervalMinutes\": 18,\"pauseMinutes\": 0,\"autoPause\": true,\"showCountDown\": true,\"autoStartAfterPause\": true}]"
+}
