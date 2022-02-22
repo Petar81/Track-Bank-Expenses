@@ -57,6 +57,48 @@ class _DonutChartState extends State<DonutChart> {
     });
   }
 
+  getLastNTransactions(int numberOfTransactions) async {
+    _isLoading = true;
+    int transactionsNumber = numberOfTransactions;
+    double expenseSumN = 0.00;
+    double depositSumN = 0.00;
+    Map<dynamic, dynamic> values = {};
+    var keys = [];
+
+    Query ref = FirebaseDatabase.instance
+        .ref("transactions")
+        .limitToLast(transactionsNumber);
+
+// Get the data once
+    DatabaseEvent event = await ref.once();
+
+    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
+    values = data;
+
+    keys = (values.keys.toList()..sort());
+    //print(keys);
+
+    for (var i = 0; i < keys.length; i++) {
+      if (values[keys[i]]['transactionType'] == 'expense') {
+        //print(values[keys[i]]['transactionType']);
+        var expenseValueN = values[keys[i]]['transactionAmount'];
+        expenseValueN = expenseValueN + .0;
+        expenseSumN += expenseValueN;
+        //print(value.runtimeType);
+      } else if (values[keys[i]]['transactionType'] == 'deposit') {
+        var depositValueN = values[keys[i]]['transactionAmount'];
+        depositValueN = depositValueN + .0;
+        depositSumN += depositValueN;
+      }
+    }
+
+    setState(() {
+      expenseTotal = expenseSumN;
+      depositTotal = depositSumN;
+      _isLoading = !_isLoading;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, double> dataMap = {
@@ -89,7 +131,9 @@ class _DonutChartState extends State<DonutChart> {
                         ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      getLastNTransactions(30);
+                    },
                     icon: const Icon(Icons.arrow_drop_down),
                   ),
                 ],
