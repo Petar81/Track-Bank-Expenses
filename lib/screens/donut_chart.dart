@@ -19,6 +19,7 @@ class _DonutChartState extends State<DonutChart> {
   double expenseTotal = 0.00;
   double depositTotal = 0.00;
   bool _isLoading = true;
+  String _transactionQuery = 'all transactions';
 
   void onStart() async {
     double expenseSum = 0.00;
@@ -120,25 +121,74 @@ class _DonutChartState extends State<DonutChart> {
           )
         : Scaffold(
             appBar: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'since beginning ',
-                    style: TextStyle(
-                        // fontFamily: 'OpenSansBold',
-                        // fontSize: 26.0,
-                        ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      getLastNTransactions(30);
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      _transactionQuery,
+                      //style: TextStyle(
+                      // fontFamily: 'OpenSansBold',
+                      // fontSize: 26.0,
+                      // ),
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  PopupMenuButton(
+                    onSelected: (int result) {
+                      if (result == 30) {
+                        getLastNTransactions(result);
+                        setState(() {
+                          _transactionQuery = 'last 30 transactions';
+                        });
+                      } else if (result == 60) {
+                        getLastNTransactions(result);
+                        setState(() {
+                          _transactionQuery = 'last 60 transactions';
+                        });
+                      } else if (result == 90) {
+                        getLastNTransactions(result);
+                        setState(() {
+                          _transactionQuery = 'last 90 transactions';
+                        });
+                      } else if (result == 120) {
+                        getLastNTransactions(result);
+                        setState(() {
+                          _transactionQuery = 'last 120 transactions';
+                        });
+                      } else if (result == 7) {
+                        onStart();
+                        setState(() {
+                          _transactionQuery = 'all transactions';
+                          _isLoading = !_isLoading;
+                        });
+                      }
                     },
                     icon: const Icon(Icons.arrow_drop_down),
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        child: Text("last 30 transactions"),
+                        value: 30,
+                      ),
+                      const PopupMenuItem(
+                        child: Text("last 60 transactions"),
+                        value: 60,
+                      ),
+                      const PopupMenuItem(
+                        child: Text("last 90 transactions"),
+                        value: 90,
+                      ),
+                      const PopupMenuItem(
+                        child: Text("last 120 transactions"),
+                        value: 120,
+                      ),
+                      const PopupMenuItem(
+                        child: Text("see all transactions"),
+                        value: 7,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ]),
             body: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
