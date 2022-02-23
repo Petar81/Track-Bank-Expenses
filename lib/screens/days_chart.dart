@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:firebase_database/firebase_database.dart';
 
+import '../models/weekdays_chart.dart';
+
 /// Example of a grouped bar chart with three series, each rendered with
 /// different fill colors.
 class DaysChart extends StatefulWidget {
