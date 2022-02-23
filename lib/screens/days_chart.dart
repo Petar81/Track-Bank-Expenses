@@ -4,11 +4,17 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 /// Example of a grouped bar chart with three series, each rendered with
 /// different fill colors.
-class DaysChart extends StatelessWidget {
+class DaysChart extends StatefulWidget {
   final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate = true;
 
   const DaysChart(this.seriesList, {Key? key}) : super(key: key);
+
+  @override
+  State<DaysChart> createState() => _DaysChartState();
+}
+
+class _DaysChartState extends State<DaysChart> {
+  final bool animate = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class DaysChart extends StatelessWidget {
         ),
       ),
       body: charts.BarChart(
-        seriesList,
+        widget.seriesList,
         animate: animate,
         // Configure a stroke width to enable borders on the bars.
         defaultRenderer: charts.BarRendererConfig(
