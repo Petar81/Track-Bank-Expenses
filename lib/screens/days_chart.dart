@@ -1,5 +1,6 @@
 /// Bar chart example
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:firebase_database/firebase_database.dart';
 
