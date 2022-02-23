@@ -20,6 +20,50 @@ class DaysChart extends StatefulWidget {
 class _DaysChartState extends State<DaysChart> {
   final bool animate = true;
 
+  // WEEKDAY CHART DATA
+  var weekdayExpenses = [
+    WeekDays('Mon', 0.0, Colors.red.shade300),
+    WeekDays('Tue', 0.0, Colors.red.shade300),
+    WeekDays('Wed', 0.0, Colors.red.shade300),
+    WeekDays('Thu', 0.0, Colors.red.shade300),
+    WeekDays('Fri', 0.0, Colors.red.shade300),
+    WeekDays('Sat', 0.0, Colors.red.shade300),
+    WeekDays('Sun', 0.0, Colors.red.shade300),
+  ];
+
+  var weekdayDeposits = [
+    WeekDays('Mon', 0.0, Colors.blue.shade300),
+    WeekDays('Tue', 0.0, Colors.blue.shade300),
+    WeekDays('Wed', 0.0, Colors.blue.shade300),
+    WeekDays('Thu', 0.0, Colors.blue.shade300),
+    WeekDays('Fri', 0.0, Colors.blue.shade300),
+    WeekDays('Sat', 0.0, Colors.blue.shade300),
+    WeekDays('Sun', 0.0, Colors.blue.shade300),
+  ];
+
+  // WEEKDAY CHART SERIES DATA
+  var weekdayChartSeries = [
+    // Blue bars with a lighter center color.
+    charts.Series<WeekDays, String>(
+      id: 'Weekday Expenses',
+      domainFn: (WeekDays days, _) => days.day,
+      measureFn: (WeekDays total, _) => total.sum,
+      data: [],
+      colorFn: (WeekDays weekdayExpenseColor, __) => weekdayExpenseColor.color,
+      // fillColorFn: (_, __) =>
+      //     charts.MaterialPalette.blue.shadeDefault.lighter,
+    ),
+    // Solid red bars. Fill color will default to the series color if no
+    // fillColorFn is configured.
+    charts.Series<WeekDays, String>(
+      id: 'Weekday Deposits',
+      measureFn: (WeekDays total, _) => total.sum,
+      data: [],
+      colorFn: (WeekDays weekdayDepositColor, __) => weekdayDepositColor.color,
+      domainFn: (WeekDays days, _) => days.day,
+    ),
+  ];
+
   getNTransactions(int numOfTransactions) async {
     Map<dynamic, dynamic> values = {};
     var keys = [];
