@@ -539,7 +539,7 @@ class _DaysChartState extends State<DaysChart> {
     return isLoading == true
         ? Scaffold(
             appBar: AppBar(
-              title: const Text('View transactions history'),
+              title: Text(_transactionQueryString),
             ),
             body: const Center(
               child: CircularProgressIndicator(),
