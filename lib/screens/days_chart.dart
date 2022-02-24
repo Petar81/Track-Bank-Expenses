@@ -19,6 +19,7 @@ class DaysChart extends StatefulWidget {
 
 class _DaysChartState extends State<DaysChart> {
   final bool animate = true;
+  String _transactionQueryString = 'all transactions';
 
   // WEEKDAY CHART DATA
   var weekdayExpenses = [
@@ -293,9 +294,9 @@ class _DaysChartState extends State<DaysChart> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'since beginning ',
-              style: TextStyle(
+            Text(
+              _transactionQueryString,
+              style: const TextStyle(
                   // fontFamily: 'OpenSansBold',
                   // fontSize: 26.0,
                   ),
