@@ -262,6 +262,7 @@ class _DaysChartState extends State<DaysChart> {
     }
 
     setState(() {
+      isLoading = !isLoading;
       // WEEKDAY CHART DATA
       weekdayExpenses = [
         WeekDays('Mon', mondayExpenseSum, Colors.red.shade300),
@@ -484,6 +485,7 @@ class _DaysChartState extends State<DaysChart> {
     }
 
     setState(() {
+      isLoading = !isLoading;
       // WEEKDAY CHART DATA
       weekdayExpenses = [
         WeekDays('Mon', mondayExpenseSum, Colors.red.shade300),
@@ -534,80 +536,94 @@ class _DaysChartState extends State<DaysChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          PopupMenuButton(
-            onSelected: (int result) {
-              if (result == 30) {
-                getNTransactions(result);
-                setState(() {
-                  _transactionQueryString = 'last 30 transactions';
-                });
-              } else if (result == 60) {
-                getNTransactions(result);
-                setState(() {
-                  _transactionQueryString = 'last 60 transactions';
-                });
-              } else if (result == 90) {
-                getNTransactions(result);
-                setState(() {
-                  _transactionQueryString = 'last 90 transactions';
-                });
-              } else if (result == 120) {
-                getNTransactions(result);
-                setState(() {
-                  _transactionQueryString = 'last 120 transactions';
-                });
-              } else if (result == 7) {
-                onStart();
-                setState(() {
-                  _transactionQueryString = 'all transactions';
-                  isLoading = !isLoading;
-                });
-              }
-            },
-            icon: const Icon(Icons.arrow_drop_down),
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                child: Text("last 30 transactions"),
-                value: 30,
-              ),
-              const PopupMenuItem(
-                child: Text("last 60 transactions"),
-                value: 60,
-              ),
-              const PopupMenuItem(
-                child: Text("last 90 transactions"),
-                value: 90,
-              ),
-              const PopupMenuItem(
-                child: Text("last 120 transactions"),
-                value: 120,
-              ),
-              const PopupMenuItem(
-                child: Text("see all transactions"),
-                value: 7,
-              ),
-            ],
-          ),
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _transactionQueryString,
+    return isLoading == true
+        ? Scaffold(
+            appBar: AppBar(
+              title: const Text('View transactions history'),
             ),
-          ],
-        ),
-      ),
-      body: charts.BarChart(
-        weekdayChartSeries,
-        animate: animate,
-        // Configure a stroke width to enable borders on the bars.
-        defaultRenderer: charts.BarRendererConfig(
-            groupingType: charts.BarGroupingType.grouped, strokeWidthPx: 2.0),
-      ),
-    );
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              actions: <Widget>[
+                PopupMenuButton(
+                  onSelected: (int result) {
+                    if (result == 30) {
+                      getNTransactions(result);
+                      setState(() {
+                        isLoading = !isLoading;
+                        _transactionQueryString = 'last 30 transactions';
+                      });
+                    } else if (result == 60) {
+                      getNTransactions(result);
+                      setState(() {
+                        isLoading = !isLoading;
+                        _transactionQueryString = 'last 60 transactions';
+                      });
+                    } else if (result == 90) {
+                      getNTransactions(result);
+                      setState(() {
+                        isLoading = !isLoading;
+                        _transactionQueryString = 'last 90 transactions';
+                      });
+                    } else if (result == 120) {
+                      getNTransactions(result);
+                      setState(() {
+                        isLoading = !isLoading;
+                        _transactionQueryString = 'last 120 transactions';
+                      });
+                    } else if (result == 7) {
+                      onStart();
+                      setState(() {
+                        _transactionQueryString = 'all transactions';
+                        isLoading = !isLoading;
+                      });
+                    }
+                  },
+                  icon: const Icon(Icons.arrow_drop_down),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      child: Text("last 30 transactions"),
+                      value: 30,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 60 transactions"),
+                      value: 60,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 90 transactions"),
+                      value: 90,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 120 transactions"),
+                      value: 120,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("see all transactions"),
+                      value: 7,
+                    ),
+                  ],
+                ),
+              ],
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    _transactionQueryString,
+                  ),
+                ],
+              ),
+            ),
+            body: charts.BarChart(
+              weekdayChartSeries,
+              animate: animate,
+              // Configure a stroke width to enable borders on the bars.
+              defaultRenderer: charts.BarRendererConfig(
+                  groupingType: charts.BarGroupingType.grouped,
+                  strokeWidthPx: 2.0),
+            ),
+          );
   }
 }
