@@ -296,14 +296,6 @@ class _DaysChartState extends State<DaysChart> {
           children: <Widget>[
             Text(
               _transactionQueryString,
-              style: const TextStyle(
-                  // fontFamily: 'OpenSansBold',
-                  // fontSize: 26.0,
-                  ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_drop_down),
             ),
           ],
         ),
