@@ -24,9 +24,6 @@ class _TrendState extends State<Trend> {
   onStart() async {
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
     await getLastNTransactions(7);
-    setState(() {
-      _isLoading = !_isLoading;
-    });
   }
 
   getLastNTransactions(int numberOfTransactions) async {
@@ -76,6 +73,7 @@ class _TrendState extends State<Trend> {
     }
 
     setState(() {
+      _isLoading = !_isLoading;
       expenseSpots = newExpenseSpots;
       depositSpots = newDepositSpots;
     });
@@ -83,113 +81,122 @@ class _TrendState extends State<Trend> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _transactionQueryStr,
+    return _isLoading == true
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text(_transactionQueryStr),
             ),
-          ],
-        ),
-        actions: <Widget>[
-          PopupMenuButton(
-            onSelected: (int result) {
-              if (result == 7) {
-                getLastNTransactions(result);
-                setState(() {
-                  _transactionQueryStr = 'last 7 transactions';
-                  _isLoading = !_isLoading;
-                });
-              } else if (result == 10) {
-                getLastNTransactions(result);
-                setState(() {
-                  _isLoading = !_isLoading;
-                  _transactionQueryStr = 'last 10 transactions';
-                });
-              } else if (result == 15) {
-                getLastNTransactions(result);
-                setState(() {
-                  _isLoading = !_isLoading;
-                  _transactionQueryStr = 'last 15 transactions';
-                });
-              } else if (result == 30) {
-                getLastNTransactions(result);
-                setState(() {
-                  _isLoading = !_isLoading;
-                  _transactionQueryStr = 'last 30 transactions';
-                });
-              } else if (result == 50) {
-                getLastNTransactions(result);
-                setState(() {
-                  _isLoading = !_isLoading;
-                  _transactionQueryStr = 'last 50 transactions';
-                });
-              }
-            },
-            icon: const Icon(Icons.arrow_drop_down),
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                child: Text("last 7 transactions"),
-                value: 7,
-              ),
-              const PopupMenuItem(
-                child: Text("last 10 transactions"),
-                value: 10,
-              ),
-              const PopupMenuItem(
-                child: Text("last 15 transactions"),
-                value: 15,
-              ),
-              const PopupMenuItem(
-                child: Text("last 30 transactions"),
-                value: 30,
-              ),
-              const PopupMenuItem(
-                child: Text("last 50 transactions"),
-                value: 50,
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            width: double.infinity,
-            child: LineChart(
-              LineChartData(
-                borderData: FlBorderData(show: false),
-                lineTouchData: LineTouchData(
-                  touchTooltipData:
-                      LineTouchTooltipData(tooltipBgColor: Colors.black87),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: depositSpots,
-                    isCurved: false,
-                    barWidth: 3,
-                    colors: [
-                      Colors.blue.shade300,
-                    ],
-                  ),
-                  LineChartBarData(
-                    spots: expenseSpots,
-                    isCurved: false,
-                    barWidth: 3,
-                    colors: [
-                      Colors.red.shade300,
-                    ],
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    _transactionQueryStr,
                   ),
                 ],
               ),
+              actions: <Widget>[
+                PopupMenuButton(
+                  onSelected: (int result) {
+                    if (result == 7) {
+                      setState(() {
+                        _transactionQueryStr = 'last 7 transactions';
+                        _isLoading = !_isLoading;
+                      });
+                      getLastNTransactions(result);
+                    } else if (result == 10) {
+                      setState(() {
+                        _isLoading = !_isLoading;
+                        _transactionQueryStr = 'last 10 transactions';
+                      });
+                      getLastNTransactions(result);
+                    } else if (result == 15) {
+                      setState(() {
+                        _isLoading = !_isLoading;
+                        _transactionQueryStr = 'last 15 transactions';
+                      });
+                      getLastNTransactions(result);
+                    } else if (result == 30) {
+                      setState(() {
+                        _isLoading = !_isLoading;
+                        _transactionQueryStr = 'last 30 transactions';
+                      });
+                      getLastNTransactions(result);
+                    } else if (result == 50) {
+                      setState(() {
+                        _isLoading = !_isLoading;
+                        _transactionQueryStr = 'last 50 transactions';
+                      });
+                      getLastNTransactions(result);
+                    }
+                  },
+                  icon: const Icon(Icons.arrow_drop_down),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      child: Text("last 7 transactions"),
+                      value: 7,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 10 transactions"),
+                      value: 10,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 15 transactions"),
+                      value: 15,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 30 transactions"),
+                      value: 30,
+                    ),
+                    const PopupMenuItem(
+                      child: Text("last 50 transactions"),
+                      value: 50,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-        ),
-      ),
-    );
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  child: LineChart(
+                    LineChartData(
+                      borderData: FlBorderData(show: false),
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                            tooltipBgColor: Colors.black87),
+                      ),
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: depositSpots,
+                          isCurved: false,
+                          barWidth: 3,
+                          colors: [
+                            Colors.blue.shade300,
+                          ],
+                        ),
+                        LineChartBarData(
+                          spots: expenseSpots,
+                          isCurved: false,
+                          barWidth: 3,
+                          colors: [
+                            Colors.red.shade300,
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 }
