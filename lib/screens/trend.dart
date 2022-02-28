@@ -105,7 +105,7 @@ class _TrendState extends State<Trend> {
                   ),
                   lineBarsData: [
                     LineChartBarData(
-                      spots: widget.depositSpots,
+                      spots: depositSpots,
                       isCurved: false,
                       barWidth: 3,
                       colors: [
@@ -113,7 +113,7 @@ class _TrendState extends State<Trend> {
                       ],
                     ),
                     LineChartBarData(
-                      spots: widget.expenseSpots,
+                      spots: expenseSpots,
                       isCurved: false,
                       barWidth: 3,
                       colors: [
