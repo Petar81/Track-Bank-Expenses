@@ -3,10 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class Trend extends StatefulWidget {
-  final List<FlSpot> expenseSpots;
-  final List<FlSpot> depositSpots;
-  const Trend(this.expenseSpots, this.depositSpots, {Key? key})
-      : super(key: key);
+  const Trend({Key? key}) : super(key: key);
 
   @override
   State<Trend> createState() => _TrendState();
@@ -20,9 +17,9 @@ class _TrendState extends State<Trend> {
   }
 
   bool _isLoading = true;
-  String _transactionQueryStr = 'last 10 transactions';
-  var expenseSpots = <FlSpot>[];
-  var depositSpots = <FlSpot>[];
+  final String _transactionQueryStr = 'last 10 transactions';
+  var expenseSpots = <FlSpot>[const FlSpot(1.36, 1.33)]; // dummy val @ initial.
+  var depositSpots = <FlSpot>[const FlSpot(1.18, 1.20)]; // dummy val @ initial.
 
   onStart() async {
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
@@ -43,7 +40,7 @@ class _TrendState extends State<Trend> {
         .ref("transactions")
         .limitToLast(transactionsNumber);
 
-// Get the data once
+    // Get the data once
     DatabaseEvent event = await ref.once();
 
     Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
@@ -98,29 +95,30 @@ class _TrendState extends State<Trend> {
             width: double.infinity,
             child: LineChart(
               LineChartData(
-                  borderData: FlBorderData(show: false),
-                  lineTouchData: LineTouchData(
-                    touchTooltipData:
-                        LineTouchTooltipData(tooltipBgColor: Colors.black87),
+                borderData: FlBorderData(show: false),
+                lineTouchData: LineTouchData(
+                  touchTooltipData:
+                      LineTouchTooltipData(tooltipBgColor: Colors.black87),
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: depositSpots,
+                    isCurved: false,
+                    barWidth: 3,
+                    colors: [
+                      Colors.blue.shade300,
+                    ],
                   ),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: depositSpots,
-                      isCurved: false,
-                      barWidth: 3,
-                      colors: [
-                        Colors.blue.shade300,
-                      ],
-                    ),
-                    LineChartBarData(
-                      spots: expenseSpots,
-                      isCurved: false,
-                      barWidth: 3,
-                      colors: [
-                        Colors.red.shade300,
-                      ],
-                    ),
-                  ]),
+                  LineChartBarData(
+                    spots: expenseSpots,
+                    isCurved: false,
+                    barWidth: 3,
+                    colors: [
+                      Colors.red.shade300,
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
