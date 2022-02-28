@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class Trend extends StatelessWidget {
+class Trend extends StatefulWidget {
   final List<FlSpot> expenseSpots;
   final List<FlSpot> depositSpots;
   const Trend(this.expenseSpots, this.depositSpots, {Key? key})
       : super(key: key);
 
+  @override
+  State<Trend> createState() => _TrendState();
+}
+
+class _TrendState extends State<Trend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +33,7 @@ class Trend extends StatelessWidget {
                   ),
                   lineBarsData: [
                     LineChartBarData(
-                      spots: depositSpots,
+                      spots: widget.depositSpots,
                       isCurved: false,
                       barWidth: 3,
                       colors: [
@@ -36,7 +41,7 @@ class Trend extends StatelessWidget {
                       ],
                     ),
                     LineChartBarData(
-                      spots: expenseSpots,
+                      spots: widget.expenseSpots,
                       isCurved: false,
                       barWidth: 3,
                       colors: [
