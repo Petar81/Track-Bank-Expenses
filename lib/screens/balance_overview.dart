@@ -2,7 +2,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:fl_chart/fl_chart.dart';
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
@@ -45,8 +44,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
   bool isLoading = true;
-  var expenseSpots = <FlSpot>[];
-  var depositSpots = <FlSpot>[];
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -95,74 +92,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
 
-    // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
-    getLastNTransactions(10);
-
     setState(() {
       isLoading = !isLoading;
-    });
-  }
-
-  getLastNTransactions(int numberOfTransactions) async {
-    int transactionsNumber = numberOfTransactions;
-    Map<dynamic, dynamic> values = {};
-    var keys = [];
-    var newExpenseSpots = <FlSpot>[];
-    var newDepositSpots = <FlSpot>[];
-
-    Query ref = FirebaseDatabase.instance
-        .ref("transactions")
-        .limitToLast(transactionsNumber);
-
-// Get the data once
-    DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
-
-    keys = (values.keys.toList()..sort());
-    //print(keys);
-
-    for (var i = 0; i < keys.length; i++) {
-      if (values[keys[i]]['transactionType'] == 'expense') {
-        //print(values[keys[i]]['transactionType']);
-        var value = values[keys[i]]['transactionAmount'];
-        value = value + .0;
-        //print(value.runtimeType);
-        newExpenseSpots.add(FlSpot(i + 1, value));
-        //print(expenseSpots.toString());
-      } else {
-        newExpenseSpots.add(FlSpot(i + 1, 0.0));
-      }
-    }
-
-    for (var i = 0; i < keys.length; i++) {
-      if (values[keys[i]]['transactionType'] == 'deposit') {
-        //print(values[keys[i]]['transactionType']);
-        var value = values[keys[i]]['transactionAmount'];
-        value = value + .0;
-        //print(value.runtimeType);
-        newDepositSpots.add(FlSpot(i + 1, value));
-        //print(expenseSpots.toString());
-      } else {
-        newDepositSpots.add(FlSpot(i + 1, 0.0));
-      }
-    }
-
-    setState(() {
-      expenseSpots = newExpenseSpots;
-      depositSpots = newDepositSpots;
     });
   }
 
   void _showBalance(num prevBalance, num currBalance, num transAmt,
       String description, String date, String time) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       showPreviousBalance = double.parse(prevBalance.toStringAsFixed(2));
       showCurrentBalance = double.parse(currBalance.toStringAsFixed(2));
       transactionAmount = double.parse(transAmt.toStringAsFixed(2));
@@ -264,13 +201,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'Trend',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    onTap: () async {
-                      await getLastNTransactions(10);
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              Trend(expenseSpots, depositSpots),
+                          builder: (context) => const Trend(),
                         ),
                       );
                     },
@@ -493,13 +428,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('TREND'),
-                            onPressed: () async {
-                              await getLastNTransactions(10);
+                            onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      Trend(expenseSpots, depositSpots),
+                                  builder: (context) => const Trend(),
                                 ),
                               );
                             },
