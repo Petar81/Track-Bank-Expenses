@@ -17,13 +17,13 @@ class _TrendState extends State<Trend> {
   }
 
   bool _isLoading = true;
-  final String _transactionQueryStr = 'last 10 transactions';
+  String _transactionQueryStr = 'last 7 transactions';
   var expenseSpots = <FlSpot>[const FlSpot(1.36, 1.33)]; // dummy val @ initial.
   var depositSpots = <FlSpot>[const FlSpot(1.18, 1.20)]; // dummy val @ initial.
 
   onStart() async {
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
-    await getLastNTransactions(10);
+    await getLastNTransactions(7);
     setState(() {
       _isLoading = !_isLoading;
     });
@@ -85,7 +85,74 @@ class _TrendState extends State<Trend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_transactionQueryStr),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _transactionQueryStr,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          PopupMenuButton(
+            onSelected: (int result) {
+              if (result == 7) {
+                getLastNTransactions(result);
+                setState(() {
+                  _transactionQueryStr = 'last 7 transactions';
+                  _isLoading = !_isLoading;
+                });
+              } else if (result == 10) {
+                getLastNTransactions(result);
+                setState(() {
+                  _isLoading = !_isLoading;
+                  _transactionQueryStr = 'last 10 transactions';
+                });
+              } else if (result == 15) {
+                getLastNTransactions(result);
+                setState(() {
+                  _isLoading = !_isLoading;
+                  _transactionQueryStr = 'last 15 transactions';
+                });
+              } else if (result == 30) {
+                getLastNTransactions(result);
+                setState(() {
+                  _isLoading = !_isLoading;
+                  _transactionQueryStr = 'last 30 transactions';
+                });
+              } else if (result == 50) {
+                getLastNTransactions(result);
+                setState(() {
+                  _isLoading = !_isLoading;
+                  _transactionQueryStr = 'last 50 transactions';
+                });
+              }
+            },
+            icon: const Icon(Icons.arrow_drop_down),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                child: Text("last 7 transactions"),
+                value: 7,
+              ),
+              const PopupMenuItem(
+                child: Text("last 10 transactions"),
+                value: 10,
+              ),
+              const PopupMenuItem(
+                child: Text("last 15 transactions"),
+                value: 15,
+              ),
+              const PopupMenuItem(
+                child: Text("last 30 transactions"),
+                value: 30,
+              ),
+              const PopupMenuItem(
+                child: Text("last 50 transactions"),
+                value: 50,
+              ),
+            ],
+          ),
+        ],
       ),
       body: Center(
         child: Padding(
