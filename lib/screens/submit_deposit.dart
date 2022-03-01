@@ -114,17 +114,6 @@ class SubmitDeposit extends StatelessWidget {
                         timeFormatterDeposit.format(nowDateDeposit);
                     timeDeposit = formattedTimeDeposit;
 
-                    // SET EXPENSE RECORD IN FIREBASE
-                    DatabaseReference refDeposit = FirebaseDatabase.instance
-                        .ref("deposits/$dateDeposit/$timeDeposit");
-                    await refDeposit.set({
-                      "depositAmount":
-                          double.parse(myAmountControllerDeposit.text),
-                      "depositDescription":
-                          myDescriptiontControllerDeposit.text,
-                    }).catchError((error) =>
-                        const Text('You got an error! Please try again.'));
-
                     // UPDATE CURRENT BALANCE IN FIREBASE
                     DatabaseReference currentBalanceRefDeposit =
                         FirebaseDatabase.instance.ref("currentBalance");
