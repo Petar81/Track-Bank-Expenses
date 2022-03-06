@@ -20,8 +20,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    () async {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: "barry.allen@example.com", password: "SuperSecretPassword!");
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          // print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          // print('Wrong password provided for that user.');
+        }
+      }
+    }();
     FirebaseAuth auth = FirebaseAuth.instance;
+    auth.currentUser!.reload();
     User? user = auth.currentUser;
+    // print(user!.email);
 
     return (user != null && !user.emailVerified)
         ? MaterialApp(
