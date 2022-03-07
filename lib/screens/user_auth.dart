@@ -25,7 +25,10 @@ class _UserAuthState extends State<UserAuth> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    const Text("SIGNUP FORM"),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 30.0),
+                      child: Text("SIGNUP FORM"),
+                    ),
                     TextFormField(
                       // The validator receives the text that the user has entered.
                       validator: (value) {
