@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/input_decoration.dart';
 
 class UserAuth extends StatefulWidget {
   final String title;
