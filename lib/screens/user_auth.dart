@@ -15,8 +15,18 @@ class _UserAuthState extends State<UserAuth> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Text('Authentication Form'),
+      body: Center(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Form(
+                child: Column(
+                  children: <Widget>[],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
