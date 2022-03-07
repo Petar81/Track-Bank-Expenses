@@ -31,6 +31,8 @@ class _UserAuthState extends State<UserAuth> {
                       child: Text("SIGNUP FORM"),
                     ),
                     TextFormField(
+                      decoration:
+                          buildInputDecoration(Icons.person, "Full Name"),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
