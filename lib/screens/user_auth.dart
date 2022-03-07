@@ -21,7 +21,17 @@ class _UserAuthState extends State<UserAuth> {
             children: <Widget>[
               Form(
                 child: Column(
-                  children: <Widget>[],
+                  children: <Widget>[
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],
