@@ -18,7 +18,8 @@ class _UserAuthState extends State<UserAuth> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
