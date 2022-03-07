@@ -9,6 +9,7 @@ class UserAuth extends StatefulWidget {
 }
 
 class _UserAuthState extends State<UserAuth> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +21,7 @@ class _UserAuthState extends State<UserAuth> {
           child: Column(
             children: <Widget>[
               Form(
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     TextFormField(
