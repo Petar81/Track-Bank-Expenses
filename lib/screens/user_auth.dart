@@ -13,6 +13,7 @@ class _UserAuthState extends State<UserAuth> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String name = '';
+  String pass = '';
 
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
@@ -50,6 +51,9 @@ class _UserAuthState extends State<UserAuth> {
                             }
                             return null;
                           },
+                          onSaved: (value) {
+                            name = value!;
+                          },
                         ),
                       ),
                       Padding(
@@ -69,6 +73,9 @@ class _UserAuthState extends State<UserAuth> {
                             }
                             return null;
                           },
+                          onSaved: (value) {
+                            email = value!;
+                          },
                         ),
                       ),
                       Padding(
@@ -81,9 +88,12 @@ class _UserAuthState extends State<UserAuth> {
                               buildInputDecoration(Icons.lock, "Password"),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please a Enter Password';
+                              return 'Please Enter a Password';
                             }
                             return null;
+                          },
+                          onSaved: (value) {
+                            pass = value!;
                           },
                         ),
                       ),
@@ -115,6 +125,7 @@ class _UserAuthState extends State<UserAuth> {
                           onPressed: () {
                             // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
                               ScaffoldMessenger.of(context).showSnackBar(
