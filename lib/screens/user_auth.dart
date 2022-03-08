@@ -34,30 +34,36 @@ class _UserAuthState extends State<UserAuth> {
                       padding: EdgeInsets.only(bottom: 30.0),
                       child: Text("SIGNUP FORM"),
                     ),
-                    TextFormField(
-                      decoration:
-                          buildInputDecoration(Icons.person, "Full Name"),
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        decoration:
+                            buildInputDecoration(Icons.person, "Full Name"),
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                    TextFormField(
-                      keyboardType: TextInputType.text,
-                      decoration: buildInputDecoration(Icons.email, "Email"),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please a Enter';
-                        }
-                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                            .hasMatch(value)) {
-                          return 'Please a valid Email';
-                        }
-                        return null;
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        decoration: buildInputDecoration(Icons.email, "Email"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please a Enter';
+                          }
+                          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                              .hasMatch(value)) {
+                            return 'Please a valid Email';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
