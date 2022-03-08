@@ -14,6 +14,9 @@ class _UserAuthState extends State<UserAuth> {
   String email = '';
   String name = '';
 
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmpassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +63,43 @@ class _UserAuthState extends State<UserAuth> {
                           if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                               .hasMatch(value)) {
                             return 'Please a valid Email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        controller: password,
+                        keyboardType: TextInputType.text,
+                        decoration:
+                            buildInputDecoration(Icons.lock, "Password"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please a Enter Password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        controller: confirmpassword,
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        decoration: buildInputDecoration(
+                            Icons.lock, "Confirm Password"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please re-enter password';
+                          }
+                          print(password.text);
+                          print(confirmpassword.text);
+
+                          if (password.text != confirmpassword.text) {
+                            return "Password does not match";
                           }
                           return null;
                         },
