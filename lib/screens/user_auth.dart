@@ -75,6 +75,7 @@ class _UserAuthState extends State<UserAuth> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
                           controller: password,
+                          obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration:
                               buildInputDecoration(Icons.lock, "Password"),
