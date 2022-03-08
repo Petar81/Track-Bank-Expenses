@@ -11,6 +11,9 @@ class UserAuth extends StatefulWidget {
 
 class _UserAuthState extends State<UserAuth> {
   final _formKey = GlobalKey<FormState>();
+  String email = '';
+  String name = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +41,20 @@ class _UserAuthState extends State<UserAuth> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: buildInputDecoration(Icons.email, "Email"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please a Enter';
+                        }
+                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                            .hasMatch(value)) {
+                          return 'Please a valid Email';
                         }
                         return null;
                       },
