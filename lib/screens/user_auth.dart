@@ -159,11 +159,19 @@ class _UserAuthState extends State<UserAuth> {
                                   // print('User is signed in!');
                                   DatabaseReference userID =
                                       FirebaseDatabase.instance.ref("users");
-                                  await userID.child(user.uid).set({
-                                    "displayName": name,
-                                    "email": email
-                                  }).catchError((error) => const Text(
-                                      'You got an error! Please try again.'));
+                                  await userID
+                                      .child(user.uid)
+                                      .set(
+                                          {"displayName": name, "email": email})
+                                      .catchError((error) => const Text(
+                                          'You got an error! Please try again.'))
+                                      .then((value) =>
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    'User $name has been created')),
+                                          ));
                                 }
                               });
                             }
