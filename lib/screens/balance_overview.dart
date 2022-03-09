@@ -1,5 +1,6 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../models/balance_chart.dart';
@@ -44,6 +45,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showTransactiondate = 'date';
   String showTransactionTime = 'time';
   bool isLoading = true;
+  String userName = '';
+
+  // GET A REFERENCE OF USER
+  User? user = FirebaseAuth.instance.currentUser;
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
@@ -91,6 +96,16 @@ class _BalanceOverviewState extends State<BalanceOverview> {
         FirebaseDatabase.instance.ref("lastTransaction/lastTransactionTime");
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
     showTransactionTime = eventLastTransactionTime.snapshot.value as String;
+
+    // Reference to currentBalance/currentAmount endpoint
+    DatabaseReference getUserName =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/displayName/");
+
+    // Get the data once from users/user.uid/displayName
+    DatabaseEvent userNameRef = await getUserName.once();
+    final userNameSnapshot = userNameRef.snapshot.value as String;
+
+    userName = userNameSnapshot;
 
     setState(() {
       isLoading = !isLoading;
@@ -148,6 +163,9 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     );
 
+    // GET A REFERENCE OF USER
+    User? user = FirebaseAuth.instance.currentUser;
+
     return isLoading
         ? Scaffold(
             appBar: AppBar(
@@ -171,10 +189,10 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       backgroundImage: NetworkImage(
                           'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
                     ),
-                    accountEmail: const Text('jane.doe@example.com'),
-                    accountName: const Text(
-                      'Jane Doe',
-                      style: TextStyle(fontSize: 24.0),
+                    accountEmail: Text(user != null ? user.email! : ''),
+                    accountName: Text(
+                      userName,
+                      style: const TextStyle(fontSize: 24.0),
                     ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
