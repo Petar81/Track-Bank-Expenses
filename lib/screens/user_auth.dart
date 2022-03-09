@@ -124,6 +124,7 @@ class _UserAuthState extends State<UserAuth> {
                                     // you'd often call a server or save the information in a database.
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
+                                          duration: Duration(seconds: 2),
                                           content: Text('Processing Data')),
                                     );
                                     () async {
@@ -167,6 +168,8 @@ class _UserAuthState extends State<UserAuth> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                             SnackBar(
+                                              duration:
+                                                  const Duration(seconds: 3),
                                               content: Text(
                                                   '$userName is logged in'),
                                             ),
@@ -331,6 +334,7 @@ class _UserAuthState extends State<UserAuth> {
                                     // you'd often call a server or save the information in a database.
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
+                                          duration: Duration(seconds: 2),
                                           content: Text('Processing Data')),
                                     );
                                     FirebaseAuth auth = FirebaseAuth.instance;
@@ -373,6 +377,8 @@ class _UserAuthState extends State<UserAuth> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
+                                                      duration: const Duration(
+                                                          seconds: 3),
                                                       content: Text(
                                                           'User $name has been created')),
                                                 ));
