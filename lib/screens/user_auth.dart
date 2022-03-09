@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/input_decoration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class UserAuth extends StatefulWidget {
   final String title;
@@ -109,8 +111,8 @@ class _UserAuthState extends State<UserAuth> {
                             if (value == null || value.isEmpty) {
                               return 'Please re-enter password';
                             }
-                            print(password.text);
-                            print(confirmpassword.text);
+                            // print(password.text);
+                            // print(confirmpassword.text);
 
                             if (password.text != confirmpassword.text) {
                               return "Password does not match";
@@ -132,6 +134,21 @@ class _UserAuthState extends State<UserAuth> {
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
+                              FirebaseAuth auth = FirebaseAuth.instance;
+                              () async {
+                                try {
+                                  await auth.createUserWithEmailAndPassword(
+                                      email: email, password: pass);
+                                } on FirebaseAuthException catch (e) {
+                                  if (e.code == 'weak-password') {
+                                    // print('The password provided is too weak.');
+                                  } else if (e.code == 'email-already-in-use') {
+                                    // print('The account already exists for that email.');
+                                  }
+                                } catch (e) {
+                                  // print(e);
+                                }
+                              }();
                             }
                           },
                           child: const Text('Submit'),
