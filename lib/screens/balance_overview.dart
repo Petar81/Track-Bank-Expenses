@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:track_bank_expenses/main.dart';
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
@@ -279,6 +280,26 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       //     ),
                       //   ),
                       // );
+                    },
+                  ),
+                  const Divider(
+                    height: 10,
+                    thickness: 1,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout_rounded),
+                    title: const Text(
+                      'Logout',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyApp(),
+                        ),
+                      );
                     },
                   ),
                   Expanded(
