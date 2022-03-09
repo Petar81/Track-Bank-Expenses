@@ -361,6 +361,15 @@ class _UserAuthState extends State<UserAuth> {
                                       if (user == null) {
                                         // print('User is currently signed out!');
                                       } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BalanceOverview(
+                                                    title:
+                                                        'Transactions Tracker!'),
+                                          ),
+                                        );
                                         // print('User is signed in!');
                                         DatabaseReference userID =
                                             FirebaseDatabase.instance
