@@ -149,6 +149,23 @@ class _UserAuthState extends State<UserAuth> {
                                   // print(e);
                                 }
                               }();
+
+                              FirebaseAuth.instance
+                                  .authStateChanges()
+                                  .listen((User? user) async {
+                                if (user == null) {
+                                  // print('User is currently signed out!');
+                                } else {
+                                  // print('User is signed in!');
+                                  DatabaseReference userID =
+                                      FirebaseDatabase.instance.ref("users");
+                                  await userID.child(user.uid).set({
+                                    "displayName": name,
+                                    "email": email
+                                  }).catchError((error) => const Text(
+                                      'You got an error! Please try again.'));
+                                }
+                              });
                             }
                           },
                           child: const Text('Submit'),
