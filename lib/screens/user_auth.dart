@@ -84,7 +84,7 @@ class _UserAuthState extends State<UserAuth> {
                                   if (!RegExp(
                                           "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                       .hasMatch(value)) {
-                                    return 'Please a valid Email';
+                                    return 'Please enter a valid email';
                                   }
                                   return null;
                                 },
@@ -103,7 +103,7 @@ class _UserAuthState extends State<UserAuth> {
                                     Icons.lock, "Password"),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please Enter a Password';
+                                    return 'Please enter a valid password';
                                   }
                                   return null;
                                 },
@@ -116,17 +116,21 @@ class _UserAuthState extends State<UserAuth> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 16.0),
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   // Validate returns true if the form is valid, or false otherwise.
                                   if (_loginFormKey.currentState!.validate()) {
                                     _loginFormKey.currentState!.save();
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          duration: Duration(seconds: 2),
-                                          content: Text('Processing Data')),
-                                    );
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        const SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            content: Text('Processing Data')),
+                                      );
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
                                     () async {
                                       try {
                                         await FirebaseAuth.instance
@@ -136,30 +140,34 @@ class _UserAuthState extends State<UserAuth> {
                                       } on FirebaseAuthException catch (e) {
                                         if (e.code == 'user-not-found') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 3),
-                                            content: Text('User not found!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 3),
+                                              content: Text('User not found!'),
+                                            ));
                                         } else if (e.code == 'wrong-password') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            content: Text('Wrong password!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              content: Text('Wrong password!'),
+                                            ));
                                         } else if (e.code == 'invalid-email') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            content:
-                                                Text('Invalid email address!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              content: Text(
+                                                  'Invalid email address!'),
+                                            ));
                                         } else if (e.code == 'user-disabled') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            content: Text(
-                                                'This user has been disabled!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 2),
+                                              content: Text(
+                                                  'This user has been disabled!'),
+                                            ));
                                         }
                                       }
                                     }();
@@ -184,14 +192,15 @@ class _UserAuthState extends State<UserAuth> {
                                             .then(
                                           (userName) =>
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                            SnackBar(
-                                              duration:
-                                                  const Duration(seconds: 3),
-                                              content: Text(
-                                                  '$userName is logged in'),
-                                            ),
-                                          ),
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(
+                                                  SnackBar(
+                                                    duration: const Duration(
+                                                        seconds: 3),
+                                                    content: Text(
+                                                        '$userName is logged in'),
+                                                  ),
+                                                ),
                                         );
                                         Navigator.push(
                                           context,
@@ -344,18 +353,22 @@ class _UserAuthState extends State<UserAuth> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 16.0),
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   // Validate returns true if the form is valid, or false otherwise.
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          duration: Duration(seconds: 2),
-                                          content: Text('Processing Data')),
-                                    );
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        const SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            content: Text('Processing Data')),
+                                      );
                                     FirebaseAuth auth = FirebaseAuth.instance;
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
                                     () async {
                                       try {
                                         await auth
@@ -364,18 +377,20 @@ class _UserAuthState extends State<UserAuth> {
                                       } on FirebaseAuthException catch (e) {
                                         if (e.code == 'weak-password') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 3),
-                                            content: Text('Weak password!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 3),
+                                              content: Text('Weak password!'),
+                                            ));
                                         } else if (e.code ==
                                             'email-already-in-use') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            duration: Duration(seconds: 3),
-                                            content:
-                                                Text('Email already in use!'),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(const SnackBar(
+                                              duration: Duration(seconds: 3),
+                                              content:
+                                                  Text('Email already in use!'),
+                                            ));
                                         }
                                       } catch (e) {
                                         // print(e);
@@ -411,13 +426,15 @@ class _UserAuthState extends State<UserAuth> {
                                                 'You got an error! Please try again.'))
                                             .then((value) =>
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      duration: const Duration(
-                                                          seconds: 3),
-                                                      content: Text(
-                                                          'User $name has been created')),
-                                                ));
+                                                  ..hideCurrentSnackBar()
+                                                  ..showSnackBar(
+                                                    SnackBar(
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 3),
+                                                        content: Text(
+                                                            'User $name has been created')),
+                                                  ));
                                       }
                                     });
                                   }
