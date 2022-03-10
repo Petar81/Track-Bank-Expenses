@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../main.dart';
 import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,9 +156,20 @@ class _UserAuthState extends State<UserAuth> {
                                         .authStateChanges()
                                         .listen((User? user) async {
                                       if (user == null) {
-                                        setState(() {
-                                          signUP = !signUP;
-                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            duration: Duration(seconds: 3),
+                                            content:
+                                                Text('user not authenticated'),
+                                          ),
+                                        );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const MyApp(),
+                                          ),
+                                        );
                                       } else {
                                         () async {
                                           // Reference to user display name
@@ -375,7 +387,20 @@ class _UserAuthState extends State<UserAuth> {
                                         .authStateChanges()
                                         .listen((User? user) async {
                                       if (user == null) {
-                                        // print('User is currently signed out!');
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            duration: Duration(seconds: 3),
+                                            content:
+                                                Text('user not authenticated'),
+                                          ),
+                                        );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const MyApp(),
+                                          ),
+                                        );
                                       } else {
                                         Navigator.push(
                                           context,
