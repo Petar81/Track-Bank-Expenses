@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
 import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -139,14 +138,27 @@ class _UserAuthState extends State<UserAuth> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             duration: Duration(seconds: 3),
-                                            content:
-                                                Text('Wrong email address!'),
+                                            content: Text('User not found!'),
                                           ));
                                         } else if (e.code == 'wrong-password') {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             duration: Duration(seconds: 2),
                                             content: Text('Wrong password!'),
+                                          ));
+                                        } else if (e.code == 'invalid-email') {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            content:
+                                                Text('Invalid email address!'),
+                                          ));
+                                        } else if (e.code == 'user-disabled') {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            content: Text(
+                                                'This user has been disabled!'),
                                           ));
                                         }
                                       }
@@ -156,20 +168,7 @@ class _UserAuthState extends State<UserAuth> {
                                         .authStateChanges()
                                         .listen((User? user) async {
                                       if (user == null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            duration: Duration(seconds: 3),
-                                            content:
-                                                Text('user not authenticated'),
-                                          ),
-                                        );
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const MyApp(),
-                                          ),
-                                        );
+                                        // print('user not authenticated');
                                       } else {
                                         () async {
                                           // Reference to user display name
@@ -387,20 +386,7 @@ class _UserAuthState extends State<UserAuth> {
                                         .authStateChanges()
                                         .listen((User? user) async {
                                       if (user == null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            duration: Duration(seconds: 3),
-                                            content:
-                                                Text('user not authenticated'),
-                                          ),
-                                        );
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const MyApp(),
-                                          ),
-                                        );
+                                        // print('user not authenticated');
                                       } else {
                                         Navigator.push(
                                           context,
