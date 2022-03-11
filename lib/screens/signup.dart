@@ -61,7 +61,7 @@ class _SignupState extends State<Signup> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => const Login(
-                                          title: 'Transactions Tracker!'),
+                                          title: 'Track Bank Expenses'),
                                     ),
                                   );
                                 },
@@ -186,7 +186,7 @@ class _SignupState extends State<Signup> {
                                               builder: (context) =>
                                                   const BalanceOverview(
                                                       title:
-                                                          'Transactions Tracker!'),
+                                                          'Track Bank Expenses'),
                                             ),
                                           ));
                                 } on FirebaseAuthException catch (e) {

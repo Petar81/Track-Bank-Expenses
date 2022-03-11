@@ -29,18 +29,18 @@ class MyApp extends StatelessWidget {
 
     return (user != null)
         ? MaterialApp(
-            title: 'Transactions Tracker',
+            title: 'Track Bank Expenses',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const BalanceOverview(title: 'Transactions Tracker'),
+            home: const BalanceOverview(title: 'Track Bank Expenses'),
           )
         : MaterialApp(
-            title: 'Transactions Tracker',
+            title: 'Track Bank Expenses',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const Login(title: 'Transactions Tracker'),
+            home: const Login(title: 'Track Bank Expenses'),
           );
   }
 }

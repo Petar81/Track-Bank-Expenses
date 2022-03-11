@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => const Signup(
-                                          title: 'Transactions Tracker!'),
+                                          title: 'Track Bank Expenses'),
                                     ),
                                   );
                                 },
@@ -199,7 +199,7 @@ class _LoginState extends State<Login> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           const BalanceOverview(
-                                              title: 'Transactions Tracker!'),
+                                              title: 'Track Bank Expenses'),
                                     ),
                                   );
                                 }
