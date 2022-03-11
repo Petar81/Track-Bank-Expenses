@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 import './screens/balance_overview.dart';
-import './screens/user_auth.dart';
+import './screens/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     User? user = auth.currentUser;
     // print(user!.email);
 
-    return (user != null && !user.emailVerified)
+    return (user != null)
         ? MaterialApp(
             title: 'Transactions Tracker',
             theme: ThemeData(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const UserAuth(title: 'Transactions Tracker'),
+            home: const Login(title: 'Transactions Tracker'),
           );
   }
 }
