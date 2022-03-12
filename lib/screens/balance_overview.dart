@@ -167,7 +167,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
     // LAUNCH URL
     _launchURL() async {
-      const url = 'https://flutter.io';
+      final url =
+          Uri.encodeFull('https://www.paypal.com/paypalme/SerbonaApplications');
       if (!await launch(url)) throw 'Could not launch $url';
       if (await canLaunch(url)) {
         await launch(url);
