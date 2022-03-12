@@ -131,9 +131,7 @@ class _LoginState extends State<Login> {
                                   await FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                           email: loginEmail,
-                                          password: loginPass)
-                                      .then(
-                                          (value) => print(value.user!.email));
+                                          password: loginPass);
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
                                     ScaffoldMessenger.of(context)
