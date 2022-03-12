@@ -165,6 +165,15 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     );
 
+    // LAUNCH URL
+    _launchURL() async {
+      const url = 'https://flutter.io';
+      if (!await launch(url)) throw 'Could not launch $url';
+      if (await canLaunch(url)) {
+        await launch(url);
+      }
+    }
+
     // GET A REFERENCE OF USER
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -272,16 +281,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'buy us a coffee',
                       style: TextStyle(fontSize: 16.0),
                     ),
-                    onTap: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute<void>(
-                      //     builder: (BuildContext context) => const MyHomePage(
-                      //       title: 'Favorites',
-                      //     ),
-                      //   ),
-                      // );
-                    },
+                    onTap: _launchURL,
                   ),
                   const Divider(
                     height: 10,
