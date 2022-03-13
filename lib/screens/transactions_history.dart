@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TransactionsHistory extends StatefulWidget {
   const TransactionsHistory({Key? key}) : super(key: key);
@@ -19,15 +20,22 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
   Map<dynamic, dynamic> values = {};
   bool _isLoading = true;
   bool _descendingList = true;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   getTransactions() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("transactions");
+    final User? user = auth.currentUser;
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/transactions");
 
 // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     setState(() {
       _isLoading = !_isLoading;
