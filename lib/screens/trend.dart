@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Trend extends StatefulWidget {
   const Trend({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class _TrendState extends State<Trend> {
   String _transactionQueryStr = 'last 7 transactions';
   var expenseSpots = <FlSpot>[const FlSpot(1.36, 1.33)]; // dummy val @ initial.
   var depositSpots = <FlSpot>[const FlSpot(1.18, 1.20)]; // dummy val @ initial.
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   onStart() async {
     // IT HOLDS LOGIC FOR LAST 10 TRANSACTIONS CHART
@@ -27,6 +29,7 @@ class _TrendState extends State<Trend> {
   }
 
   getLastNTransactions(int numberOfTransactions) async {
+    final User? user = auth.currentUser;
     int transactionsNumber = numberOfTransactions;
     Map<dynamic, dynamic> values = {};
     var keys = [];
@@ -34,14 +37,18 @@ class _TrendState extends State<Trend> {
     var newDepositSpots = <FlSpot>[];
 
     Query ref = FirebaseDatabase.instance
-        .ref("transactions")
+        .ref("users/${user!.uid}/transactions")
         .limitToLast(transactionsNumber);
 
     // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     keys = (values.keys.toList()..sort());
     //print(keys);
