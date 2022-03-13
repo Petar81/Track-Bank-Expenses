@@ -66,6 +66,8 @@ class SubmitExpense extends StatelessWidget {
                     onPressed: () async {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+
                         String date;
                         String time;
                         num currentBalance;
@@ -168,6 +170,8 @@ class SubmitExpense extends StatelessWidget {
                           "lastTransactionTime": time,
                         }).catchError((error) =>
                             const Text('You got an error! Please try again.'));
+
+                        // SEND DATA TO PARENT
                         Navigator.pop(context);
                         notifyParentAboutExpense(
                           previousBalance.toDouble(),
