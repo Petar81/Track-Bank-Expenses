@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +23,8 @@ class SubmitDeposit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Submit Deposit'),
@@ -62,110 +65,119 @@ class SubmitDeposit extends StatelessWidget {
               child: Center(
                 child: ElevatedButton(
                   onPressed: () async {
-                    String dateDeposit;
-                    String timeDeposit;
-                    num currentBalanceDeposit;
-                    num previousBalanceDeposit;
-                    num newCurrentBalanceDeposit;
-
-                    // Reference to currentBalance/currentAmount endpoint
-                    DatabaseReference getCurrentBalanceDeposit =
-                        FirebaseDatabase.instance
-                            .ref("currentBalance/currentAmount");
-
-                    // Get the data once from currentBalance/currentAmount
-                    DatabaseEvent event = await getCurrentBalanceDeposit.once();
-                    currentBalanceDeposit = event.snapshot.value as num;
-                    currentBalanceDeposit = currentBalanceDeposit.toDouble();
-                    currentBalanceDeposit =
-                        double.parse(currentBalanceDeposit.toStringAsFixed(2));
-
-                    // SAVE PREVIOUS BALANCE IN FIREBASE
-                    DatabaseReference previousBalanceRefDeposit =
-                        FirebaseDatabase.instance.ref("previousBalance/");
-                    await previousBalanceRefDeposit.set({
-                      "previousAmount": currentBalanceDeposit,
-                    }).catchError((error) =>
-                        const Text('You got an error! Please try again.'));
-
-                    // Get the data once from previousBalance/previousAmount
-                    DatabaseReference previousBalanceAmountDeposit =
-                        FirebaseDatabase.instance
-                            .ref("previousBalance/previousAmount");
-                    DatabaseEvent evento =
-                        await previousBalanceAmountDeposit.once();
-                    previousBalanceDeposit = evento.snapshot.value as num;
-                    previousBalanceDeposit = previousBalanceDeposit.toDouble();
-                    previousBalanceDeposit =
-                        double.parse(previousBalanceDeposit.toStringAsFixed(2));
-
-                    // GET THE CURRENT TIMESTAMP
-                    var nowDateDeposit = DateTime.now();
-
-                    // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
-                    var dateFormatter = DateFormat('yyyy-MM-dd');
-                    String formattedDateDeposit =
-                        dateFormatter.format(nowDateDeposit);
-                    dateDeposit = formattedDateDeposit;
-
-                    // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
-                    var timeFormatterDeposit = DateFormat.Hms();
-                    String formattedTimeDeposit =
-                        timeFormatterDeposit.format(nowDateDeposit);
-                    timeDeposit = formattedTimeDeposit;
-
-                    // UPDATE CURRENT BALANCE IN FIREBASE
-                    DatabaseReference currentBalanceRefDeposit =
-                        FirebaseDatabase.instance.ref("currentBalance");
-                    await currentBalanceRefDeposit.update({
-                      "currentAmount": currentBalanceDeposit +
-                          double.parse(myAmountControllerDeposit.text),
-                    }).catchError((error) =>
-                        const Text('You got an error! Please try again.'));
-
-                    // Get the fresh/updated data once from currentBalance/currentAmount
-                    DatabaseReference currentBalanceRefkoDeposit =
-                        FirebaseDatabase.instance
-                            .ref("currentBalance/currentAmount");
-                    DatabaseEvent eventko =
-                        await currentBalanceRefkoDeposit.once();
-                    newCurrentBalanceDeposit = eventko.snapshot.value as num;
-                    newCurrentBalanceDeposit =
-                        newCurrentBalanceDeposit.toDouble();
-                    newCurrentBalanceDeposit = double.parse(
-                        newCurrentBalanceDeposit.toStringAsFixed(2));
-
-                    // SET TRANSACTION RECORD IN FIREBASE
-                    DatabaseReference transactionDepositRef =
-                        FirebaseDatabase.instance.ref("transactions");
-                    await transactionDepositRef.push().set({
-                      "transactionAmount":
-                          double.parse(myAmountControllerDeposit.text),
-                      "transactionDescription":
-                          myDescriptiontControllerDeposit.text,
-                      "balanceBeforeTransaction": currentBalanceDeposit,
-                      "balanceAfterTransaction": newCurrentBalanceDeposit,
-                      "transactionDate": dateDeposit,
-                      "transactionTime": timeDeposit,
-                      "transactionType": "deposit",
-                    }).catchError((error) =>
-                        const Text('You got an error! Please try again.'));
-
-                    // UPDATE LAST TRANSACTION RECORD IN FIREBASE
-                    DatabaseReference lastTransaction =
-                        FirebaseDatabase.instance.ref("lastTransaction/");
-                    await lastTransaction.update({
-                      "lastTransactionAmount":
-                          double.parse(myAmountControllerDeposit.text),
-                      "lastTransactionDescription":
-                          myDescriptiontControllerDeposit.text,
-                      "lastTransactionDate": dateDeposit,
-                      "lastTransactionTime": timeDeposit,
-                    }).catchError((error) =>
-                        const Text('You got an error! Please try again.'));
-
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKeyDeposit.currentState!.validate()) {
+                      _formKeyDeposit.currentState!.save();
+
+                      String dateDeposit;
+                      String timeDeposit;
+                      num currentBalanceDeposit;
+                      num previousBalanceDeposit;
+                      num newCurrentBalanceDeposit;
+
+                      // Reference to currentBalance/currentAmount endpoint
+                      DatabaseReference getCurrentBalanceDeposit =
+                          FirebaseDatabase.instance.ref(
+                              "users/${user!.uid}/currentBalance/currentAmount");
+
+                      // Get the data once from currentBalance/currentAmount
+                      DatabaseEvent event =
+                          await getCurrentBalanceDeposit.once();
+                      currentBalanceDeposit = event.snapshot.value as num;
+                      currentBalanceDeposit = currentBalanceDeposit.toDouble();
+                      currentBalanceDeposit = double.parse(
+                          currentBalanceDeposit.toStringAsFixed(2));
+
+                      // SAVE PREVIOUS BALANCE IN FIREBASE
+                      DatabaseReference previousBalanceRefDeposit =
+                          FirebaseDatabase.instance
+                              .ref("users/${user.uid}/previousBalance/");
+                      await previousBalanceRefDeposit.set({
+                        "previousAmount": currentBalanceDeposit,
+                      }).catchError((error) =>
+                          const Text('You got an error! Please try again.'));
+
+                      // Get the data once from previousBalance/previousAmount
+                      DatabaseReference previousBalanceAmountDeposit =
+                          FirebaseDatabase.instance.ref(
+                              "users/${user.uid}/previousBalance/previousAmount");
+                      DatabaseEvent evento =
+                          await previousBalanceAmountDeposit.once();
+                      previousBalanceDeposit = evento.snapshot.value as num;
+                      previousBalanceDeposit =
+                          previousBalanceDeposit.toDouble();
+                      previousBalanceDeposit = double.parse(
+                          previousBalanceDeposit.toStringAsFixed(2));
+
+                      // GET THE CURRENT TIMESTAMP
+                      var nowDateDeposit = DateTime.now();
+
+                      // FORMAT DATE (yyyy-MM-dd) from a TIMESTAMP
+                      var dateFormatter = DateFormat('yyyy-MM-dd');
+                      String formattedDateDeposit =
+                          dateFormatter.format(nowDateDeposit);
+                      dateDeposit = formattedDateDeposit;
+
+                      // FORMAT TIME (hh-mm-ss) from a TIMESTAMP
+                      var timeFormatterDeposit = DateFormat.Hms();
+                      String formattedTimeDeposit =
+                          timeFormatterDeposit.format(nowDateDeposit);
+                      timeDeposit = formattedTimeDeposit;
+
+                      // UPDATE CURRENT BALANCE IN FIREBASE
+                      DatabaseReference currentBalanceRefDeposit =
+                          FirebaseDatabase.instance
+                              .ref("users/${user.uid}/currentBalance");
+                      await currentBalanceRefDeposit.update({
+                        "currentAmount": currentBalanceDeposit +
+                            double.parse(myAmountControllerDeposit.text),
+                      }).catchError((error) =>
+                          const Text('You got an error! Please try again.'));
+
+                      // Get the fresh/updated data once from currentBalance/currentAmount
+                      DatabaseReference currentBalanceRefkoDeposit =
+                          FirebaseDatabase.instance.ref(
+                              "users/${user.uid}/currentBalance/currentAmount");
+                      DatabaseEvent eventko =
+                          await currentBalanceRefkoDeposit.once();
+                      newCurrentBalanceDeposit = eventko.snapshot.value as num;
+                      newCurrentBalanceDeposit =
+                          newCurrentBalanceDeposit.toDouble();
+                      newCurrentBalanceDeposit = double.parse(
+                          newCurrentBalanceDeposit.toStringAsFixed(2));
+
+                      // SET TRANSACTION RECORD IN FIREBASE
+                      DatabaseReference transactionDepositRef = FirebaseDatabase
+                          .instance
+                          .ref("users/${user.uid}/transactions");
+                      await transactionDepositRef.push().set({
+                        "transactionAmount":
+                            double.parse(myAmountControllerDeposit.text),
+                        "transactionDescription":
+                            myDescriptiontControllerDeposit.text,
+                        "balanceBeforeTransaction": currentBalanceDeposit,
+                        "balanceAfterTransaction": newCurrentBalanceDeposit,
+                        "transactionDate": dateDeposit,
+                        "transactionTime": timeDeposit,
+                        "transactionType": "deposit",
+                      }).catchError((error) =>
+                          const Text('You got an error! Please try again.'));
+
+                      // UPDATE LAST TRANSACTION RECORD IN FIREBASE
+                      DatabaseReference lastTransaction = FirebaseDatabase
+                          .instance
+                          .ref("users/${user.uid}/lastTransaction/");
+                      await lastTransaction.update({
+                        "lastTransactionAmount":
+                            double.parse(myAmountControllerDeposit.text),
+                        "lastTransactionDescription":
+                            myDescriptiontControllerDeposit.text,
+                        "lastTransactionDate": dateDeposit,
+                        "lastTransactionTime": timeDeposit,
+                      }).catchError((error) =>
+                          const Text('You got an error! Please try again.'));
+
+                      // SEND DATA TO PARENT
                       Navigator.pop(context);
                       notifyParentAboutDeposit(
                         previousBalanceDeposit.toDouble(),
