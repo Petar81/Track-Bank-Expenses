@@ -166,6 +166,7 @@ class _SignupState extends State<Signup> {
                                       content: Text('Processing Data')),
                                 );
                               FirebaseAuth auth = FirebaseAuth.instance;
+                              // User? user = auth.currentUser;
                               await Future.delayed(const Duration(seconds: 1));
                               () async {
                                 try {
@@ -174,13 +175,30 @@ class _SignupState extends State<Signup> {
                                   await auth
                                       .createUserWithEmailAndPassword(
                                           email: email, password: pass)
-                                      .then((value) async =>
-                                          await userID.child(value.user!.uid).set({
-                                            "displayName": name,
-                                            "email": email
-                                          }).catchError((error) => const Text(
-                                              'You got an error! Please try again.')))
-                                      .then((value) => Navigator.push(
+                                      .then((value) async {
+                                    await userID.child(value.user!.uid).set({
+                                      "displayName": name,
+                                      "email": email
+                                    }).catchError((error) => const Text(
+                                        'You got an error! Please try again.'));
+                                    // Reference to currentBalance/currentAmount endpoint
+                                    DatabaseReference initializeCurrentBalance =
+                                        FirebaseDatabase.instance.ref(
+                                            "users/${value.user!.uid}/currentBalance/");
+                                    await initializeCurrentBalance.set({
+                                      "currentAmount": 0.00,
+                                    }).catchError((error) => const Text(
+                                        'You got an error! Please try again.'));
+                                    // Reference to previousBalance/previousAmount endpoint
+                                    DatabaseReference
+                                        initializePreviousBalance =
+                                        FirebaseDatabase.instance.ref(
+                                            "users/${value.user!.uid}/previousBalance/");
+                                    await initializePreviousBalance.set({
+                                      "previousAmount": 0.00,
+                                    }).catchError((error) => const Text(
+                                        'You got an error! Please try again.'));
+                                  }).then((_) => Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
