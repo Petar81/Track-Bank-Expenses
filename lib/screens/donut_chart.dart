@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DonutChart extends StatefulWidget {
   const DonutChart({Key? key}) : super(key: key);
@@ -20,19 +21,26 @@ class _DonutChartState extends State<DonutChart> {
   double depositTotal = 0.00;
   bool _isLoading = true;
   String _transactionQuery = 'all transactions';
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   void onStart() async {
+    final User? user = auth.currentUser;
     double expenseSum = 0.00;
     double depositSum = 0.00;
     Map<dynamic, dynamic> values = {};
     var keys = [];
-    Query ref = FirebaseDatabase.instance.ref("transactions");
+    Query ref =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/transactions");
 
 // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     keys = (values.keys.toList()..sort());
     //print(keys);
@@ -61,20 +69,25 @@ class _DonutChartState extends State<DonutChart> {
   getLastNTransactions(int numberOfTransactions) async {
     _isLoading = true;
     int transactionsNumber = numberOfTransactions;
+    final User? user = auth.currentUser;
     double expenseSumN = 0.00;
     double depositSumN = 0.00;
     Map<dynamic, dynamic> values = {};
     var keys = [];
 
     Query ref = FirebaseDatabase.instance
-        .ref("transactions")
+        .ref("users/${user!.uid}/transactions")
         .limitToLast(transactionsNumber);
 
 // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     keys = (values.keys.toList()..sort());
     //print(keys);
