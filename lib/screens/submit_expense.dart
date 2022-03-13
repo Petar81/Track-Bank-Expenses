@@ -39,6 +39,10 @@ class SubmitExpense extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a number';
                   }
+                  if (!RegExp("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?\$")
+                      .hasMatch(value)) {
+                    return 'Please enter a valid number';
+                  }
                   return null;
                 },
               ),
