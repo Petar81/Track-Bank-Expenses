@@ -33,6 +33,7 @@ class BalanceOverview extends StatefulWidget {
 
 class _BalanceOverviewState extends State<BalanceOverview> {
   final database = FirebaseDatabase.instance.ref();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -54,50 +55,75 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
   void onStart() async {
     // Reference to currentBalance/currentAmount endpoint
-    DatabaseReference getCurrentBalance =
-        FirebaseDatabase.instance.ref("currentBalance/currentAmount");
+    DatabaseReference getCurrentBalance = FirebaseDatabase.instance
+        .ref("users/${user!.uid}/currentBalance/currentAmount");
 
     // Get the data once from currentBalance/currentAmount
     DatabaseEvent event = await getCurrentBalance.once();
-    showCurrentBalance = event.snapshot.value as num;
-    showCurrentBalance = showCurrentBalance.toDouble();
-    showCurrentBalance = double.parse(showCurrentBalance.toStringAsFixed(2));
+    if (event.snapshot.value != null) {
+      showCurrentBalance = event.snapshot.value as num;
+      showCurrentBalance = showCurrentBalance.toDouble();
+      showCurrentBalance = double.parse(showCurrentBalance.toStringAsFixed(2));
+    } else {
+      showCurrentBalance = 0.00;
+    }
 
     // Get the data once from previousBalance/previousAmount
-    DatabaseReference previousBalanceAmount =
-        FirebaseDatabase.instance.ref("previousBalance/previousAmount");
+    DatabaseReference previousBalanceAmount = FirebaseDatabase.instance
+        .ref("users/${user!.uid}/previousBalance/previousAmount");
     DatabaseEvent evento = await previousBalanceAmount.once();
-    showPreviousBalance = evento.snapshot.value as num;
-    showPreviousBalance = showPreviousBalance.toDouble();
-    showPreviousBalance = double.parse(showPreviousBalance.toStringAsFixed(2));
-
+    if (evento.snapshot.value != null) {
+      showPreviousBalance = evento.snapshot.value as num;
+      showPreviousBalance = showPreviousBalance.toDouble();
+      showPreviousBalance =
+          double.parse(showPreviousBalance.toStringAsFixed(2));
+    } else {
+      showPreviousBalance = 0.00;
+    }
     // Get the data once from lastTransaction/lastTransactionAmount
-    DatabaseReference lastTransactionAmount =
-        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionAmount");
+    DatabaseReference lastTransactionAmount = FirebaseDatabase.instance
+        .ref("users/${user!.uid}/lastTransaction/lastTransactionAmount");
     DatabaseEvent eventLastTransactionAmount =
         await lastTransactionAmount.once();
-    transactionAmount = eventLastTransactionAmount.snapshot.value as num;
-    transactionAmount = transactionAmount.toDouble();
-    transactionAmount = double.parse(transactionAmount.toStringAsFixed(2));
+    if (eventLastTransactionAmount.snapshot.value != null) {
+      transactionAmount = eventLastTransactionAmount.snapshot.value as num;
+      transactionAmount = transactionAmount.toDouble();
+      transactionAmount = double.parse(transactionAmount.toStringAsFixed(2));
+    } else {
+      transactionAmount = 0.00;
+    }
 
     // Get the data once from lastTransaction/lastTransactionDescription
     DatabaseReference lastTransactionDescription = FirebaseDatabase.instance
-        .ref("lastTransaction/lastTransactionDescription");
+        .ref("users/${user!.uid}/lastTransaction/lastTransactionDescription");
     DatabaseEvent eventLastTransactionDescription =
         await lastTransactionDescription.once();
-    showDescription = eventLastTransactionDescription.snapshot.value as String;
+    if (eventLastTransactionDescription.snapshot.value != null) {
+      showDescription =
+          eventLastTransactionDescription.snapshot.value as String;
+    } else {
+      showDescription = 'description';
+    }
 
     // Get the data once from lastTransaction/lastTransactionDate
-    DatabaseReference lastTransactionDate =
-        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionDate");
+    DatabaseReference lastTransactionDate = FirebaseDatabase.instance
+        .ref("users/${user!.uid}/lastTransaction/lastTransactionDate");
     DatabaseEvent eventLastTransactionDate = await lastTransactionDate.once();
-    showTransactiondate = eventLastTransactionDate.snapshot.value as String;
+    if (eventLastTransactionDate.snapshot.value != null) {
+      showTransactiondate = eventLastTransactionDate.snapshot.value as String;
+    } else {
+      showTransactiondate = 'date';
+    }
 
     // Get the data once from lastTransaction/lastTransactionTime
-    DatabaseReference lastTransactionTime =
-        FirebaseDatabase.instance.ref("lastTransaction/lastTransactionTime");
+    DatabaseReference lastTransactionTime = FirebaseDatabase.instance
+        .ref("users/${user!.uid}/lastTransaction/lastTransactionTime");
     DatabaseEvent eventLastTransactionTime = await lastTransactionTime.once();
-    showTransactionTime = eventLastTransactionTime.snapshot.value as String;
+    if (eventLastTransactionTime.snapshot.value != null) {
+      showTransactionTime = eventLastTransactionTime.snapshot.value as String;
+    } else {
+      showTransactionTime = 'time';
+    }
 
     // Reference to currentBalance/currentAmount endpoint
     DatabaseReference getUserName =
@@ -105,9 +131,12 @@ class _BalanceOverviewState extends State<BalanceOverview> {
 
     // Get the data once from users/user.uid/displayName
     DatabaseEvent userNameRef = await getUserName.once();
-    final userNameSnapshot = userNameRef.snapshot.value as String;
-
-    userName = userNameSnapshot;
+    if (userNameRef.snapshot.value != null) {
+      final userNameSnapshot = userNameRef.snapshot.value as String;
+      userName = userNameSnapshot;
+    } else {
+      userName = '';
+    }
 
     setState(() {
       isLoading = !isLoading;
