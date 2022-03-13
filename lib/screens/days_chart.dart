@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/weekdays_chart.dart';
 
@@ -19,6 +20,7 @@ class _DaysChartState extends State<DaysChart> {
   final bool animate = true;
   String _transactionQueryString = 'all transactions';
   bool isLoading = true;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -91,6 +93,7 @@ class _DaysChartState extends State<DaysChart> {
   }
 
   getAllTransactions() async {
+    final User? user = auth.currentUser;
     Map<dynamic, dynamic> values = {};
     var keys = [];
     double mondayExpenseSum = 0.00;
@@ -108,13 +111,18 @@ class _DaysChartState extends State<DaysChart> {
     double sundayExpenseSum = 0.00;
     double sundayDepositSum = 0.00;
 
-    Query ref = FirebaseDatabase.instance.ref("transactions");
+    Query ref =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/transactions");
 
 // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     keys = (values.keys.toList()..sort());
     //print(keys);
@@ -329,15 +337,21 @@ class _DaysChartState extends State<DaysChart> {
     double sundayExpenseSum = 0.00;
     double sundayDepositSum = 0.00;
 
+    final User? user = auth.currentUser;
+
     Query ref = FirebaseDatabase.instance
-        .ref("transactions")
+        .ref("users/${user!.uid}/transactions")
         .limitToLast(numOfTransactions);
 
 // Get the data once
     DatabaseEvent event = await ref.once();
-
-    Map<dynamic, dynamic> data = event.snapshot.value as Map<dynamic, dynamic>;
-    values = data;
+    if (event.snapshot.value != null) {
+      Map<dynamic, dynamic> data =
+          event.snapshot.value as Map<dynamic, dynamic>;
+      values = data;
+    } else {
+      values = {};
+    }
 
     keys = (values.keys.toList()..sort());
     //print(keys);
