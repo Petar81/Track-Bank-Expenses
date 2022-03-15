@@ -18,6 +18,8 @@ class _SignupState extends State<Signup> {
   String email = '';
   String name = '';
   String pass = '';
+  bool inputImage = false;
+  String myImage = '';
 
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
@@ -69,6 +71,16 @@ class _SignupState extends State<Signup> {
                           ],
                         ),
                       ),
+                      inputImage
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(myImage),
+                              radius: 50,
+                            )
+                          : const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
+                              radius: 50,
+                            ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
