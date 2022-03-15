@@ -7,6 +7,8 @@ import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class Signup extends StatefulWidget {
   final String title;
