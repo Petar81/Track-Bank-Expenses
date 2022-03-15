@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:track_bank_expenses/screens/login.dart';
 import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
@@ -20,9 +21,17 @@ class _SignupState extends State<Signup> {
   String pass = '';
   bool inputImage = false;
   String myImage = '';
+  File? image;
 
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
+
+  Future pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return null;
+    final imageTemporary = File(image.path);
+    this.image = imageTemporary;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +86,7 @@ class _SignupState extends State<Signup> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () => pickImage(),
                               icon: const Icon(Icons.image),
                               label: const Text('upload'),
                             ),
