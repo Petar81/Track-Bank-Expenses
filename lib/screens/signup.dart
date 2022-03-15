@@ -37,7 +37,14 @@ class _SignupState extends State<Signup> {
         inputImage = !inputImage;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image $e');
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 2),
+            content: Text('Oops: $e'),
+          ),
+        );
     }
   }
 
