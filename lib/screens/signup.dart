@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:track_bank_expenses/screens/login.dart';
 import '../models/input_decoration.dart';
@@ -21,17 +22,23 @@ class _SignupState extends State<Signup> {
   String name = '';
   String pass = '';
   bool inputImage = false;
-  String myImage = '';
-  File? image;
+  File? myImage;
 
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
 
   Future pickImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return null;
-    final imageTemporary = File(image.path);
-    this.image = imageTemporary;
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return null;
+      final imageTemporary = File(image.path);
+      setState(() {
+        myImage = imageTemporary;
+        inputImage = !inputImage;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image $e');
+    }
   }
 
   @override
@@ -91,9 +98,9 @@ class _SignupState extends State<Signup> {
                               icon: const Icon(Icons.image),
                               label: const Text('upload'),
                             ),
-                            inputImage
+                            myImage != null
                                 ? CircleAvatar(
-                                    backgroundImage: NetworkImage(myImage),
+                                    child: Image.file(myImage!),
                                     radius: 50,
                                   )
                                 : const CircleAvatar(
