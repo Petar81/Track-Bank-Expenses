@@ -29,7 +29,7 @@ class _SignupState extends State<Signup> {
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
       final imageTemporary = File(image.path);
       setState(() {
