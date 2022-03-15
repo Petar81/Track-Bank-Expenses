@@ -31,9 +31,10 @@ class _SignupState extends State<Signup> {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
-      final imageTemporary = File(image.path);
+      // final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanently(image.path);
       setState(() {
-        myImage = imageTemporary;
+        myImage = imagePermanent;
         inputImage = !inputImage;
       });
     } on PlatformException catch (e) {
@@ -46,6 +47,14 @@ class _SignupState extends State<Signup> {
           ),
         );
     }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
   }
 
   @override
