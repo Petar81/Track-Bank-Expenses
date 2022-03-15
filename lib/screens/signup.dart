@@ -27,7 +27,7 @@ class _SignupState extends State<Signup> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
 
-  Future pickImage() async {
+  Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return null;
