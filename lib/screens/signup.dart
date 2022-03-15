@@ -94,7 +94,7 @@ class _SignupState extends State<Signup> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             ElevatedButton.icon(
-                              onPressed: () => pickImage(),
+                              onPressed: () => pickImage(ImageSource.gallery),
                               icon: const Icon(Icons.image),
                               label: const Text('upload'),
                             ),
@@ -109,7 +109,7 @@ class _SignupState extends State<Signup> {
                                     radius: 50,
                                   ),
                             ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () => pickImage(ImageSource.camera),
                               icon: const Icon(Icons.camera_alt),
                               label: const Text('take'),
                             ),
