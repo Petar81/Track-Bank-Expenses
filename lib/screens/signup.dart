@@ -106,9 +106,13 @@ class _SignupState extends State<Signup> {
                               label: const Text('upload'),
                             ),
                             myImage != null
-                                ? CircleAvatar(
-                                    child: Image.file(myImage!),
-                                    radius: 50,
+                                ? ClipOval(
+                                    child: Image.file(
+                                      myImage!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   )
                                 : const CircleAvatar(
                                     backgroundImage: NetworkImage(
