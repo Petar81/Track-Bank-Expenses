@@ -120,7 +120,7 @@ class _SignupState extends State<Signup> {
                                   )
                                 : const CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
+                                        'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
                                     radius: 50,
                                   ),
                             ElevatedButton.icon(
