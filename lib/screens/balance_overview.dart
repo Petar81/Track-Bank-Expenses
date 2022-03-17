@@ -49,6 +49,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
   String showTransactionTime = 'time';
   bool isLoading = true;
   String userName = '';
+  String avatarUrl = '';
 
   // GET A REFERENCE OF USER
   User? user = FirebaseAuth.instance.currentUser;
@@ -125,7 +126,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       showTransactionTime = 'time';
     }
 
-    // Reference to currentBalance/currentAmount endpoint
+    // Reference to users/displayName endpoint
     DatabaseReference getUserName =
         FirebaseDatabase.instance.ref("users/${user!.uid}/displayName/");
 
@@ -136,6 +137,19 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       userName = userNameSnapshot;
     } else {
       userName = '';
+    }
+
+    // Reference to users/user.uid/avatarURL endpoint
+    DatabaseReference refAvatarURL =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/avatarURL/");
+
+    // Get the data once from users/user.uid/avatarURL
+    DatabaseEvent avatarURLRef = await refAvatarURL.once();
+    if (avatarURLRef.snapshot.value != null) {
+      final avatarURLSnapshot = avatarURLRef.snapshot.value as String;
+      avatarUrl = avatarURLSnapshot;
+    } else {
+      avatarUrl = '';
     }
 
     setState(() {
@@ -226,10 +240,14 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               child: Column(
                 children: [
                   UserAccountsDrawerHeader(
-                    currentAccountPicture: const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
-                    ),
+                    currentAccountPicture: avatarUrl != ''
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(avatarUrl),
+                          )
+                        : const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
+                          ),
                     accountEmail: Text(user != null ? user.email! : ''),
                     accountName: Text(
                       userName,
