@@ -8,7 +8,7 @@ import '../screens/balance_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 class Signup extends StatefulWidget {
@@ -35,11 +35,11 @@ class _SignupState extends State<Signup> {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
-      // final imageTemporary = File(image.path);
+      final imageTemporary = File(image.path);
       final imageName = basename(image.path);
-      final imagePermanent = await saveImagePermanently(image.path);
+      // final imagePermanent = await saveImagePermanently(image.path);
       setState(() {
-        myImage = imagePermanent;
+        myImage = imageTemporary;
         inputImage = !inputImage;
         imgName = imageName;
       });
@@ -48,13 +48,13 @@ class _SignupState extends State<Signup> {
     }
   }
 
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
+  // Future<File> saveImagePermanently(String imagePath) async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final name = basename(imagePath);
+  //   final image = File('${directory.path}/$name');
 
-    return File(imagePath).copy(image.path);
-  }
+  //   return File(imagePath).copy(image.path);
+  // }
 
   Future uploadFile() async {
     if (myImage == null) return null;
@@ -249,19 +249,28 @@ class _SignupState extends State<Signup> {
                                       .createUserWithEmailAndPassword(
                                           email: email, password: pass)
                                       .then((value) async {
-                                    final ref = FirebaseStorage.instance
-                                        .ref('images/$imgName');
-                                    await ref.putFile(myImage!);
-                                    final avatarURL =
-                                        await ref.getDownloadURL();
-                                    // print(url);
-
-                                    await userID.child(value.user!.uid).set({
-                                      "displayName": name,
-                                      "email": email,
-                                      "avatarURL": avatarURL
-                                    }).catchError((error) => const Text(
-                                        'You got an error! Please try again.'));
+                                    await userID
+                                        .child(value.user!.uid)
+                                        .set({
+                                          "displayName": name,
+                                          "email": email,
+                                          // "avatarURL": myImage
+                                        })
+                                        .catchError((error) => const Text(
+                                            'You got an error! Please try again.'))
+                                        .then((_) async {
+                                          final ref = FirebaseStorage.instance
+                                              .ref('images/$imgName');
+                                          await ref.putFile(myImage!);
+                                          final avatarURL =
+                                              await ref.getDownloadURL();
+                                          await userID
+                                              .child(value.user!.uid)
+                                              .update({
+                                            "avatarURL": avatarURL
+                                          }).catchError((error) => const Text(
+                                                  'You got an error! Please try again.'));
+                                        });
                                     // Reference to currentBalance/currentAmount endpoint
                                     DatabaseReference initializeCurrentBalance =
                                         FirebaseDatabase.instance.ref(
