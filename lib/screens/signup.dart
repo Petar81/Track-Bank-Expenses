@@ -7,6 +7,7 @@ import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
@@ -25,6 +26,7 @@ class _SignupState extends State<Signup> {
   String pass = '';
   bool inputImage = false;
   File? myImage;
+  String imgName = '';
 
   TextEditingController password = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
@@ -34,10 +36,12 @@ class _SignupState extends State<Signup> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
       // final imageTemporary = File(image.path);
+      final imageName = basename(image.path);
       final imagePermanent = await saveImagePermanently(image.path);
       setState(() {
         myImage = imagePermanent;
         inputImage = !inputImage;
+        imgName = imageName;
       });
     } on PlatformException catch (e) {
       return e.message;
@@ -50,6 +54,13 @@ class _SignupState extends State<Signup> {
     final image = File('${directory.path}/$name');
 
     return File(imagePath).copy(image.path);
+  }
+
+  Future uploadFile() async {
+    if (myImage == null) return null;
+    const destination = 'images/';
+    final ref = FirebaseStorage.instance.ref(destination);
+    ref.putFile(myImage!);
   }
 
   @override
@@ -238,9 +249,17 @@ class _SignupState extends State<Signup> {
                                       .createUserWithEmailAndPassword(
                                           email: email, password: pass)
                                       .then((value) async {
+                                    final ref = FirebaseStorage.instance
+                                        .ref('images/$imgName');
+                                    await ref.putFile(myImage!);
+                                    final avatarURL =
+                                        await ref.getDownloadURL();
+                                    // print(url);
+
                                     await userID.child(value.user!.uid).set({
                                       "displayName": name,
-                                      "email": email
+                                      "email": email,
+                                      "avatarURL": avatarURL
                                     }).catchError((error) => const Text(
                                         'You got an error! Please try again.'));
                                     // Reference to currentBalance/currentAmount endpoint
