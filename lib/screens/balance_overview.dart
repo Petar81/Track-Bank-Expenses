@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:track_bank_expenses/main.dart';
-import 'package:flutter_image/flutter_image.dart';
 import '../models/balance_chart.dart';
 import 'submit_expense.dart';
 import 'submit_deposit.dart';
@@ -243,7 +242,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   UserAccountsDrawerHeader(
                     currentAccountPicture: avatarUrl != ''
                         ? CircleAvatar(
-                            backgroundImage: NetworkImageWithRetry(avatarUrl),
+                            backgroundImage: NetworkImage(avatarUrl),
                           )
                         : const CircleAvatar(
                             backgroundImage: NetworkImage(
