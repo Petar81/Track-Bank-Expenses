@@ -243,7 +243,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                   UserAccountsDrawerHeader(
                     currentAccountPicture: avatarUrl != ''
                         ? CircleAvatar(
-                            backgroundImage: NetworkImage(avatarUrl),
+                            backgroundImage: NetworkImageWithRetry(avatarUrl),
                           )
                         : const CircleAvatar(
                             backgroundImage: NetworkImage(
