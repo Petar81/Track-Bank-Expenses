@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:track_bank_expenses/main.dart';
 import '../models/balance_chart.dart';
