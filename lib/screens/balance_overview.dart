@@ -231,6 +231,23 @@ class _BalanceOverviewState extends State<BalanceOverview> {
             ),
           ) //loading widget goes here
         : Scaffold(
+            onEndDrawerChanged: (isOpened) async {
+              // Reference to users/user.uid/avatarURL endpoint
+              DatabaseReference refAvatarURL = FirebaseDatabase.instance
+                  .ref("users/${user!.uid}/avatarURL/");
+
+              // Get the data once from users/user.uid/avatarURL
+              DatabaseEvent avatarURLRef = await refAvatarURL.once();
+              if (avatarURLRef.snapshot.value != null) {
+                final avatarURLSnapshot = avatarURLRef.snapshot.value as String;
+                avatarUrl = avatarURLSnapshot;
+              } else {
+                avatarUrl = '';
+              }
+              setState(() {
+                avatarUrl = avatarUrl;
+              });
+            },
             appBar: AppBar(
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
