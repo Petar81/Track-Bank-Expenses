@@ -207,6 +207,22 @@ class _LoginState extends State<Login> {
                           child: const Text('Submit'),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text(
+                              "forgot your password?",
+                              style: TextStyle(fontSize: 14.0),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text('RESET'),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
