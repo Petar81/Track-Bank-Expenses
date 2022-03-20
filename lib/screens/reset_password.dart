@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+  ResetPassword({Key? key}) : super(key: key);
+  final _resetFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,20 @@ class ResetPassword extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[Text('under construction')],
+              children: <Widget>[
+                Form(
+                  key: _resetFormKey,
+                  child: Column(children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "RESET PASSWORD",
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  ]),
+                ),
+              ],
             ),
           ),
         ),
