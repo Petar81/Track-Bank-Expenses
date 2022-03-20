@@ -41,6 +41,11 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     onStart();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   num showPreviousBalance = 0;
   num showCurrentBalance = 0;
   num transactionAmount = 0;
