@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/reset_password.dart';
 import '../models/input_decoration.dart';
 import '../screens/balance_overview.dart';
 import '../screens/signup.dart';
@@ -217,7 +218,14 @@ class _LoginState extends State<Login> {
                               style: TextStyle(fontSize: 14.0),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ResetPassword(),
+                                  ),
+                                );
+                              },
                               child: const Text('RESET'),
                             )
                           ],
