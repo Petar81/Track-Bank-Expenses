@@ -222,7 +222,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ResetPassword(),
+                                    builder: (context) => const ResetPassword(),
                                   ),
                                 );
                               },
