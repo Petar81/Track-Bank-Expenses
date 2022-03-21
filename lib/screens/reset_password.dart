@@ -37,6 +37,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                           style: TextStyle(fontSize: 20.0),
                         ),
                       ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          "Your email must match our records!",
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
