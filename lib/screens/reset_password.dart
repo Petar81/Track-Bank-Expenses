@@ -92,6 +92,15 @@ class _ResetPasswordState extends State<ResetPassword> {
                                               'Email addres is not valid!'),
                                         ),
                                       );
+                                  } else if (e.code == 'auth/user-not-found') {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        const SnackBar(
+                                          duration: Duration(seconds: 3),
+                                          content: Text('User not found!'),
+                                        ),
+                                      );
                                   }
                                 }
                               }()
