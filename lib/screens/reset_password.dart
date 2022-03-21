@@ -80,7 +80,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 try {
                                   await FirebaseAuth.instance
                                       .sendPasswordResetEmail(
-                                          email: loginEmail.trim());
+                                          email: loginEmail.trim())
+                                      .then(
+                                        (value) => ScaffoldMessenger.of(context)
+                                          ..hideCurrentSnackBar()
+                                          ..showSnackBar(
+                                            const SnackBar(
+                                              duration: Duration(seconds: 3),
+                                              content: Text(
+                                                  'Email with reset link has been sent.'),
+                                            ),
+                                          ),
+                                      );
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'invalid-email') {
                                     ScaffoldMessenger.of(context)
@@ -103,18 +114,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       );
                                   }
                                 }
-                              }()
-                                  .then(
-                                (value) => ScaffoldMessenger.of(context)
-                                  ..hideCurrentSnackBar()
-                                  ..showSnackBar(
-                                    const SnackBar(
-                                      duration: Duration(seconds: 3),
-                                      content: Text(
-                                          'Email with reset link has been sent.'),
-                                    ),
-                                  ),
-                              );
+                              }();
                             }
                           },
                           child: const Text('Submit'),
