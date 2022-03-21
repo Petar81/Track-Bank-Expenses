@@ -82,7 +82,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       .sendPasswordResetEmail(
                                           email: loginEmail.trim());
                                 } on FirebaseAuthException catch (e) {
-                                  return e.message;
+                                  if (e.code == 'auth/invalid-email') {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        const SnackBar(
+                                          duration: Duration(seconds: 3),
+                                          content: Text(
+                                              'Email addres is not valid!'),
+                                        ),
+                                      );
+                                  }
                                 }
                               }();
                             }
