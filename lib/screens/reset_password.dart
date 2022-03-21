@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import '../models/input_decoration.dart';
 
-class ResetPassword extends StatelessWidget {
-  ResetPassword({Key? key}) : super(key: key);
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
   final _resetFormKey = GlobalKey<FormState>();
+
+  String loginEmail = '';
 
   @override
   Widget build(BuildContext context) {
