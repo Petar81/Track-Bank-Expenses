@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/input_decoration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
