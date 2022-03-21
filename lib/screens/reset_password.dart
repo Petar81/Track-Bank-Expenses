@@ -80,7 +80,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 try {
                                   await FirebaseAuth.instance
                                       .sendPasswordResetEmail(
-                                          email: loginEmail);
+                                          email: loginEmail.trim());
                                 } on FirebaseAuthException catch (e) {
                                   return e.message;
                                 }
