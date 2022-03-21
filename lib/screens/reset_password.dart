@@ -82,7 +82,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       .sendPasswordResetEmail(
                                           email: loginEmail.trim());
                                 } on FirebaseAuthException catch (e) {
-                                  if (e.code == 'auth/invalid-email') {
+                                  if (e.code == 'invalid-email') {
                                     ScaffoldMessenger.of(context)
                                       ..hideCurrentSnackBar()
                                       ..showSnackBar(
@@ -92,7 +92,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                               'Email addres is not valid!'),
                                         ),
                                       );
-                                  } else if (e.code == 'auth/user-not-found') {
+                                  } else if (e.code == 'user-not-found') {
                                     ScaffoldMessenger.of(context)
                                       ..hideCurrentSnackBar()
                                       ..showSnackBar(
