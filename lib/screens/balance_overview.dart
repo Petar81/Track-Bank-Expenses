@@ -12,6 +12,7 @@ import 'transactions_history.dart';
 import 'trend.dart';
 import 'days_chart.dart';
 import 'donut_chart.dart';
+import 'settings.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
