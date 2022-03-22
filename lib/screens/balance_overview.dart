@@ -367,7 +367,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DonutChart(),
+                          builder: (context) => const Settings(),
                         ),
                       );
                     },
