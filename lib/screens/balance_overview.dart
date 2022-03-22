@@ -358,6 +358,21 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                     thickness: 1,
                   ),
                   ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text(
+                      'Settings',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DonutChart(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.logout_rounded),
                     title: const Text(
                       'Logout',
