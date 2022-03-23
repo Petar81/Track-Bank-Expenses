@@ -20,7 +20,15 @@ class _SettingsState extends State<Settings> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[Text('under construction')],
+              children: const <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    "Update personal info",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
