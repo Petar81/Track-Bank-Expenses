@@ -3,17 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class SubmitExpense extends StatelessWidget {
+class SubmitExpense extends StatefulWidget {
   final Function(double prevBalance, double currBalance, double transAmount,
       String description, String date, String time) notifyParentAboutExpense;
-  SubmitExpense({Key? key, required this.notifyParentAboutExpense})
+  const SubmitExpense({Key? key, required this.notifyParentAboutExpense})
       : super(key: key);
 
+  @override
+  State<SubmitExpense> createState() => _SubmitExpenseState();
+}
+
+class _SubmitExpenseState extends State<SubmitExpense> {
   // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   final myAmountController = TextEditingController();
+
   final myDescriptiontController = TextEditingController();
 
   @override
@@ -175,7 +180,7 @@ class SubmitExpense extends StatelessWidget {
 
                           // SEND DATA TO PARENT
                           Navigator.pop(context);
-                          notifyParentAboutExpense(
+                          widget.notifyParentAboutExpense(
                             previousBalance.toDouble(),
                             newCurrentBalance.toDouble(),
                             double.parse(myAmountController.text),
