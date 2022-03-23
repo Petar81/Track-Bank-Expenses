@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +18,8 @@ class _SettingsState extends State<Settings> {
   bool inputImage = false;
   File? myImage;
   String imgName = '';
+
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   Future pickImage(ImageSource source) async {
     try {
@@ -43,6 +47,10 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    // get user and userID
+    User? user = auth.currentUser;
+    DatabaseReference userID = FirebaseDatabase.instance.ref("users");
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Track Bank Expenses'),
@@ -71,7 +79,25 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton.icon(
-                        onPressed: () => pickImage(ImageSource.gallery),
+                        onPressed: () async {
+                          await pickImage(ImageSource.gallery);
+                          final ref =
+                              FirebaseStorage.instance.ref('images/$imgName');
+                          await ref.putFile(myImage!);
+                          final avatarURL = await ref.getDownloadURL();
+                          await userID
+                              .child(user!.uid)
+                              .update({"avatarURL": avatarURL})
+                              .catchError((error) => const Text(
+                                  'You got an error! Please try again.'))
+                              .then((value) => ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(const SnackBar(
+                                  duration: Duration(seconds: 3),
+                                  content: Text(
+                                      'Avatar image has been successfully updated!'),
+                                )));
+                        },
                         icon: const Icon(Icons.image),
                         label: const Text('upload'),
                       ),
