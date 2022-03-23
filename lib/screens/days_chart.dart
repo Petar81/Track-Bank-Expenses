@@ -28,6 +28,11 @@ class _DaysChartState extends State<DaysChart> {
     onStart();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   // WEEKDAY CHART DATA
   var weekdayExpenses = [
     WeekDays('Mon', 0.0, Colors.red.shade300),

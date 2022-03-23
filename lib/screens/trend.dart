@@ -17,6 +17,11 @@ class _TrendState extends State<Trend> {
     onStart();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   bool _isLoading = true;
   String _transactionQueryStr = 'last 7 transactions';
   var expenseSpots = <FlSpot>[const FlSpot(1.36, 1.33)]; // dummy val @ initial.

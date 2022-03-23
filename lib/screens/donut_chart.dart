@@ -17,6 +17,11 @@ class _DonutChartState extends State<DonutChart> {
     onStart();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   double expenseTotal = 0.00;
   double depositTotal = 0.00;
   bool _isLoading = true;

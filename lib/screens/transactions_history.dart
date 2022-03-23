@@ -17,6 +17,11 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     getTransactions();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Map<dynamic, dynamic> values = {};
   bool _isLoading = true;
   bool _descendingList = true;
