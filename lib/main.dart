@@ -29,6 +29,11 @@ class MyApp extends StatelessWidget {
 
     return (user != null)
         ? MaterialApp(
+            routes: {
+              '/balance': (BuildContext context) => const BalanceOverview(
+                    title: 'Track Bank Expenses',
+                  )
+            },
             title: 'Track Bank Expenses',
             theme: ThemeData(
               primarySwatch: Colors.blue,
@@ -36,6 +41,11 @@ class MyApp extends StatelessWidget {
             home: const BalanceOverview(title: 'Track Bank Expenses'),
           )
         : MaterialApp(
+            routes: {
+              '/balance': (BuildContext context) => const BalanceOverview(
+                    title: 'Track Bank Expenses',
+                  )
+            },
             title: 'Track Bank Expenses',
             theme: ThemeData(
               primarySwatch: Colors.blue,
