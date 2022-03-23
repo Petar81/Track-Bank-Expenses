@@ -28,6 +28,10 @@ class _SettingsState extends State<Settings> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
+                Divider(
+                  height: 10,
+                  thickness: 1,
+                ),
               ],
             ),
           ),
