@@ -20,17 +20,49 @@ class _SettingsState extends State<Settings> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Padding(
+              children: <Widget>[
+                const Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     "Update personal info",
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
-                Divider(
+                const Divider(
                   height: 10,
                   thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton.icon(
+                        onPressed: () => pickImage(ImageSource.gallery),
+                        icon: const Icon(Icons.image),
+                        label: const Text('upload'),
+                      ),
+                      myImage != null
+                          ? ClipOval(
+                              child: Image.file(
+                                myImage!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
+                              radius: 50,
+                            ),
+                      ElevatedButton.icon(
+                        onPressed: () => pickImage(ImageSource.camera),
+                        icon: const Icon(Icons.camera_alt),
+                        label: const Text('take'),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
