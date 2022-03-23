@@ -8,6 +8,34 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool inputImage = false;
+  File? myImage;
+  String imgName = '';
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return null;
+      final imageTemporary = File(image.path);
+      final imageName = basename(image.path);
+      // final imagePermanent = await saveImagePermanently(image.path);
+      setState(() {
+        myImage = imageTemporary;
+        inputImage = !inputImage;
+        imgName = imageName;
+      });
+    } on PlatformException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future uploadFile() async {
+    if (myImage == null) return null;
+    const destination = 'images/';
+    final ref = FirebaseStorage.instance.ref(destination);
+    ref.putFile(myImage!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
