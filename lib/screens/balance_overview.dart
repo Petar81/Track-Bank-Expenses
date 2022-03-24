@@ -12,7 +12,6 @@ import 'transactions_history.dart';
 import 'trend.dart';
 import 'days_chart.dart';
 import 'donut_chart.dart';
-import 'settings.dart';
 
 class BalanceOverview extends StatefulWidget {
   const BalanceOverview({Key? key, required this.title}) : super(key: key);
@@ -364,13 +363,27 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'Settings',
                       style: TextStyle(fontSize: 16.0),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Settings(),
-                        ),
-                      );
+                    onTap: () async {
+                      Navigator.pushNamed(context, '/settings').then((_) async {
+                        // This block runs when we return back from settings
+                        // Reference to users/user.uid/avatarURL endpoint
+                        DatabaseReference refAvatarURL = FirebaseDatabase
+                            .instance
+                            .ref("users/${user!.uid}/avatarURL/");
+
+                        // Get the data once from users/user.uid/avatarURL
+                        DatabaseEvent avatarURLRef = await refAvatarURL.once();
+                        if (avatarURLRef.snapshot.value != null) {
+                          final avatarURLSnapshot =
+                              avatarURLRef.snapshot.value as String;
+                          avatarUrl = avatarURLSnapshot;
+                        } else {
+                          avatarUrl = '';
+                        }
+                        setState(() {
+                          avatarUrl = avatarUrl;
+                        });
+                      });
                     },
                   ),
                   ListTile(
