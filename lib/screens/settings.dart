@@ -15,11 +15,43 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  // GET A REFERENCE OF USER
+  User? user = FirebaseAuth.instance.currentUser;
   bool inputImage = false;
   File? myImage;
   String imgName = '';
+  String avatarUrl = '';
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    super.initState();
+    onStart();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void onStart() async {
+    // Reference to users/user.uid/avatarURL endpoint
+    DatabaseReference refAvatarURL =
+        FirebaseDatabase.instance.ref("users/${user!.uid}/avatarURL/");
+
+    // Get the data once from users/user.uid/avatarURL
+    DatabaseEvent avatarURLRef = await refAvatarURL.once();
+    if (avatarURLRef.snapshot.value != null) {
+      final avatarURLSnapshot = avatarURLRef.snapshot.value as String;
+      avatarUrl = avatarURLSnapshot;
+    } else {
+      avatarUrl = '';
+    }
+
+    setState(() {
+      avatarUrl = avatarUrl;
+    });
+  }
 
   Future pickImage(ImageSource source) async {
     try {
@@ -101,20 +133,26 @@ class _SettingsState extends State<Settings> {
                         icon: const Icon(Icons.image),
                         label: const Text('upload'),
                       ),
-                      myImage != null
-                          ? ClipOval(
-                              child: Image.file(
-                                myImage!,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
-                              radius: 50,
-                            ),
+                      if (myImage != null)
+                        ClipOval(
+                          child: Image.file(
+                            myImage!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      else if (avatarUrl != '')
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(avatarUrl),
+                          radius: 50,
+                        )
+                      else
+                        const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
+                          radius: 50,
+                        ),
                       ElevatedButton.icon(
                         onPressed: () => pickImage(ImageSource.camera),
                         icon: const Icon(Icons.camera_alt),
