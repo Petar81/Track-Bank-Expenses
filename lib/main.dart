@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:track_bank_expenses/screens/settings.dart';
 import 'firebase_options.dart';
 
 import './screens/balance_overview.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/balance': (BuildContext context) => const BalanceOverview(
                     title: 'Track Bank Expenses',
-                  )
+                  ),
+              '/settings': (BuildContext context) => const Settings(),
             },
             title: 'Track Bank Expenses',
             theme: ThemeData(
@@ -44,7 +46,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/balance': (BuildContext context) => const BalanceOverview(
                     title: 'Track Bank Expenses',
-                  )
+                  ),
+              '/settings': (BuildContext context) => const Settings(),
             },
             title: 'Track Bank Expenses',
             theme: ThemeData(
