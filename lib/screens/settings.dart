@@ -154,7 +154,25 @@ class _SettingsState extends State<Settings> {
                           radius: 50,
                         ),
                       ElevatedButton.icon(
-                        onPressed: () => pickImage(ImageSource.camera),
+                        onPressed: () async {
+                          await pickImage(ImageSource.camera);
+                          final ref =
+                              FirebaseStorage.instance.ref('images/$imgName');
+                          await ref.putFile(myImage!);
+                          final avatarURL = await ref.getDownloadURL();
+                          await userID
+                              .child(user!.uid)
+                              .update({"avatarURL": avatarURL})
+                              .catchError((error) => const Text(
+                                  'You got an error! Please try again.'))
+                              .then((value) => ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(const SnackBar(
+                                  duration: Duration(seconds: 3),
+                                  content: Text(
+                                      'Avatar image has been successfully updated!'),
+                                )));
+                        },
                         icon: const Icon(Icons.camera_alt),
                         label: const Text('take'),
                       ),
