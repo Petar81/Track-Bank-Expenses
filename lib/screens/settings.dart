@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import '../models/input_decoration.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class _SettingsState extends State<Settings> {
   FirebaseAuth auth = FirebaseAuth.instance;
   // GET A REFERENCE OF USER
   User? user = FirebaseAuth.instance.currentUser;
+  final _updateNameKey = GlobalKey<FormState>();
+  TextEditingController updateNameControler = TextEditingController();
   bool inputImage = false;
   File? myImage;
   String imgName = '';
@@ -106,7 +109,7 @@ class _SettingsState extends State<Settings> {
                   thickness: 1,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -179,6 +182,63 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Form(
+                        key: _updateNameKey,
+                        child: SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            controller: updateNameControler,
+                            decoration: buildInputDecoration(
+                                Icons.person, "Update Name"),
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your name';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_updateNameKey.currentState!.validate()) {
+                          _updateNameKey.currentState!.save();
+                          () async {
+                            DatabaseReference userID =
+                                FirebaseDatabase.instance.ref("users");
+
+                            await userID
+                                .child(user!.uid)
+                                .update({
+                                  "displayName":
+                                      updateNameControler.text.trim(),
+                                  // "avatarURL": myImage
+                                })
+                                .catchError((error) => const Text(
+                                    'You got an error! Please try again.'))
+                                .then((value) {
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(const SnackBar(
+                                      duration: Duration(seconds: 3),
+                                      content: Text(
+                                          'Name has been successfully updated!'),
+                                    ));
+                                });
+                          }();
+                        }
+                      },
+                      child: const Text('update'),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
