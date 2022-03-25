@@ -118,20 +118,24 @@ class _SettingsState extends State<Settings> {
                           await pickImage(ImageSource.gallery);
                           final ref =
                               FirebaseStorage.instance.ref('images/$imgName');
-                          await ref.putFile(myImage!);
-                          final avatarURL = await ref.getDownloadURL();
-                          await userID
-                              .child(user!.uid)
-                              .update({"avatarURL": avatarURL})
-                              .catchError((error) => const Text(
-                                  'You got an error! Please try again.'))
-                              .then((value) => ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(const SnackBar(
-                                  duration: Duration(seconds: 3),
-                                  content: Text(
-                                      'Avatar image has been successfully updated!'),
-                                )));
+                          if (myImage != null) {
+                            await ref.putFile(myImage!);
+                            final avatarURL = await ref.getDownloadURL();
+                            await userID
+                                .child(user!.uid)
+                                .update({"avatarURL": avatarURL})
+                                .catchError((error) => const Text(
+                                    'You got an error! Please try again.'))
+                                .then((value) => ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text(
+                                        'Avatar image has been successfully updated!'),
+                                  )));
+                          } else {
+                            return;
+                          }
                         },
                         icon: const Icon(Icons.image),
                         label: const Text('upload'),
@@ -161,20 +165,24 @@ class _SettingsState extends State<Settings> {
                           await pickImage(ImageSource.camera);
                           final ref =
                               FirebaseStorage.instance.ref('images/$imgName');
-                          await ref.putFile(myImage!);
-                          final avatarURL = await ref.getDownloadURL();
-                          await userID
-                              .child(user!.uid)
-                              .update({"avatarURL": avatarURL})
-                              .catchError((error) => const Text(
-                                  'You got an error! Please try again.'))
-                              .then((value) => ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(const SnackBar(
-                                  duration: Duration(seconds: 3),
-                                  content: Text(
-                                      'Avatar image has been successfully updated!'),
-                                )));
+                          if (myImage != null) {
+                            await ref.putFile(myImage!);
+                            final avatarURL = await ref.getDownloadURL();
+                            await userID
+                                .child(user!.uid)
+                                .update({"avatarURL": avatarURL})
+                                .catchError((error) => const Text(
+                                    'You got an error! Please try again.'))
+                                .then((value) => ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text(
+                                        'Avatar image has been successfully updated!'),
+                                  )));
+                          } else {
+                            return;
+                          }
                         },
                         icon: const Icon(Icons.camera_alt),
                         label: const Text('take'),
