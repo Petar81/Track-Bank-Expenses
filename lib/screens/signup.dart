@@ -172,7 +172,7 @@ class _SignupState extends State<Signup> {
                             if (!RegExp(
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
-                              return 'Please a valid Email';
+                              return 'Please enter a valid Email';
                             }
                             return null;
                           },
