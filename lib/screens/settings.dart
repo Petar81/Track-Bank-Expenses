@@ -20,7 +20,9 @@ class _SettingsState extends State<Settings> {
   // GET A REFERENCE OF USER
   User? user = FirebaseAuth.instance.currentUser;
   final _updateNameKey = GlobalKey<FormState>();
+  final _updateEmailKey = GlobalKey<FormState>();
   TextEditingController updateNameControler = TextEditingController();
+  TextEditingController updateEmailControler = TextEditingController();
   bool inputImage = false;
   File? myImage;
   String imgName = '';
@@ -252,11 +254,74 @@ class _SettingsState extends State<Settings> {
                   thickness: 1,
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.only(top: 20.0),
                   child: Text(
                     "Account settings",
                     style: TextStyle(fontSize: 20.0),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Form(
+                        key: _updateEmailKey,
+                        child: SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            controller: updateEmailControler,
+                            decoration: buildInputDecoration(
+                                Icons.email, "Update Email"),
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter an email';
+                              }
+                              if (!RegExp(
+                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid Email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_updateEmailKey.currentState!.validate()) {
+                          _updateEmailKey.currentState!.save();
+                          () async {
+                            DatabaseReference userID =
+                                FirebaseDatabase.instance.ref("users");
+
+                            await userID
+                                .child(user!.uid)
+                                .update({
+                                  "displayName":
+                                      updateNameControler.text.trim(),
+                                  // "avatarURL": myImage
+                                })
+                                .catchError((error) => const Text(
+                                    'You got an error! Please try again.'))
+                                .then((value) {
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(const SnackBar(
+                                      duration: Duration(seconds: 3),
+                                      content: Text(
+                                          'Name has been successfully updated!'),
+                                    ));
+                                });
+                          }();
+                        }
+                      },
+                      child: const Text('update'),
+                    ),
+                  ],
                 ),
               ],
             ),
