@@ -243,6 +243,13 @@ class _SettingsState extends State<Settings> {
                   height: 10,
                   thickness: 1,
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    "Account settings",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
               ],
             ),
           ),
