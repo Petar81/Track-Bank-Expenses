@@ -380,8 +380,25 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                         } else {
                           avatarUrl = '';
                         }
+
+                        // Reference to users/displayName endpoint
+                        DatabaseReference getUserName = FirebaseDatabase
+                            .instance
+                            .ref("users/${user.uid}/displayName/");
+
+                        // Get the data once from users/user.uid/displayName
+                        DatabaseEvent userNameRef = await getUserName.once();
+                        if (userNameRef.snapshot.value != null) {
+                          final userNameSnapshot =
+                              userNameRef.snapshot.value as String;
+                          userName = userNameSnapshot;
+                        } else {
+                          userName = '';
+                        }
+
                         setState(() {
                           avatarUrl = avatarUrl;
+                          userName = userName;
                         });
                       });
                     },
