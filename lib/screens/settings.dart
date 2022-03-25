@@ -238,7 +238,11 @@ class _SettingsState extends State<Settings> {
                       child: const Text('update'),
                     ),
                   ],
-                )
+                ),
+                const Divider(
+                  height: 10,
+                  thickness: 1,
+                ),
               ],
             ),
           ),
