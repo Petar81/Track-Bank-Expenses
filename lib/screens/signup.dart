@@ -259,17 +259,21 @@ class _SignupState extends State<Signup> {
                                         .catchError((error) => const Text(
                                             'You got an error! Please try again.'))
                                         .then((_) async {
-                                          final ref = FirebaseStorage.instance
-                                              .ref('images/$imgName');
-                                          await ref.putFile(myImage!);
-                                          final avatarURL =
-                                              await ref.getDownloadURL();
-                                          await userID
-                                              .child(value.user!.uid)
-                                              .update({
-                                            "avatarURL": avatarURL
-                                          }).catchError((error) => const Text(
-                                                  'You got an error! Please try again.'));
+                                          if (myImage != null) {
+                                            final ref = FirebaseStorage.instance
+                                                .ref('images/$imgName');
+                                            await ref.putFile(myImage!);
+                                            final avatarURL =
+                                                await ref.getDownloadURL();
+                                            await userID
+                                                .child(value.user!.uid)
+                                                .update({
+                                              "avatarURL": avatarURL
+                                            }).catchError((error) => const Text(
+                                                    'You got an error! Please try again.'));
+                                          } else {
+                                            return;
+                                          }
                                         });
                                     // Reference to currentBalance/currentAmount endpoint
                                     DatabaseReference initializeCurrentBalance =
