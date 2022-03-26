@@ -338,7 +338,7 @@ class _SettingsState extends State<Settings> {
                                 ScaffoldMessenger.of(context)
                                   ..hideCurrentSnackBar()
                                   ..showSnackBar(const SnackBar(
-                                    duration: Duration(seconds: 3),
+                                    duration: Duration(seconds: 5),
                                     content: Text(
                                         'You must logout first, then login back to perform this action.'),
                                   ));
