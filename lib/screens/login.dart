@@ -168,7 +168,7 @@ class _LoginState extends State<Login> {
                               }();
 
                               FirebaseAuth.instance
-                                  .userChanges()
+                                  .authStateChanges()
                                   .listen((User? user) async {
                                 user = FirebaseAuth.instance.currentUser;
                                 if (user == null) {
