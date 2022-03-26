@@ -298,13 +298,27 @@ class _SettingsState extends State<Settings> {
                             try {
                               await user!
                                   .updateEmail(updateEmailControler.text.trim())
-                                  .then((value) => ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(const SnackBar(
-                                      duration: Duration(seconds: 3),
-                                      content: Text(
-                                          'Name has been successfully updated!'),
-                                    )));
+                                  .then((value) async {
+                                DatabaseReference userID =
+                                    FirebaseDatabase.instance.ref("users");
+
+                                await userID
+                                    .child(user.uid)
+                                    .update({
+                                      "email": updateEmailControler.text.trim(),
+                                    })
+                                    .catchError((error) => const Text(
+                                        'You got an error! Please try again.'))
+                                    .then((value) {
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(const SnackBar(
+                                          duration: Duration(seconds: 3),
+                                          content: Text(
+                                              'Email has been successfully updated!'),
+                                        ));
+                                    });
+                              });
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'invalid-email') {
                                 ScaffoldMessenger.of(context)
@@ -330,28 +344,6 @@ class _SettingsState extends State<Settings> {
                                   ));
                               }
                             }
-
-                            DatabaseReference userID =
-                                FirebaseDatabase.instance.ref("users");
-
-                            await userID
-                                .child(user!.uid)
-                                .update({
-                                  "displayName":
-                                      updateNameControler.text.trim(),
-                                  // "avatarURL": myImage
-                                })
-                                .catchError((error) => const Text(
-                                    'You got an error! Please try again.'))
-                                .then((value) {
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(const SnackBar(
-                                      duration: Duration(seconds: 3),
-                                      content: Text(
-                                          'Name has been successfully updated!'),
-                                    ));
-                                });
                           }();
                         }
                       },
