@@ -295,6 +295,42 @@ class _SettingsState extends State<Settings> {
                         if (_updateEmailKey.currentState!.validate()) {
                           _updateEmailKey.currentState!.save();
                           () async {
+                            try {
+                              await user!
+                                  .updateEmail(updateEmailControler.text.trim())
+                                  .then((value) => ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(const SnackBar(
+                                      duration: Duration(seconds: 3),
+                                      content: Text(
+                                          'Name has been successfully updated!'),
+                                    )));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'invalid-email') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text('Invalid email!'),
+                                  ));
+                              } else if (e.code == 'email-already-in-use') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text('Email already in use!'),
+                                  ));
+                              } else if (e.code == 'requires-recent-login') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text(
+                                        'You must logout first, then login back to perform this action.'),
+                                  ));
+                              }
+                            }
+
                             DatabaseReference userID =
                                 FirebaseDatabase.instance.ref("users");
 
