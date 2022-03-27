@@ -372,6 +372,7 @@ class _SettingsState extends State<Settings> {
                         child: SizedBox(
                           width: 250,
                           child: TextFormField(
+                            obscureText: true,
                             keyboardType: TextInputType.text,
                             controller: updatePassword1Controler,
                             decoration: buildInputDecoration(
@@ -394,6 +395,7 @@ class _SettingsState extends State<Settings> {
                         child: SizedBox(
                           width: 250,
                           child: TextFormField(
+                            obscureText: true,
                             keyboardType: TextInputType.text,
                             controller: updatePassword2Controler,
                             decoration: buildInputDecoration(
@@ -418,47 +420,30 @@ class _SettingsState extends State<Settings> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (_updateEmailKey.currentState!.validate()) {
-                          _updateEmailKey.currentState!.save();
+                        if (_updatePassword2Key.currentState!.validate()) {
+                          _updatePassword2Key.currentState!.save();
                           () async {
                             try {
                               await user!
-                                  .updateEmail(updateEmailControler.text.trim())
-                                  .then((value) async {
-                                DatabaseReference userID =
-                                    FirebaseDatabase.instance.ref("users");
-
-                                await userID
-                                    .child(user.uid)
-                                    .update({
-                                      "email": updateEmailControler.text.trim(),
-                                    })
-                                    .catchError((error) => const Text(
-                                        'You got an error! Please try again.'))
-                                    .then((value) {
-                                      ScaffoldMessenger.of(context)
-                                        ..hideCurrentSnackBar()
-                                        ..showSnackBar(const SnackBar(
-                                          duration: Duration(seconds: 3),
-                                          content: Text(
-                                              'Email has been successfully updated!'),
-                                        ));
-                                    });
+                                  .updatePassword(
+                                      updatePassword2Controler.text.trim())
+                                  .then((value) {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text(
+                                        'Password has been successfully updated!'),
+                                  ));
                               });
                             } on FirebaseAuthException catch (e) {
-                              if (e.code == 'invalid-email') {
+                              if (e.code == 'weak-password') {
                                 ScaffoldMessenger.of(context)
                                   ..hideCurrentSnackBar()
                                   ..showSnackBar(const SnackBar(
                                     duration: Duration(seconds: 3),
-                                    content: Text('Invalid email!'),
-                                  ));
-                              } else if (e.code == 'email-already-in-use') {
-                                ScaffoldMessenger.of(context)
-                                  ..hideCurrentSnackBar()
-                                  ..showSnackBar(const SnackBar(
-                                    duration: Duration(seconds: 3),
-                                    content: Text('Email already in use!'),
+                                    content:
+                                        Text('Password is not strong enough!'),
                                   ));
                               } else if (e.code == 'requires-recent-login') {
                                 ScaffoldMessenger.of(context)
