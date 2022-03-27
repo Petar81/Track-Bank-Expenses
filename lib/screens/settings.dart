@@ -23,6 +23,9 @@ class _SettingsState extends State<Settings> {
   final _updateEmailKey = GlobalKey<FormState>();
   TextEditingController updateNameControler = TextEditingController();
   TextEditingController updateEmailControler = TextEditingController();
+  TextEditingController updatePassword1Controler = TextEditingController();
+  TextEditingController updatePassword2Controler = TextEditingController();
+
   bool inputImage = false;
   File? myImage;
   String imgName = '';
@@ -362,7 +365,7 @@ class _SettingsState extends State<Settings> {
                           width: 250,
                           child: TextFormField(
                             keyboardType: TextInputType.text,
-                            controller: updateEmailControler,
+                            controller: updatePassword1Controler,
                             decoration: buildInputDecoration(
                                 Icons.lock, "Update Password"),
                             // The validator receives the text that the user has entered.
@@ -389,7 +392,7 @@ class _SettingsState extends State<Settings> {
                           width: 250,
                           child: TextFormField(
                             keyboardType: TextInputType.text,
-                            controller: updateEmailControler,
+                            controller: updatePassword2Controler,
                             decoration: buildInputDecoration(
                                 Icons.lock, "Update Password"),
                             // The validator receives the text that the user has entered.
