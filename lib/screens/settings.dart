@@ -357,8 +357,9 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
