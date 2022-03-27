@@ -379,12 +379,7 @@ class _SettingsState extends State<Settings> {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter an email';
-                              }
-                              if (!RegExp(
-                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid Email';
+                                return 'Please enter a password';
                               }
                               return null;
                             },
@@ -406,12 +401,14 @@ class _SettingsState extends State<Settings> {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter an email';
+                                return 'Please re-enter password';
                               }
-                              if (!RegExp(
-                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid Email';
+                              // print(password.text);
+                              // print(confirmpassword.text);
+
+                              if (updatePassword1Controler.text !=
+                                  updatePassword2Controler.text) {
+                                return "Password does not match";
                               }
                               return null;
                             },
