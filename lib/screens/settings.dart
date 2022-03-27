@@ -403,14 +403,14 @@ class _SettingsState extends State<Settings> {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please re-enter password';
+                                return 'Please enter a password';
                               }
                               // print(password.text);
                               // print(confirmpassword.text);
 
                               if (updatePassword1Controler.text !=
                                   updatePassword2Controler.text) {
-                                return "Password does not match";
+                                return "Passwords don't match";
                               }
                               return null;
                             },
@@ -461,6 +461,9 @@ class _SettingsState extends State<Settings> {
                       child: const Text('update'),
                     ),
                   ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
                 ),
               ],
             ),
