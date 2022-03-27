@@ -351,6 +351,124 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Form(
+                        key: _updateEmailKey,
+                        child: SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            controller: updateEmailControler,
+                            decoration: buildInputDecoration(
+                                Icons.lock, "Update Password"),
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter an email';
+                              }
+                              if (!RegExp(
+                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid Email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Form(
+                        key: _updateEmailKey,
+                        child: SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            controller: updateEmailControler,
+                            decoration: buildInputDecoration(
+                                Icons.lock, "Update Password"),
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter an email';
+                              }
+                              if (!RegExp(
+                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid Email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_updateEmailKey.currentState!.validate()) {
+                          _updateEmailKey.currentState!.save();
+                          () async {
+                            try {
+                              await user!
+                                  .updateEmail(updateEmailControler.text.trim())
+                                  .then((value) async {
+                                DatabaseReference userID =
+                                    FirebaseDatabase.instance.ref("users");
+
+                                await userID
+                                    .child(user.uid)
+                                    .update({
+                                      "email": updateEmailControler.text.trim(),
+                                    })
+                                    .catchError((error) => const Text(
+                                        'You got an error! Please try again.'))
+                                    .then((value) {
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(const SnackBar(
+                                          duration: Duration(seconds: 3),
+                                          content: Text(
+                                              'Email has been successfully updated!'),
+                                        ));
+                                    });
+                              });
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'invalid-email') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text('Invalid email!'),
+                                  ));
+                              } else if (e.code == 'email-already-in-use') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 3),
+                                    content: Text('Email already in use!'),
+                                  ));
+                              } else if (e.code == 'requires-recent-login') {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                    duration: Duration(seconds: 5),
+                                    content: Text(
+                                        'You must logout first, then login back to perform this action.'),
+                                  ));
+                              }
+                            }
+                          }();
+                        }
+                      },
+                      child: const Text('update'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
