@@ -21,6 +21,9 @@ class _SettingsState extends State<Settings> {
   User? user = FirebaseAuth.instance.currentUser;
   final _updateNameKey = GlobalKey<FormState>();
   final _updateEmailKey = GlobalKey<FormState>();
+  final _updatePassword1Key = GlobalKey<FormState>();
+  final _updatePassword2Key = GlobalKey<FormState>();
+
   TextEditingController updateNameControler = TextEditingController();
   TextEditingController updateEmailControler = TextEditingController();
   TextEditingController updatePassword1Controler = TextEditingController();
@@ -360,7 +363,7 @@ class _SettingsState extends State<Settings> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Form(
-                        key: _updateEmailKey,
+                        key: _updatePassword1Key,
                         child: SizedBox(
                           width: 250,
                           child: TextFormField(
@@ -387,7 +390,7 @@ class _SettingsState extends State<Settings> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Form(
-                        key: _updateEmailKey,
+                        key: _updatePassword2Key,
                         child: SizedBox(
                           width: 250,
                           child: TextFormField(
