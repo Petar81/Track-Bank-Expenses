@@ -266,11 +266,12 @@ class _SettingsState extends State<Settings> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
                       child: Form(
                         key: _updateEmailKey,
                         child: SizedBox(
@@ -357,6 +358,9 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -398,7 +402,7 @@ class _SettingsState extends State<Settings> {
                             keyboardType: TextInputType.text,
                             controller: updatePassword2Controler,
                             decoration: buildInputDecoration(
-                                Icons.lock, "Update Password"),
+                                Icons.lock, "Repeat Password"),
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
