@@ -477,40 +477,42 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 ElevatedButton(
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.red),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      shadowColor: MaterialStateProperty.all(Colors.red),
+                      elevation: MaterialStateProperty.all(4.00)),
                   onPressed: () {
-                    if (_updatePassword2Key.currentState!.validate()) {
-                      _updatePassword2Key.currentState!.save();
-                      () async {
-                        try {
-                          await user!.delete().then((value) {
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(const SnackBar(
-                                duration: Duration(seconds: 3),
-                                content: Text(
-                                    'Password has been successfully updated!'),
-                              ));
-                          });
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(const SnackBar(
-                                duration: Duration(seconds: 3),
-                                content: Text('Password is not strong enough!'),
-                              ));
-                          } else if (e.code == 'requires-recent-login') {
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(const SnackBar(
-                                duration: Duration(seconds: 5),
-                                content: Text(
-                                    'You must logout first, then login back to perform this action.'),
-                              ));
-                          }
+                    () async {
+                      try {
+                        await user!.delete().then((value) {
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(const SnackBar(
+                              duration: Duration(seconds: 3),
+                              content: Text(
+                                  'Password has been successfully updated!'),
+                            ));
+                        });
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(const SnackBar(
+                              duration: Duration(seconds: 3),
+                              content: Text('Password is not strong enough!'),
+                            ));
+                        } else if (e.code == 'requires-recent-login') {
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(const SnackBar(
+                              duration: Duration(seconds: 5),
+                              content: Text(
+                                  'You must logout first, then login back to perform this action.'),
+                            ));
                         }
-                      }();
-                    }
+                      }
+                    }();
                   },
                   child: const Text('delete'),
                 ),
