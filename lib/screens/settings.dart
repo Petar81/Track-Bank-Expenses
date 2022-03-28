@@ -463,6 +463,13 @@ class _SettingsState extends State<Settings> {
                   ],
                 ),
                 const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                const Divider(
+                  height: 10,
+                  thickness: 1,
+                ),
+                const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                 ),
                 ElevatedButton(
@@ -471,9 +478,7 @@ class _SettingsState extends State<Settings> {
                       _updatePassword2Key.currentState!.save();
                       () async {
                         try {
-                          await user!
-                              .delete(updatePassword2Controler.text.trim())
-                              .then((value) {
+                          await user!.delete().then((value) {
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(const SnackBar(
