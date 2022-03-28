@@ -503,7 +503,7 @@ class _SettingsState extends State<Settings> {
                       }();
                     }
                   },
-                  child: const Text('update'),
+                  child: const Text('delete'),
                 ),
               ],
             ),
