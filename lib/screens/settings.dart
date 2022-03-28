@@ -516,6 +516,9 @@ class _SettingsState extends State<Settings> {
                   },
                   child: const Text('delete'),
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                ),
               ],
             ),
           ),
