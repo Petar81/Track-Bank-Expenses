@@ -472,8 +472,7 @@ class _SettingsState extends State<Settings> {
                       () async {
                         try {
                           await user!
-                              .updatePassword(
-                                  updatePassword2Controler.text.trim())
+                              .delete(updatePassword2Controler.text.trim())
                               .then((value) {
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
