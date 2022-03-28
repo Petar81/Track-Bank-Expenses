@@ -465,6 +465,47 @@ class _SettingsState extends State<Settings> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_updatePassword2Key.currentState!.validate()) {
+                      _updatePassword2Key.currentState!.save();
+                      () async {
+                        try {
+                          await user!
+                              .updatePassword(
+                                  updatePassword2Controler.text.trim())
+                              .then((value) {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                    'Password has been successfully updated!'),
+                              ));
+                          });
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text('Password is not strong enough!'),
+                              ));
+                          } else if (e.code == 'requires-recent-login') {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(const SnackBar(
+                                duration: Duration(seconds: 5),
+                                content: Text(
+                                    'You must logout first, then login back to perform this action.'),
+                              ));
+                          }
+                        }
+                      }();
+                    }
+                  },
+                  child: const Text('update'),
+                ),
               ],
             ),
           ),
