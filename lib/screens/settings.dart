@@ -470,7 +470,11 @@ class _SettingsState extends State<Settings> {
                   thickness: 1,
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    "Delete account",
+                    style: TextStyle(fontSize: 20.0, color: Colors.red),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
