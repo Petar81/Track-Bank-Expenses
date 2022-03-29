@@ -483,47 +483,26 @@ class _SettingsState extends State<Settings> {
                       shadowColor: MaterialStateProperty.all(Colors.red),
                       elevation: MaterialStateProperty.all(4.00)),
                   onPressed: () {
-                    AlertDialog(
-                      title: const Text(
-                          'Are you sure you want to delete your account?'),
-                      content: const Text(
-                          'Once deleted all the data associated with your account will be lost forever.'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('delete'),
-                        ),
-                      ],
-                      elevation: 24.00,
-                    );
-
-                    () async {
-                      try {
-                        await user!.delete().then((value) {
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(const SnackBar(
-                              duration: Duration(seconds: 3),
-                              content: Text(
-                                  'Account has been successfully deleted!'),
-                            ));
-                        });
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'requires-recent-login') {
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(const SnackBar(
-                              duration: Duration(seconds: 5),
-                              content: Text(
-                                  'You must logout first, then login back to perform this action.'),
-                            ));
-                        }
-                      }
-                    }();
+                    showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                              title: const Text(
+                                  'Are you sure you want to delete your account?'),
+                              content: const Text(
+                                  'Once deleted all the data associated with your account will be lost forever.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text('cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text('delete'),
+                                ),
+                              ],
+                              elevation: 24.00,
+                            ),
+                        barrierDismissible: true);
                   },
                   child: const Text('delete'),
                 ),
