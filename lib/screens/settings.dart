@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:track_bank_expenses/main.dart';
 import '../models/input_decoration.dart';
 
 class Settings extends StatefulWidget {
@@ -492,12 +493,52 @@ class _SettingsState extends State<Settings> {
                                   'Once deleted all the data associated with your account will be lost forever.'),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () {},
-                                  child: const Text('cancel'),
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('NO, cancel!'),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
-                                  child: const Text('delete'),
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+
+                                    try {
+                                      DatabaseReference userID =
+                                          FirebaseDatabase.instance
+                                              .ref("users");
+                                      await userID
+                                          .child(user!.uid)
+                                          .remove()
+                                          .catchError((error) => const Text(
+                                              'You got an error! Please try again.'));
+                                      await user.delete().then((value) async {
+                                        ScaffoldMessenger.of(context)
+                                          ..hideCurrentSnackBar()
+                                          ..showSnackBar(const SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            content: Text(
+                                                'Account has been successfully deleted!'),
+                                          ));
+                                        await Future.delayed(
+                                            const Duration(seconds: 2));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MyApp()),
+                                        );
+                                      });
+                                    } on FirebaseAuthException catch (e) {
+                                      if (e.code == 'requires-recent-login') {
+                                        ScaffoldMessenger.of(context)
+                                          ..hideCurrentSnackBar()
+                                          ..showSnackBar(const SnackBar(
+                                            duration: Duration(seconds: 5),
+                                            content: Text(
+                                                'Unsuccessful deletion! You must logout first, then login back to perform this action.'),
+                                          ));
+                                      }
+                                    }
+                                  },
+                                  child: const Text('YES, delete!'),
                                 ),
                               ],
                               elevation: 24.00,
