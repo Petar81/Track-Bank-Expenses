@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.track_bank_expenses">
    <application
-        android:label="track_bank_expenses"
+        android:label="Track Bank Expenses"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
