@@ -432,23 +432,26 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(18.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Made in Serbia with ',
-                                  // style: TextStyle(fontSize: 14),
-                                ),
-                                Icon(
-                                  Icons.favorite,
-                                  color: Colors.red[300],
-                                  size: 16,
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 3.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Made in Serbia with ',
+                                    // style: TextStyle(fontSize: 14),
+                                  ),
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Colors.red[300],
+                                    size: 16,
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
