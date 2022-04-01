@@ -460,7 +460,6 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                                   onTap: _launchSerbonaAppsURL,
                                   child:
                                       const Text('\u00A9 Serbona Applications'),
-                                  // style: TextStyle(fontSize: 14),
                                 ),
                               ],
                             ),
