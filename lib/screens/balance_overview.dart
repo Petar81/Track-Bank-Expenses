@@ -453,8 +453,8 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                TextButton(
-                                  onPressed: _launchSerbonaAppsURL,
+                                InkWell(
+                                  onTap: _launchSerbonaAppsURL,
                                   child:
                                       const Text('\u00A9 Serbona Applications'),
                                   // style: TextStyle(fontSize: 14),
