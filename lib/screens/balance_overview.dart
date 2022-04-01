@@ -214,7 +214,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
     );
 
     // LAUNCH URL
-    _launchURL() async {
+    _launchPayPalURL() async {
       final url =
           Uri.encodeFull('https://www.paypal.com/paypalme/SerbonaApplications');
       if (!await launch(url)) throw 'Could not launch $url';
@@ -351,7 +351,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       'buy us a coffee',
                       style: TextStyle(fontSize: 16.0),
                     ),
-                    onTap: _launchURL,
+                    onTap: _launchPayPalURL,
                   ),
                   const Divider(
                     height: 10,
