@@ -213,10 +213,19 @@ class _BalanceOverviewState extends State<BalanceOverview> {
       ),
     );
 
-    // LAUNCH URL
+    // LAUNCH PAYPAL URL
     _launchPayPalURL() async {
       final url =
           Uri.encodeFull('https://www.paypal.com/paypalme/SerbonaApplications');
+      if (!await launch(url)) throw 'Could not launch $url';
+      if (await canLaunch(url)) {
+        await launch(url);
+      }
+    }
+
+    // LAUNCH SERBONA APPS URL
+    _launchSerbonaAppsURL() async {
+      final url = Uri.encodeFull('https://serbonaapps.com/');
       if (!await launch(url)) throw 'Could not launch $url';
       if (await canLaunch(url)) {
         await launch(url);
