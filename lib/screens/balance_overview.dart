@@ -268,8 +268,9 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               title: Text(widget.title),
             ),
             endDrawer: Drawer(
-              child: Column(
-                children: [
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
                   UserAccountsDrawerHeader(
                     currentAccountPicture: avatarUrl != ''
                         ? CircleAvatar(
@@ -428,7 +429,7 @@ class _BalanceOverviewState extends State<BalanceOverview> {
                       );
                     },
                   ),
-                  Expanded(
+                  SizedBox(
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
