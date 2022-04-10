@@ -207,67 +207,82 @@ class _DonutChartState extends State<DonutChart> {
                     ],
                   ),
                 ]),
-            body: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            body: Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 30),
+              child: SingleChildScrollView(
+                child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 80),
-                      child: PieChart(
-                        dataMap: dataMap,
-                        animationDuration: const Duration(milliseconds: 1200),
-                        chartLegendSpacing: 122,
-                        chartRadius: MediaQuery.of(context).size.width / 3.2,
-                        colorList: colorList,
-                        initialAngleInDegree: 0,
-                        chartType: ChartType.ring,
-                        ringStrokeWidth: 182,
-                        centerText: "%",
-                        legendOptions: const LegendOptions(
-                          showLegendsInRow: true,
-                          legendPosition: LegendPosition.bottom,
-                          showLegends: true,
-                          legendTextStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 80),
+                                child: PieChart(
+                                  dataMap: dataMap,
+                                  animationDuration:
+                                      const Duration(milliseconds: 1200),
+                                  chartLegendSpacing: 122,
+                                  chartRadius:
+                                      MediaQuery.of(context).size.width / 3.2,
+                                  colorList: colorList,
+                                  initialAngleInDegree: 0,
+                                  chartType: ChartType.ring,
+                                  ringStrokeWidth: 182,
+                                  centerText: "%",
+                                  legendOptions: const LegendOptions(
+                                    showLegendsInRow: true,
+                                    legendPosition: LegendPosition.bottom,
+                                    showLegends: true,
+                                    legendTextStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  chartValuesOptions: const ChartValuesOptions(
+                                    showChartValueBackground: true,
+                                    showChartValues: true,
+                                    showChartValuesInPercentage: true,
+                                    showChartValuesOutside: true,
+                                    decimalPlaces: 1,
+                                  ),
+                                  // gradientList: ---To add gradient colors---
+                                  // emptyColorGradient: ---Empty Color gradient---
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '-${double.parse(expenseTotal.toStringAsFixed(2))}',
+                                    style: TextStyle(
+                                        color: Colors.red.shade300,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16),
+                                  ),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(right: 20, bottom: 80),
+                                  ),
+                                  Text(
+                                    '+${double.parse(depositTotal.toStringAsFixed(2))}',
+                                    style: TextStyle(
+                                        color: Colors.blue.shade300,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        chartValuesOptions: const ChartValuesOptions(
-                          showChartValueBackground: true,
-                          showChartValues: true,
-                          showChartValuesInPercentage: true,
-                          showChartValuesOutside: true,
-                          decimalPlaces: 1,
-                        ),
-                        // gradientList: ---To add gradient colors---
-                        // emptyColorGradient: ---Empty Color gradient---
+                        ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '-${double.parse(expenseTotal.toStringAsFixed(2))}',
-                          style: TextStyle(
-                              color: Colors.red.shade300,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 20, bottom: 80),
-                        ),
-                        Text(
-                          '+${double.parse(depositTotal.toStringAsFixed(2))}',
-                          style: TextStyle(
-                              color: Colors.blue.shade300,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16),
-                        ),
-                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           );
   }
