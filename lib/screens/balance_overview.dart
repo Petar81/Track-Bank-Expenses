@@ -268,172 +268,182 @@ class _BalanceOverviewState extends State<BalanceOverview> {
               title: Text(widget.title),
             ),
             endDrawer: Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
+              child: Column(
                 children: <Widget>[
-                  UserAccountsDrawerHeader(
-                    currentAccountPicture: avatarUrl != ''
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(avatarUrl),
-                          )
-                        : const CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        UserAccountsDrawerHeader(
+                          currentAccountPicture: avatarUrl != ''
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(avatarUrl),
+                                )
+                              : const CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      'https://firebasestorage.googleapis.com/v0/b/track-bank-expenses.appspot.com/o/images%2Favatar_placeholder.webp?alt=media&token=aa4c0ac9-012e-4e20-b9ca-e36a47d3773e'),
+                                ),
+                          accountEmail: Text(user != null ? user.email! : ''),
+                          accountName: Text(
+                            userName,
+                            style: const TextStyle(fontSize: 24.0),
                           ),
-                    accountEmail: Text(user != null ? user.email! : ''),
-                    accountName: Text(
-                      userName,
-                      style: const TextStyle(fontSize: 24.0),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.history),
-                    title: const Text(
-                      'History',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TransactionsHistory(),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.show_chart),
-                    title: const Text(
-                      'Trend',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Trend(),
+                        ListTile(
+                          leading: const Icon(Icons.history),
+                          title: const Text(
+                            'History',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const TransactionsHistory(),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.bar_chart),
-                    title: const Text(
-                      'by Day',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DaysChart(),
-                          ));
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.pie_chart),
-                    title: const Text(
-                      'Sliced',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DonutChart(),
+                        ListTile(
+                          leading: const Icon(Icons.show_chart),
+                          title: const Text(
+                            'Trend',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Trend(),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 1,
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.coffee,
-                      color: Colors.brown[200],
-                    ),
-                    title: const Text(
-                      'buy us a coffee',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    onTap: _launchPayPalURL,
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 1,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.settings),
-                    title: const Text(
-                      'Settings',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    onTap: () async {
-                      Navigator.pushNamed(context, '/settings').then((_) async {
-                        // This block runs when we return back from settings
-                        // Reference to users/user.uid/avatarURL endpoint
-                        DatabaseReference refAvatarURL = FirebaseDatabase
-                            .instance
-                            .ref("users/${user!.uid}/avatarURL/");
-
-                        // Get the data once from users/user.uid/avatarURL
-                        DatabaseEvent avatarURLRef = await refAvatarURL.once();
-                        if (avatarURLRef.snapshot.value != null) {
-                          final avatarURLSnapshot =
-                              avatarURLRef.snapshot.value as String;
-                          avatarUrl = avatarURLSnapshot;
-                        } else {
-                          avatarUrl = '';
-                        }
-
-                        // Reference to users/displayName endpoint
-                        DatabaseReference getUserName = FirebaseDatabase
-                            .instance
-                            .ref("users/${user.uid}/displayName/");
-
-                        // Get the data once from users/user.uid/displayName
-                        DatabaseEvent userNameRef = await getUserName.once();
-                        if (userNameRef.snapshot.value != null) {
-                          final userNameSnapshot =
-                              userNameRef.snapshot.value as String;
-                          userName = userNameSnapshot;
-                        } else {
-                          userName = '';
-                        }
-
-                        setState(() {
-                          avatarUrl = avatarUrl;
-                          userName = userName;
-                        });
-                      });
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout_rounded),
-                    title: const Text(
-                      'Logout',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyApp(),
+                        ListTile(
+                          leading: const Icon(Icons.bar_chart),
+                          title: const Text(
+                            'by Day',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const DaysChart(),
+                                ));
+                          },
                         ),
-                      );
-                    },
+                        ListTile(
+                          leading: const Icon(Icons.pie_chart),
+                          title: const Text(
+                            'Sliced',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DonutChart(),
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(
+                          height: 10,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.coffee,
+                            color: Colors.brown[200],
+                          ),
+                          title: const Text(
+                            'buy us a coffee',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          onTap: _launchPayPalURL,
+                        ),
+                        const Divider(
+                          height: 10,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text(
+                            'Settings',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          onTap: () async {
+                            Navigator.pushNamed(context, '/settings')
+                                .then((_) async {
+                              // This block runs when we return back from settings
+                              // Reference to users/user.uid/avatarURL endpoint
+                              DatabaseReference refAvatarURL = FirebaseDatabase
+                                  .instance
+                                  .ref("users/${user!.uid}/avatarURL/");
+
+                              // Get the data once from users/user.uid/avatarURL
+                              DatabaseEvent avatarURLRef =
+                                  await refAvatarURL.once();
+                              if (avatarURLRef.snapshot.value != null) {
+                                final avatarURLSnapshot =
+                                    avatarURLRef.snapshot.value as String;
+                                avatarUrl = avatarURLSnapshot;
+                              } else {
+                                avatarUrl = '';
+                              }
+
+                              // Reference to users/displayName endpoint
+                              DatabaseReference getUserName = FirebaseDatabase
+                                  .instance
+                                  .ref("users/${user.uid}/displayName/");
+
+                              // Get the data once from users/user.uid/displayName
+                              DatabaseEvent userNameRef =
+                                  await getUserName.once();
+                              if (userNameRef.snapshot.value != null) {
+                                final userNameSnapshot =
+                                    userNameRef.snapshot.value as String;
+                                userName = userNameSnapshot;
+                              } else {
+                                userName = '';
+                              }
+
+                              setState(() {
+                                avatarUrl = avatarUrl;
+                                userName = userName;
+                              });
+                            });
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.logout_rounded),
+                          title: const Text(
+                            'Logout',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          onTap: () async {
+                            await FirebaseAuth.instance.signOut();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyApp(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 18.0),
+                        padding: const EdgeInsets.only(bottom: 10.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
