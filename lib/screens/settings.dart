@@ -124,6 +124,20 @@ class _SettingsState extends State<Settings> {
                     children: <Widget>[
                       ElevatedButton.icon(
                         onPressed: () async {
+                          // Reference to users/user.uid/imageName endpoint
+                          DatabaseReference refImageName = FirebaseDatabase
+                              .instance
+                              .ref("users/${user!.uid}/imageName/");
+
+                          // Get the data once from users/user.uid/avatarURL
+                          DatabaseEvent imageNameRef =
+                              await refImageName.once();
+                          if (imageNameRef.snapshot.value != null) {
+                            final imageNameStorageRef = FirebaseStorage.instance
+                                .ref(
+                                    'images/${imageNameRef.snapshot.value as String}');
+                            imageNameStorageRef.delete();
+                          }
                           await pickImage(ImageSource.gallery);
                           final ref =
                               FirebaseStorage.instance.ref('images/$imgName');
@@ -131,15 +145,17 @@ class _SettingsState extends State<Settings> {
                             await ref.putFile(myImage!);
                             final avatarURL = await ref.getDownloadURL();
                             await userID
-                                .child(user!.uid)
+                                .child(user.uid)
                                 .update(
                                   {
                                     "avatarURL": avatarURL,
                                     "imageName": imgName
                                   },
                                 )
-                                .catchError((error) => const Text(
-                                    'You got an error! Please try again.'))
+                                .catchError(
+                                  (error) => const Text(
+                                      'You got an error! Please try again.'),
+                                )
                                 .then((value) => ScaffoldMessenger.of(context)
                                   ..hideCurrentSnackBar()
                                   ..showSnackBar(const SnackBar(
