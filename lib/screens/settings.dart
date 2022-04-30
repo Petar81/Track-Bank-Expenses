@@ -192,6 +192,20 @@ class _SettingsState extends State<Settings> {
                         ),
                       ElevatedButton.icon(
                         onPressed: () async {
+                          // Reference to users/user.uid/imageName endpoint
+                          DatabaseReference refImageName = FirebaseDatabase
+                              .instance
+                              .ref("users/${user!.uid}/imageName/");
+
+                          // Get the data once from users/user.uid/avatarURL
+                          DatabaseEvent imageNameRef =
+                              await refImageName.once();
+                          if (imageNameRef.snapshot.value != null) {
+                            final imageNameStorageRef = FirebaseStorage.instance
+                                .ref(
+                                    'images/${imageNameRef.snapshot.value as String}');
+                            imageNameStorageRef.delete();
+                          }
                           await pickImage(ImageSource.camera);
                           final ref =
                               FirebaseStorage.instance.ref('images/$imgName');
@@ -199,7 +213,7 @@ class _SettingsState extends State<Settings> {
                             await ref.putFile(myImage!);
                             final avatarURL = await ref.getDownloadURL();
                             await userID
-                                .child(user!.uid)
+                                .child(user.uid)
                                 .update({
                                   "avatarURL": avatarURL,
                                   "imageName": imgName
