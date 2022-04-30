@@ -268,7 +268,8 @@ class _SignupState extends State<Signup> {
                                             await userID
                                                 .child(value.user!.uid)
                                                 .update({
-                                              "avatarURL": avatarURL
+                                              "avatarURL": avatarURL,
+                                              "imageName": imgName,
                                             }).catchError((error) => const Text(
                                                     'You got an error! Please try again.'));
                                           } else {
