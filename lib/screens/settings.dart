@@ -132,7 +132,12 @@ class _SettingsState extends State<Settings> {
                             final avatarURL = await ref.getDownloadURL();
                             await userID
                                 .child(user!.uid)
-                                .update({"avatarURL": avatarURL})
+                                .update(
+                                  {
+                                    "avatarURL": avatarURL,
+                                    "imageName": imgName
+                                  },
+                                )
                                 .catchError((error) => const Text(
                                     'You got an error! Please try again.'))
                                 .then((value) => ScaffoldMessenger.of(context)
@@ -179,7 +184,10 @@ class _SettingsState extends State<Settings> {
                             final avatarURL = await ref.getDownloadURL();
                             await userID
                                 .child(user!.uid)
-                                .update({"avatarURL": avatarURL})
+                                .update({
+                                  "avatarURL": avatarURL,
+                                  "imageName": imgName
+                                })
                                 .catchError((error) => const Text(
                                     'You got an error! Please try again.'))
                                 .then((value) => ScaffoldMessenger.of(context)
